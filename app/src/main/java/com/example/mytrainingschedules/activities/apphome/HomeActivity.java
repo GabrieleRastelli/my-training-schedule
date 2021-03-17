@@ -14,13 +14,15 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.home_layout);
+        setContentView(R.layout.home_layout2);
 
         String[] data = {"uno", "due", "tre", "quattro", "cinque", "sei", "sette", "otto", "nove"};
 
         CustomAdapter adapter = new CustomAdapter(getApplicationContext(), data);
         GridView gridView = findViewById(R.id.grid);
         gridView.setAdapter(adapter);
+
+
 
     }
 
