@@ -22,23 +22,23 @@
         <activity
             android:name=".activities.appintro.IntroActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.MyTrainingSchedules.NoActionBar">
-        </activity>
+            android:theme="@style/Theme.MyTrainingSchedules.NoActionBar"></activity>
         <activity
             android:name=".activities.applogin.LoginActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.MyTrainingSchedules.NoActionBar">
-        </activity>
+            android:theme="@style/Theme.MyTrainingSchedules.NoActionBar"></activity>
         <activity
             android:name=".activities.applogin.RegisterActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.MyTrainingSchedules.NoActionBar">
-        </activity>
+            android:theme="@style/Theme.MyTrainingSchedules.NoActionBar"></activity>
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/Theme.MyTrainingSchedules.NoActionBar"></activity>
         <activity
             android:name=".activities.apphome.HomeActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.MyTrainingSchedules.NoActionBar">
-        </activity>
+            android:theme="@style/Theme.MyTrainingSchedules.NoActionBar"></activity>
     </application>
 
 </manifest>

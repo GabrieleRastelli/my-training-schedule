@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.mytrainingschedules.MainActivity;
 import com.example.mytrainingschedules.R;
 import com.example.mytrainingschedules.activities.apphome.HomeActivity;
 import com.example.mytrainingschedules.activities.applogin.LoginActivity;
@@ -26,8 +27,8 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_layout);
 
-        motivation = findViewById(R.id.motivation);
-        motivation.setText("\"Gucci Gang, Gucci Gang, Gucci Gang. Gucci Gang, Gucci Gang, Gucci Gang\"\nCit. - Lil Pump");
+        //motivation = findViewById(R.id.motivation);
+        //motivation.setText("\"Gucci Gang, Gucci Gang, Gucci Gang. Gucci Gang, Gucci Gang, Gucci Gang\"\nCit. - Lil Pump");
 
         if(fileExists(getApplicationContext(), "config.csv")){
             Log.d("APP_DEBUG", "The file exists, going to LoginActivity");
@@ -44,7 +45,7 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
                 /* Create an Intent that will start the Menu-Activity. */
                 if(firstAccess){
-                    Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
+                    Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                     SplashActivity.this.startActivity(intent);
                 }
                 else{
