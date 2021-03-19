@@ -1,6 +1,7 @@
 package com.example.mytrainingschedules.activities.applogin;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -15,7 +16,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mytrainingschedules.R;
-import com.example.mytrainingschedules.activities.apphome.HomeActivity;
+import com.example.mytrainingschedules.activities.mainactivity.MainActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -64,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
 
                     if(allFieldCompiled) {
-                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
                     }else{
                         Toast.makeText(getApplicationContext(), "Compile all fields to proceed with login!", Toast.LENGTH_SHORT).show();

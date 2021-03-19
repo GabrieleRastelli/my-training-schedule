@@ -9,9 +9,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.mytrainingschedules.MainActivity;
+import com.example.mytrainingschedules.activities.mainactivity.MainActivity;
 import com.example.mytrainingschedules.R;
-import com.example.mytrainingschedules.activities.apphome.HomeActivity;
 import com.example.mytrainingschedules.activities.applogin.LoginActivity;
 
 import java.io.File;

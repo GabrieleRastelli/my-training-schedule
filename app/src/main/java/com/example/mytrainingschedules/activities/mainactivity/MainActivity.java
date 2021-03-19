@@ -1,7 +1,8 @@
-package com.example.mytrainingschedules;
+package com.example.mytrainingschedules.activities.mainactivity;
 
 import android.os.Bundle;
 
+import com.example.mytrainingschedules.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;

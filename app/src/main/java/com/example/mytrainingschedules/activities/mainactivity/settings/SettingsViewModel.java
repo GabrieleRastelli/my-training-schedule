@@ -1,16 +1,16 @@
-package com.example.mytrainingschedules.ui.premium;
+package com.example.mytrainingschedules.activities.mainactivity.settings;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class PremiumViewModel extends ViewModel {
+public class SettingsViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public PremiumViewModel() {
+    public SettingsViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is premium fragment");
+        mText.setValue("This is settings fragment");
     }
 
     public LiveData<String> getText() {

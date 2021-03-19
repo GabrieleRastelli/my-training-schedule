@@ -16,7 +16,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mytrainingschedules.R;
-import com.example.mytrainingschedules.activities.apphome.HomeActivity;
+import com.example.mytrainingschedules.activities.mainactivity.MainActivity;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -88,7 +88,7 @@ public class RegisterActivity extends AppCompatActivity {
                         }else{
                             String data = name.getText().toString();
                             writeToFile(data, getApplicationContext());
-                            Intent intent = new Intent(RegisterActivity.this, HomeActivity.class);
+                            Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                             startActivity(intent);
                         }
 

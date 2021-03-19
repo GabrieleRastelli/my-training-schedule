@@ -1,4 +1,4 @@
-package com.example.mytrainingschedules.activities;
+package com.example.mytrainingschedules.activities.mainactivity;
 
 import android.content.Context;
 import android.view.LayoutInflater;

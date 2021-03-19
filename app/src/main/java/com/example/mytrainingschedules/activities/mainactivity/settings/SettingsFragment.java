@@ -1,4 +1,4 @@
-package com.example.mytrainingschedules.ui.settings;
+package com.example.mytrainingschedules.activities.mainactivity.settings;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
