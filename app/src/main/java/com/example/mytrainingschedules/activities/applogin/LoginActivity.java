@@ -1,49 +1,29 @@
 package com.example.mytrainingschedules.activities.applogin;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.mytrainingschedules.R;
 import com.example.mytrainingschedules.activities.mainactivity.MainActivity;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
     Button buttonLogin, buttonRegister;
     Animation scaleDown, scaleUp;
     EditText email, password;
-    TextView emailError, passwordError, errorTextView;
-    ProgressBar progressBar;
+    TextView emailError, passwordError;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -54,19 +34,11 @@ public class LoginActivity extends AppCompatActivity {
         scaleDown = AnimationUtils.loadAnimation(this, R.anim.scale_down);
         scaleUp = AnimationUtils.loadAnimation(this, R.anim.scale_up);
 
-        progressBar = findViewById(R.id.progressBar);
-        progressBar.setVisibility(View.GONE);
-
         email = findViewById(R.id.emailEditText);
         password = findViewById(R.id.confirmPasswordEditText);
 
-        //remove
-        email.setText("mattiagualtieri@gmail.com");
-        password.setText("password");
-
         emailError = findViewById(R.id.passwordError);
         passwordError = findViewById(R.id.confirmPasswordError);
-        errorTextView = findViewById(R.id.errorTextView);
 
         buttonLogin = findViewById(R.id.button_login);
         buttonLogin.setOnTouchListener(new View.OnTouchListener() {
@@ -78,9 +50,6 @@ public class LoginActivity extends AppCompatActivity {
                 }else if(motionEvent.getAction() == MotionEvent.ACTION_UP){
                     buttonLogin.startAnimation(scaleUp);
 
-                    email.clearFocus();
-                    password.clearFocus();
-                    errorTextView.setText("");
                     boolean allFieldCompiled = true;
                     if(email.getText().toString().equals("")) {
                         emailError.setText("*");
@@ -96,18 +65,8 @@ public class LoginActivity extends AppCompatActivity {
                     }
 
                     if(allFieldCompiled) {
-
-                        /* POST */
-                        String url = "http://192.168.0.109:8080/login";
-                        JSONObject jsonObject = new JSONObject();
-                        try {
-                            jsonObject.put("email", email.getText().toString());
-                            jsonObject.put("password", password.getText().toString());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        postLogin(getApplicationContext(), url, jsonObject);
-
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
                     }else{
                         Toast.makeText(getApplicationContext(), "Compile all fields to proceed with login!", Toast.LENGTH_SHORT).show();
                     }
@@ -131,76 +90,5 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    private void postLogin(Context context, String url, JSONObject jsonObject) {
-        RequestQueue queue = Volley.newRequestQueue(context);
-        progressBar.setVisibility(View.VISIBLE);
-        StringRequest sr = new StringRequest(Request.Method.POST,url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                progressBar.setVisibility(View.GONE);
-                Log.d("APP_DEBUG", "Success: " + response.toString());
-                try {
-                    JSONObject jsonResponse = new JSONObject(response.toString());
-                    JSONObject result = jsonResponse.getJSONObject("result");
-                    String guid = result.getString("guid");
-                    writeToFile("guid", guid, context);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                progressBar.setVisibility(View.GONE);
-                Log.d("APP_DEBUG", "Fail: " + error.toString());
-                if(error.toString().equals("com.android.volley.TimeoutError")) {
-                    errorTextView.setText("Can't connect to the server");
-                }
-                else if(error.toString().equals("com.android.volley.AuthFailureError")){
-                    errorTextView.setText("Invalid credentials");
-                }
-                else{
-                    errorTextView.setText("There was an error");
-                }
-            }
-        }){
-            @Override
-            protected Map<String,String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                for (Iterator<String> it = jsonObject.keys(); it.hasNext(); ) {
-                    String key = it.next();
-                    try {
-                        params.put(key, jsonObject.getString(key));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-                return params;
-            }
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("Content-Type","application/x-www-form-urlencoded");
-                return params;
-            }
-        };
-        queue.add(sr);
-    }
-
-    private void writeToFile(String filename, String data, Context context) {
-        try {
-            OutputStream outputStream = context.openFileOutput(filename, Context.MODE_PRIVATE);
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream);
-            outputStreamWriter.write(data);
-            outputStreamWriter.close();
-        }
-        catch (IOException e) {
-            // failed to write the file
-        }
     }
 }
