@@ -164,7 +164,7 @@ public class LoginActivity extends AppCompatActivity {
                     errorTextView.setText("Invalid credentials");
                 }
                 else{
-                    errorTextView.setText("There was an error");
+                    errorTextView.setText("No Internet connection");
                 }
             }
         }){

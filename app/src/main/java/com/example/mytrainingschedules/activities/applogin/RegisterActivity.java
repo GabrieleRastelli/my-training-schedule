@@ -180,7 +180,7 @@ public class RegisterActivity extends AppCompatActivity {
                     errorTextView.setText("User already registered");
                 }
                 else{
-                    errorTextView.setText("There was an error");
+                    errorTextView.setText("No Internet connection");
                 }
             }
         }){
