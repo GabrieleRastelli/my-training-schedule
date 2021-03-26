@@ -25,6 +25,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.mytrainingschedules.R;
+import com.example.mytrainingschedules.activities.CustomStringRequest;
 import com.example.mytrainingschedules.activities.mainactivity.MainActivity;
 
 import org.json.JSONException;
@@ -136,7 +137,9 @@ public class LoginActivity extends AppCompatActivity {
     private void postLogin(Context context, String url, JSONObject jsonObject) {
         RequestQueue queue = Volley.newRequestQueue(context);
         progressBar.setVisibility(View.VISIBLE);
-        StringRequest sr = new StringRequest(Request.Method.POST,url, new Response.Listener<String>() {
+
+        /* onSuccessListener */
+        Response.Listener<String> onSuccessListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 progressBar.setVisibility(View.GONE);
@@ -152,7 +155,10 @@ public class LoginActivity extends AppCompatActivity {
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
             }
-        }, new Response.ErrorListener() {
+        };
+
+        /* onErrorListener */
+        Response.ErrorListener onErrorListener = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 progressBar.setVisibility(View.GONE);
@@ -167,29 +173,11 @@ public class LoginActivity extends AppCompatActivity {
                     errorTextView.setText("No Internet connection");
                 }
             }
-        }){
-            @Override
-            protected Map<String,String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                for (Iterator<String> it = jsonObject.keys(); it.hasNext(); ) {
-                    String key = it.next();
-                    try {
-                        params.put(key, jsonObject.getString(key));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-                return params;
-            }
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("Content-Type","application/x-www-form-urlencoded");
-                return params;
-            }
         };
-        queue.add(sr);
+
+        CustomStringRequest stringRequest = new CustomStringRequest(Request.Method.POST, url, jsonObject, onSuccessListener, onErrorListener);
+
+        queue.add(stringRequest);
     }
 
     private void writeToFile(String filename, String data, Context context) {
