@@ -121,7 +121,7 @@ public class RegisterActivity extends AppCompatActivity {
                             String data = name.getText().toString();
 
                             /* POST */
-                            String url = "http://192.168.0.109:8080/register";
+                            String url = getResources().getString(R.string.base_url) + "/register";
                             JSONObject jsonObject = new JSONObject();
                             try {
                                 jsonObject.put("name", email.getText().toString());

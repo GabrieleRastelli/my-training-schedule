@@ -11,4 +11,8 @@
     <color name="orange">#FEA500</color>
     <color name="strong_orange">#FE6C00</color>
     <color name="red_error">#F44336</color>
+    <color name="legs_color">#2980b9</color>
+    <color name="arms_color">#e74c3c</color>
+    <color name="back_color">#d35400</color>
+    <color name="chest_color">#27ae60</color>
 </resources>

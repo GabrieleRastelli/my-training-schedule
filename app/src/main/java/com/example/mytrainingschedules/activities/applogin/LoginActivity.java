@@ -99,7 +99,7 @@ public class LoginActivity extends AppCompatActivity {
                     if(allFieldCompiled) {
 
                         /* POST */
-                        String url = "http://192.168.0.109:8080/login";
+                        String url = getResources().getString(R.string.base_url) + "/login";
                         JSONObject jsonObject = new JSONObject();
                         try {
                             jsonObject.put("email", email.getText().toString());

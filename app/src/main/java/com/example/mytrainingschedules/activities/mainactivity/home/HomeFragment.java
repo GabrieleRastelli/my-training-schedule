@@ -27,10 +27,13 @@ import com.example.mytrainingschedules.activities.CustomStringRequest;
 import com.example.mytrainingschedules.activities.Schedule;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class HomeFragment extends Fragment {
 
@@ -66,7 +69,6 @@ public class HomeFragment extends Fragment {
 
         /* transform GUID into JSONObject*/
         JSONObject jsonObject = new JSONObject();
-        Log.d("APP_DEBUG", "GUID in Home: " + getActivity().getIntent().getStringExtra("USER_GUID"));
         try {
             jsonObject.put("guid", getActivity().getIntent().getStringExtra("USER_GUID"));
         } catch (JSONException e) {
@@ -86,10 +88,16 @@ public class HomeFragment extends Fragment {
         Response.Listener<String> onSuccessListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.d("APP_DEBUG", "Success: " + response.toString());
+                JSONObject jsonResponse = null;
+                JSONArray result = null;
+                try {
+                    jsonResponse = new JSONObject(response);
+                    result = jsonResponse.getJSONArray("result");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
-                String[] data = {"uno", "due", "tre", "quattro", "cinque", "sei", "sette", "otto", "nove"};
-                adapter = new CustomAdapter(context, data);
+                adapter = new CustomAdapter(context, result);
                 gridView = root.findViewById(R.id.grid);
                 gridView.setAdapter(adapter);
             }
