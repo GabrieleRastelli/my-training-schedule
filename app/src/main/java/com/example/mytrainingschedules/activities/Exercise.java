@@ -1,21 +1,40 @@
 package com.example.mytrainingschedules.activities;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Exercise {
 
     private String name;
     private int sets;
     private int reps;
     private float weight;
+    private int rest_between_sets;
+    private int rest_between_exercises;
     private String category;
     private boolean requireEquipment;
 
-    public Exercise(String name, int sets, int reps, float weight, String category, boolean requireEquipment) {
+    public Exercise(String name, int sets, int reps, float weight, int rest_between_sets, int rest_between_exercises, String category) {
         this.name = name;
         this.sets = sets;
         this.reps = reps;
         this.weight = weight;
+        this.rest_between_sets = rest_between_sets;
+        this.rest_between_exercises = rest_between_exercises;
         this.category = category;
-        this.requireEquipment = requireEquipment;
+        if(this.weight != 0){
+            this.requireEquipment = true;
+        }
+    }
+
+    public Exercise(JSONObject exercise) throws JSONException {
+        this.name = exercise.getString("exercise-name");
+        this.sets = exercise.getInt("sets");
+        this.reps = exercise.getInt("reps");
+        this.weight = exercise.getInt("weight");
+        this.rest_between_sets = exercise.getInt("rest-between-sets");
+        this.rest_between_exercises = exercise.getInt("rest-between-exercises");
+        this.category = "category";
         if(this.weight != 0){
             this.requireEquipment = true;
         }

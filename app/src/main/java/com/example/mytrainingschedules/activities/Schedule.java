@@ -1,5 +1,8 @@
 package com.example.mytrainingschedules.activities;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.util.ArrayList;
 
 public class Schedule {
@@ -15,6 +18,20 @@ public class Schedule {
         this.exercises = exercises;
         this.requireEquipment = false;
         for (Exercise exercise: exercises) {
+            if(exercise.isRequireEquipment()){
+                this.requireEquipment = true;
+            }
+        }
+    }
+
+    public Schedule(String title, String description, JSONArray exercises) throws JSONException {
+        this.title = title;
+        this.description = description;
+        this.requireEquipment = false;
+        this.exercises = new ArrayList<Exercise>();
+        for(int i = 0; i < exercises.length(); i++){
+            Exercise exercise = new Exercise(exercises.getJSONObject(i));
+            this.exercises.add(exercise);
             if(exercise.isRequireEquipment()){
                 this.requireEquipment = true;
             }
