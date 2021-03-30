@@ -36,15 +36,18 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/number_of_schedules"
+                android:layout_width="159dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/title_home"
                 android:layout_marginStart="28dp"
                 android:layout_marginLeft="28dp"
+                android:layout_marginTop="8dp"
                 android:fontFamily="@font/seguisb"
+                android:gravity="center"
                 android:text="12 Schedules"
                 android:textColor="@color/white"
-                android:textSize="16dp"
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/title_home" />
 

@@ -51,7 +51,7 @@ public class HomeFragment extends Fragment {
     GridView gridView;
     CustomAdapter adapter;
     FloatingActionButton fab;
-    TextView errorTextView;
+    TextView errorTextView, numberOfSchedules;
     boolean connectionAvailable;
     JSONArray result = null;
 
@@ -68,6 +68,9 @@ public class HomeFragment extends Fragment {
         errorTextView.setText("");
         errorTextView.setVisibility(View.GONE);
         connectionAvailable = false;
+
+        numberOfSchedules = root.findViewById(R.id.number_of_schedules);
+        numberOfSchedules.setText("" + 0);
 
         /* FloatingActionButton listener: add a new schedule */
         fab = getActivity().findViewById(R.id.fab);
@@ -102,7 +105,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), UserPageActivity.class);
-                intent.putExtra("USER_GUID",guid);
+                intent.putExtra("USER_GUID", guid);
                 startActivity(intent);
             }
         });
@@ -148,8 +151,10 @@ public class HomeFragment extends Fragment {
                     errorTextView.setText("No schedules found, click the \"+\" button to add your first schedule!");
                     errorTextView.setTextColor(Color.DKGRAY);
                     errorTextView.setVisibility(View.VISIBLE);
+                    numberOfSchedules.setText("" + 0);
                 }
 
+                numberOfSchedules.setText("" + result.length());
                 adapter = new CustomAdapter(context, result);
                 gridView.setAdapter(adapter);
             }
