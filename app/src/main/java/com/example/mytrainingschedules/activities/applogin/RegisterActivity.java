@@ -31,6 +31,7 @@ import com.example.mytrainingschedules.activities.mainactivity.MainActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -63,7 +64,7 @@ public class RegisterActivity extends AppCompatActivity {
         password = findViewById(R.id.passwordEditText);
         confirmPassword = findViewById(R.id.confirmPasswordEditText);
 
-        //remove
+        /* TODO: remove */
         name.setText("Mattia");
         email.setText("mattiagualtieri@gmail.com");
         password.setText("password");
@@ -132,7 +133,9 @@ public class RegisterActivity extends AppCompatActivity {
                             }
                             postRegister(getApplicationContext(), url, jsonObject);
 
-                            //writeToFile(data, getApplicationContext());
+                            /* TODO: serve questa linea ? */
+                            writeToFile("config.csv", data, getApplicationContext());
+
                         }
 
                     }else{
@@ -146,15 +149,16 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-    private void writeToFile(String data, Context context) {
+    private void writeToFile(String filename, String data, Context context) {
         try {
-            OutputStream outputStream = context.openFileOutput("config.csv", Context.MODE_PRIVATE);
+            OutputStream outputStream = context.openFileOutput(filename, Context.MODE_PRIVATE);
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream);
             outputStreamWriter.write(data);
             outputStreamWriter.close();
         }
         catch (IOException e) {
-            // failed to write the file
+            /* failed to write the file */
+            e.printStackTrace();
         }
     }
 
@@ -169,6 +173,16 @@ public class RegisterActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.GONE);
                 Log.d("APP_DEBUG", "Success: " + response.toString());
                 Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                String guid = null;
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    guid = (String) jsonObject.getJSONObject("result").get("guid");
+                }catch (JSONException err){
+                    Log.d("Error", err.toString());
+                }
+                /* saves guid in file */
+                writeToFile("guid", guid, getApplicationContext());
+                intent.putExtra("USER_GUID",guid);
                 startActivity(intent);
             }
         };

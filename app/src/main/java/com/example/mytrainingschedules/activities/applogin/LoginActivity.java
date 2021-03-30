@@ -153,6 +153,14 @@ public class LoginActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                String guid = null;
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    guid = (String) jsonObject.getJSONObject("result").get("guid");
+                }catch (JSONException err){
+                    Log.d("Error", err.toString());
+                }
+                intent.putExtra("USER_GUID",guid);
                 startActivity(intent);
             }
         };
