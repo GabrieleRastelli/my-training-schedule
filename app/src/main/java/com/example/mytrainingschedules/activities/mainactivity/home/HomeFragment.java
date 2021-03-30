@@ -30,7 +30,9 @@ import com.example.mytrainingschedules.activities.CustomStringRequest;
 import com.example.mytrainingschedules.activities.Schedule;
 import com.example.mytrainingschedules.activities.appintro.IntroActivity;
 import com.example.mytrainingschedules.activities.appintro.SplashActivity;
+import com.example.mytrainingschedules.activities.applogin.LoginActivity;
 import com.example.mytrainingschedules.activities.mainactivity.MainActivity;
+import com.example.mytrainingschedules.activities.mainactivity.user.UserPageActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
@@ -93,6 +95,17 @@ public class HomeFragment extends Fragment {
 
         /* get schedules of the user */
         getUserSchedules(getContext(), root, getResources().getString(R.string.base_url) + "/homeinfo", jsonObject);
+
+        /* user account page */
+        ImageView imgFavorite = root.findViewById(R.id.accountImage);
+        imgFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), UserPageActivity.class);
+                intent.putExtra("USER_GUID",guid);
+                startActivity(intent);
+            }
+        });
 
         /* gridView OnClickListener*/
         gridView = root.findViewById(R.id.grid);
