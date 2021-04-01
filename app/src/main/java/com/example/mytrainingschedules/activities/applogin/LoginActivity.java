@@ -40,11 +40,11 @@ import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
-    Button buttonLogin, buttonRegister;
-    Animation scaleDown, scaleUp;
-    EditText email, password;
-    TextView emailError, passwordError, errorTextView;
-    ProgressBar progressBar;
+    private Button buttonLogin, buttonRegister;
+    private Animation scaleDown, scaleUp;
+    private EditText email, password;
+    private TextView emailError, passwordError, errorTextView;
+    private ProgressBar progressBar;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -52,24 +52,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_layout);
 
-        scaleDown = AnimationUtils.loadAnimation(this, R.anim.scale_down);
-        scaleUp = AnimationUtils.loadAnimation(this, R.anim.scale_up);
+        /* Create this function to make code more readable. */
+        initGUI();
 
-        progressBar = findViewById(R.id.progressBar);
-        progressBar.setVisibility(View.GONE);
-
-        email = findViewById(R.id.emailEditText);
-        password = findViewById(R.id.confirmPasswordEditText);
-
-        //remove
-        email.setText("mattiagualtieri@gmail.com");
-        password.setText("password");
-
-        emailError = findViewById(R.id.passwordError);
-        passwordError = findViewById(R.id.confirmPasswordError);
-        errorTextView = findViewById(R.id.errorTextView);
-
-        buttonLogin = findViewById(R.id.button_login);
+        /* Login Button listener. */
         buttonLogin.setOnTouchListener(new View.OnTouchListener() {
 
             @Override
@@ -78,27 +64,13 @@ public class LoginActivity extends AppCompatActivity {
                     buttonLogin.startAnimation(scaleDown);
                 }else if(motionEvent.getAction() == MotionEvent.ACTION_UP){
                     buttonLogin.startAnimation(scaleUp);
-
                     email.clearFocus();
                     password.clearFocus();
                     errorTextView.setText("");
-                    boolean allFieldCompiled = true;
-                    if(email.getText().toString().equals("")) {
-                        emailError.setText("*");
-                        allFieldCompiled = false;
-                    }else{
-                        emailError.setText("");
-                    }
-                    if(password.getText().toString().equals("")) {
-                        passwordError.setText("*");
-                        allFieldCompiled = false;
-                    }else{
-                        passwordError.setText("");
-                    }
 
-                    if(allFieldCompiled) {
+                    if(allFieldsCompiled()) {
 
-                        /* POST */
+                        /* This is the POST request. */
                         String url = getResources().getString(R.string.base_url) + "/login";
                         JSONObject jsonObject = new JSONObject();
                         try {
@@ -107,6 +79,7 @@ public class LoginActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        /* postLogin() function. */
                         postLogin(getApplicationContext(), url, jsonObject);
 
                     }else{
@@ -117,7 +90,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        buttonRegister = findViewById(R.id.button_register);
+        /* Register Button listener. */
         buttonRegister.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent motionEvent) {
@@ -198,5 +171,44 @@ public class LoginActivity extends AppCompatActivity {
         catch (IOException e) {
             // failed to write the file
         }
+    }
+
+    private void initGUI(){
+        scaleDown = AnimationUtils.loadAnimation(this, R.anim.scale_down);
+        scaleUp = AnimationUtils.loadAnimation(this, R.anim.scale_up);
+
+        progressBar = findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.GONE);
+
+        email = findViewById(R.id.emailEditText);
+        password = findViewById(R.id.confirmPasswordEditText);
+
+        /* TODO: remove */
+        email.setText("mattiagualtieri@gmail.com");
+        password.setText("password");
+
+        emailError = findViewById(R.id.passwordError);
+        passwordError = findViewById(R.id.confirmPasswordError);
+        errorTextView = findViewById(R.id.errorTextView);
+
+        buttonLogin = findViewById(R.id.button_login);
+        buttonRegister = findViewById(R.id.button_register);
+    }
+
+    private boolean allFieldsCompiled(){
+        boolean allFieldCompiled = true;
+        if(email.getText().toString().equals("")) {
+            emailError.setText("*");
+            allFieldCompiled = false;
+        }else{
+            emailError.setText("");
+        }
+        if(password.getText().toString().equals("")) {
+            passwordError.setText("*");
+            allFieldCompiled = false;
+        }else{
+            passwordError.setText("");
+        }
+        return allFieldCompiled;
     }
 }

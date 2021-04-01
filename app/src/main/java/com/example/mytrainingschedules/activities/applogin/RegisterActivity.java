@@ -41,11 +41,11 @@ import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    Button buttonRegister;
-    EditText name, email, password, confirmPassword;
-    TextView nameError, emailError, passwordError, confirmPasswordError, errorTextView;
-    Animation scaleDown, scaleUp;
-    ProgressBar progressBar;
+    private Button buttonRegister;
+    private EditText name, email, password, confirmPassword;
+    private TextView nameError, emailError, passwordError, confirmPasswordError, errorTextView;
+    private Animation scaleDown, scaleUp;
+    private ProgressBar progressBar;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -53,30 +53,10 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_layout);
 
-        scaleDown = AnimationUtils.loadAnimation(this, R.anim.scale_down);
-        scaleUp = AnimationUtils.loadAnimation(this, R.anim.scale_up);
+        /* Create this function to make code more readable. */
+        initGUI();
 
-        progressBar = findViewById(R.id.progressBar);
-        progressBar.setVisibility(View.GONE);
-
-        name = findViewById(R.id.nameEditText);
-        email = findViewById(R.id.emailEditText);
-        password = findViewById(R.id.passwordEditText);
-        confirmPassword = findViewById(R.id.confirmPasswordEditText);
-
-        /* TODO: remove */
-        name.setText("Mattia");
-        email.setText("mattiagualtieri@gmail.com");
-        password.setText("password");
-        confirmPassword.setText("password");
-
-        nameError = findViewById(R.id.nameError);
-        emailError = findViewById(R.id.passwordError);
-        passwordError = findViewById(R.id.confirmPasswordError);
-        confirmPasswordError = findViewById(R.id.confirmPasswordError);
-        errorTextView = findViewById(R.id.errorTextView);
-
-        buttonRegister = findViewById(R.id.button_register);
+        /* Register Button listener */
         buttonRegister.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent motionEvent) {
@@ -94,34 +74,17 @@ public class RegisterActivity extends AppCompatActivity {
                     passwordError.setText("");
                     confirmPasswordError.setText("");
                     errorTextView.setText("");
-                    boolean allFieldCompiled = true;
-                    if(name.getText().toString().equals("")){
-                        nameError.setText("*");
-                        allFieldCompiled = false;
-                    }
-                    if(email.getText().toString().equals("")){
-                        emailError.setText("*");
-                        allFieldCompiled = false;
-                    }
-                    if(password.getText().toString().equals("")){
-                        passwordError.setText("*");
-                        allFieldCompiled = false;
-                    }
-                    if(confirmPassword.getText().toString().equals("")){
-                        confirmPasswordError.setText("*");
-                        allFieldCompiled = false;
-                    }
 
-                    if(allFieldCompiled){
+                    if(allFieldCompiled()){
 
+                        /* Check if passwords are equals. */
                         if(!password.getText().toString().equals(confirmPassword.getText().toString())){
                             passwordError.setText("*");
                             confirmPasswordError.setText("*");
                             Toast.makeText(getApplicationContext(), "Passwords are different", Toast.LENGTH_SHORT).show();
                         }else{
-                            String data = name.getText().toString();
 
-                            /* POST */
+                            /* This is the POST request. */
                             String url = getResources().getString(R.string.base_url) + "/register";
                             JSONObject jsonObject = new JSONObject();
                             try {
@@ -131,10 +94,9 @@ public class RegisterActivity extends AppCompatActivity {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                            postRegister(getApplicationContext(), url, jsonObject);
 
-                            /* TODO: serve questa linea ? */
-                            writeToFile("config.csv", data, getApplicationContext());
+                            /* postRegister() function. */
+                            postRegister(getApplicationContext(), url, jsonObject);
 
                         }
 
@@ -147,19 +109,6 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    private void writeToFile(String filename, String data, Context context) {
-        try {
-            OutputStream outputStream = context.openFileOutput(filename, Context.MODE_PRIVATE);
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream);
-            outputStreamWriter.write(data);
-            outputStreamWriter.close();
-        }
-        catch (IOException e) {
-            /* failed to write the file */
-            e.printStackTrace();
-        }
     }
 
     private void postRegister(Context context, String url, JSONObject jsonObject) {
@@ -206,5 +155,66 @@ public class RegisterActivity extends AppCompatActivity {
         CustomStringRequest stringRequest = new CustomStringRequest(Request.Method.POST, url, jsonObject, onSuccessListener, onErrorListener);
 
         queue.add(stringRequest);
+    }
+
+    private void writeToFile(String filename, String data, Context context) {
+        try {
+            OutputStream outputStream = context.openFileOutput(filename, Context.MODE_PRIVATE);
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream);
+            outputStreamWriter.write(data);
+            outputStreamWriter.close();
+        }
+        catch (IOException e) {
+            /* failed to write the file */
+            e.printStackTrace();
+        }
+    }
+
+    private void initGUI(){
+        scaleDown = AnimationUtils.loadAnimation(this, R.anim.scale_down);
+        scaleUp = AnimationUtils.loadAnimation(this, R.anim.scale_up);
+
+        progressBar = findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.GONE);
+
+        name = findViewById(R.id.nameEditText);
+        email = findViewById(R.id.emailEditText);
+        password = findViewById(R.id.passwordEditText);
+        confirmPassword = findViewById(R.id.confirmPasswordEditText);
+
+        /* TODO: remove */
+        name.setText("Mattia");
+        email.setText("mattiagualtieri@gmail.com");
+        password.setText("password");
+        confirmPassword.setText("password");
+
+        nameError = findViewById(R.id.nameError);
+        emailError = findViewById(R.id.emailError);
+        passwordError = findViewById(R.id.passwordError);
+        confirmPasswordError = findViewById(R.id.confirmPasswordError);
+        errorTextView = findViewById(R.id.errorTextView);
+
+        buttonRegister = findViewById(R.id.button_register);
+    }
+
+    private boolean allFieldCompiled(){
+        boolean allFieldCompiled = true;
+        if(name.getText().toString().equals("")){
+            nameError.setText("*");
+            allFieldCompiled = false;
+        }
+        if(email.getText().toString().equals("")){
+            emailError.setText("*");
+            allFieldCompiled = false;
+        }
+        if(password.getText().toString().equals("")){
+            passwordError.setText("*");
+            allFieldCompiled = false;
+        }
+        if(confirmPassword.getText().toString().equals("")){
+            confirmPasswordError.setText("*");
+            allFieldCompiled = false;
+        }
+        return allFieldCompiled;
     }
 }

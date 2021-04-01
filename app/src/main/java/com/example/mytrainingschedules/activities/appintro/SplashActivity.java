@@ -38,18 +38,23 @@ import java.util.Map;
 public class SplashActivity extends AppCompatActivity {
 
     private final int SPLASH_DISPLAY_LENGTH = 2000;
-    boolean firstAccess;
-    String guid;
+    private boolean firstAccess;
+    private String guid;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_layout);
 
+        /* Setting firstAccess = false. This will decide,
+        * after the SplashActivity, which activity start. */
         firstAccess = false;
 
+        /* Control if the file "guid" is present.
+        * If file "guid" is present, read the content and go to the
+        * MainActivity (user already logged).
+        * Else, start IntroActivity (settings firstAccess = true. */
         if(fileExists(getApplicationContext(), "guid")){
-            /* file "guid" is present, read the content and go to the MainActivity */
             guid = "";
             try {
                 FileInputStream fileInputStream = getApplicationContext().openFileInput("guid");
@@ -64,11 +69,11 @@ public class SplashActivity extends AppCompatActivity {
             Log.d("APP_DEBUG", "GUID: " + guid);
         }
         else{
-            /* file "guid" doesn't exists, go to the IntroActivity */
             Log.d("APP_DEBUG", "guid file doesn't exists, going to IntroActivity");
             firstAccess = true;
         }
 
+        /* This block of code give the delay of SplashActivity*/
         new Handler().postDelayed(new Runnable(){
             @Override
             public void run() {
@@ -89,10 +94,7 @@ public class SplashActivity extends AppCompatActivity {
 
     public boolean fileExists(Context context, String filename){
         File file = context.getFileStreamPath(filename);
-        if(file == null || !file.exists()){
-            return false;
-        }
-        return true;
+        return file != null && file.exists();
     }
 
 }

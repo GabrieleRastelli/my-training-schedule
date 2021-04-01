@@ -14,9 +14,9 @@ import org.json.JSONException;
 
 public class CustomAdapter extends BaseAdapter {
 
-    Context context;
-    JSONArray data;
-    LayoutInflater inflater;
+    private Context context;
+    private JSONArray data;
+    private LayoutInflater inflater;
 
     public CustomAdapter(Context context, JSONArray data){
         this.context = context;
@@ -31,7 +31,7 @@ public class CustomAdapter extends BaseAdapter {
         inflater = (LayoutInflater.from(context));
     }
 
-    // compulsory
+    /* Compulsory Override methods. */
     @Override
     public int getCount(){
         return this.data.length();

@@ -45,15 +45,14 @@ import java.util.List;
 
 public class HomeFragment extends Fragment {
 
-    String guid;
-    private HomeViewModel homeViewModel;
-    ArrayList<Schedule> schedules;
-    GridView gridView;
-    CustomAdapter adapter;
-    FloatingActionButton fab;
-    TextView errorTextView, numberOfSchedules;
-    boolean connectionAvailable;
-    JSONArray result = null;
+    private String guid;
+    private ArrayList<Schedule> schedules;
+    private GridView gridView;
+    private CustomAdapter adapter;
+    private FloatingActionButton floatingActionButton;
+    private TextView errorTextView, numberOfSchedules;
+    private boolean connectionAvailable;
+    private JSONArray result = null;
 
     /*
     * getActivity() --> MainActivity
@@ -61,7 +60,6 @@ public class HomeFragment extends Fragment {
     */
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.home_fragment, container, false);
 
         errorTextView = root.findViewById(R.id.errorTextView);
@@ -70,12 +68,12 @@ public class HomeFragment extends Fragment {
         connectionAvailable = false;
 
         numberOfSchedules = root.findViewById(R.id.number_of_schedules);
-        numberOfSchedules.setText("" + 0);
+        numberOfSchedules.setText("0");
 
-        /* FloatingActionButton listener: add a new schedule */
-        fab = getActivity().findViewById(R.id.fab);
-        fab.setVisibility(View.VISIBLE);
-        fab.setOnClickListener(new View.OnClickListener() {
+        /* FloatingActionButton listener: add a new schedule. */
+        floatingActionButton = getActivity().findViewById(R.id.fab);
+        floatingActionButton.setVisibility(View.VISIBLE);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(connectionAvailable){
@@ -87,7 +85,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        /* transform GUID into JSONObject*/
+        /* Parse GUID into JSONObject. */
         guid = getActivity().getIntent().getStringExtra("USER_GUID");
         JSONObject jsonObject = new JSONObject();
         try {
@@ -96,10 +94,10 @@ public class HomeFragment extends Fragment {
             e.printStackTrace();
         }
 
-        /* get schedules of the user */
+        /* Get schedules of the user with getUserSchedules() function. */
         getUserSchedules(getContext(), root, getResources().getString(R.string.base_url) + "/homeinfo", jsonObject);
 
-        /* user account page */
+        /* User account page. */
         ImageView imgFavorite = root.findViewById(R.id.accountImage);
         imgFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,7 +108,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        /* gridView OnClickListener*/
+        /* gridView OnClickListener. */
         gridView = root.findViewById(R.id.grid);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -119,6 +117,7 @@ public class HomeFragment extends Fragment {
                     Intent intent = new Intent(getContext(), ViewSchedule.class);
                     intent.putExtra("USER_GUID", guid);
                     intent.putExtra("SCHEDULE_ID", result.getJSONObject(i).getString("scheduleId"));
+                    /* TODO: remove this after change api response */
                     intent.putExtra("SCHEDULE_TITLE", result.getJSONObject(i).getString("title"));
                     intent.putExtra("SCHEDULE_DESCRIPTION", result.getJSONObject(i).getString("description"));
                     getContext().startActivity(intent);
