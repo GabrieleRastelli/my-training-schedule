@@ -11,18 +11,19 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="72dp"
+        android:layout_marginLeft="72dp"
         android:layout_marginTop="40dp"
+        android:ellipsize="end"
         android:fontFamily="@font/seguisb"
         android:gravity="center"
+        android:maxLines="1"
         android:text="Schedule title"
         android:textColor="@color/white"
         android:textSize="30sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:ellipsize="end"
-        android:maxLines="1" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -36,6 +37,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ListView
+        android:id="@+id/listOfExercises"
+        android:layout_width="350dp"
+        android:layout_height="422dp"
+        android:layout_marginTop="80dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/play"
         android:layout_width="wrap_content"
@@ -43,8 +53,44 @@
         android:layout_gravity="end|bottom"
         android:layout_marginBottom="64dp"
         android:backgroundTint="#2ecc71"
+        android:scaleType="center"
         android:src="@drawable/play"
+        app:maxImageSize="32dp"
+        app:fabCustomSize="64dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_marginStart="36dp"
+        android:layout_marginLeft="36dp"
+        android:layout_marginBottom="64dp"
+        android:backgroundTint="#2980b9"
+        android:scaleType="center"
+        android:src="@drawable/edit_icon"
+        app:fabCustomSize="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/play"
+        app:maxImageSize="24dp" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_marginEnd="36dp"
+        android:layout_marginRight="36dp"
+        android:layout_marginBottom="64dp"
+        android:backgroundTint="#e74c3c"
+        android:scaleType="center"
+        android:src="@drawable/delete_icon"
+        app:fabCustomSize="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/play"
+        app:maxImageSize="24dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

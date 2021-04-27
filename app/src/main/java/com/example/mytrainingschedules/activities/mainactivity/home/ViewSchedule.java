@@ -1,12 +1,14 @@
 package com.example.mytrainingschedules.activities.mainactivity.home;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -29,6 +31,8 @@ public class ViewSchedule extends AppCompatActivity {
     Schedule schedule;
     TextView title;
     ProgressBar progressBar;
+    CustomListViewAdapter adapter;
+    ListView listOfExercises;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +44,8 @@ public class ViewSchedule extends AppCompatActivity {
 
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.GONE);
+
+        listOfExercises = findViewById(R.id.listOfExercises);
 
         /* JSON object */
         guid = getIntent().getStringExtra("USER_GUID");
@@ -82,6 +88,8 @@ public class ViewSchedule extends AppCompatActivity {
                 }
 
                 title.setText(schedule.getTitle());
+                adapter = new CustomListViewAdapter(getApplicationContext(), R.layout.exercise_row_layout, schedule.getExercises());
+                listOfExercises.setAdapter(adapter);
 
             }
         };
