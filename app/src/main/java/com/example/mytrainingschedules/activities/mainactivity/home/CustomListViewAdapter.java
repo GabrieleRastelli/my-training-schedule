@@ -7,13 +7,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.mytrainingschedules.R;
 import com.example.mytrainingschedules.activities.Exercise;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class CustomListViewAdapter extends ArrayAdapter<Exercise> {
 
@@ -41,13 +38,17 @@ public class CustomListViewAdapter extends ArrayAdapter<Exercise> {
 
         if (exercise != null) {
             TextView exercise_name = (TextView) view.findViewById(R.id.exercise_name);
-            TextView sets = (TextView) view.findViewById(R.id.sets);
-            TextView reps = (TextView) view.findViewById(R.id.reps);
+            TextView repsxsets = (TextView) view.findViewById(R.id.rxs);
             TextView weight = (TextView) view.findViewById(R.id.weight);
             exercise_name.setText(exercise.getName());
-            sets.setText("x " + exercise.getSets());
-            reps.setText("Reps: " + exercise.getReps());
-            weight.setText(exercise.getWeight() + " kg");
+            repsxsets.setText(exercise.getReps() + " x " + exercise.getSets());
+            if(exercise.getWeight() == 0){
+                weight.setText("Bodyweight exercise");
+            }
+            else{
+                weight.setText("Weight: " + exercise.getWeight() + " kg");
+            }
+
         }
 
         return view;

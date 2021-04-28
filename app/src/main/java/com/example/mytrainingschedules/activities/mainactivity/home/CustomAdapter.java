@@ -58,10 +58,10 @@ public class CustomAdapter extends BaseAdapter {
         TextView secondCategory = (TextView) view.findViewById(R.id.workoutCategory2);
         TextView equipment = (TextView) view.findViewById(R.id.equipment);
         try {
-            JSONObject schedule=this.data.getJSONObject(i);
+            JSONObject schedule = this.data.getJSONObject(i);
             title.setText(schedule.getString("title"));
             description.setText(schedule.getString("description"));
-            String categoria1=schedule.getString("categoria1");
+            String categoria1 = schedule.getString("categoria1");
             if(!categoria1.isEmpty() && !categoria1.equals("null")){
                 category.setText(categoria1);
                 switch(categoria1){
@@ -87,7 +87,7 @@ public class CustomAdapter extends BaseAdapter {
                 }
             }
 
-            String categoria2=schedule.getString("categoria2");
+            String categoria2 = schedule.getString("categoria2");
             if(!categoria2.isEmpty() && !categoria2.equals("null")){
                 secondCategory.setText(categoria2);
                 switch(categoria2){

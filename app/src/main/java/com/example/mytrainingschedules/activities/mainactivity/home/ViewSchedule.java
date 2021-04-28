@@ -7,9 +7,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -22,7 +24,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.example.mytrainingschedules.R;
 import com.example.mytrainingschedules.activities.CustomStringRequest;
+import com.example.mytrainingschedules.activities.Exercise;
 import com.example.mytrainingschedules.activities.Schedule;
+import com.example.mytrainingschedules.activities.appintro.SplashActivity;
+import com.example.mytrainingschedules.activities.mainactivity.MainActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
@@ -80,20 +85,30 @@ public class ViewSchedule extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
                 /* alert dialog */
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-
                         if (!isFinishing()){
                             new AlertDialog.Builder(ViewSchedule.this)
-                                    .setTitle("Your Alert")
-                                    .setMessage("Your Message")
-                                    .setCancelable(false)
-                                    .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                    .setTitle("Delete schedule")
+                                    .setMessage("Are you sure you want to delete this schedule?")
+                                    .setCancelable(true)
+                                    .setPositiveButton("YES", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             deleteSchedule(getApplicationContext(), getResources().getString(R.string.base_url) + "/deleteschedule", deleteJsonObject);
+                                            Intent intent = new Intent(ViewSchedule.this, MainActivity.class);
+                                            intent.putExtra("USER_GUID", guid);
+                                            ViewSchedule.this.startActivity(intent);
+                                            ViewSchedule.this.finish();
+                                        }
+                                    })
+                                    .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            // nothing
                                         }
                                     }).show();
                         }
