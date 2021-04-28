@@ -4,13 +4,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -20,6 +23,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.mytrainingschedules.R;
 import com.example.mytrainingschedules.activities.CustomStringRequest;
 import com.example.mytrainingschedules.activities.Schedule;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,6 +37,7 @@ public class ViewSchedule extends AppCompatActivity {
     ProgressBar progressBar;
     CustomListViewAdapter adapter;
     ListView listOfExercises;
+    FloatingActionButton deleteSchedule;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +67,40 @@ public class ViewSchedule extends AppCompatActivity {
 
         /* get schedule info */
         getSchedule(getApplicationContext(), getResources().getString(R.string.base_url) + "/scheduleinfo", jsonObject);
+
+        /* delete schedule */
+        deleteSchedule = findViewById(R.id.delete);
+        deleteSchedule.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                JSONObject deleteJsonObject = new JSONObject();
+                try {
+                    deleteJsonObject.put("guid", guid);
+                    deleteJsonObject.put("schedule", scheduleId);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                /* alert dialog */
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        if (!isFinishing()){
+                            new AlertDialog.Builder(ViewSchedule.this)
+                                    .setTitle("Your Alert")
+                                    .setMessage("Your Message")
+                                    .setCancelable(false)
+                                    .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            deleteSchedule(getApplicationContext(), getResources().getString(R.string.base_url) + "/deleteschedule", deleteJsonObject);
+                                        }
+                                    }).show();
+                        }
+                    }
+                });
+            }
+        });
 
     }
 
@@ -111,6 +150,37 @@ public class ViewSchedule extends AppCompatActivity {
                 } else {
                     errorTextView.setText("No Internet connection");
                 } */
+            }
+        };
+
+        CustomStringRequest stringRequest = new CustomStringRequest(Request.Method.POST, url, jsonObject, onSuccessListener, onErrorListener);
+
+        queue.add(stringRequest);
+    }
+
+    private void deleteSchedule(Context context, String url, JSONObject jsonObject) {
+        RequestQueue queue = Volley.newRequestQueue(context);
+
+        /* onSuccessListener */
+        Response.Listener<String> onSuccessListener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                JSONObject jsonResponse = null;
+                try {
+                    jsonResponse = new JSONObject(response);
+                    Toast.makeText(context, "Schedule deleted successfully", Toast.LENGTH_SHORT).show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.d("APP_DEBUG", e.toString());
+                }
+            }
+        };
+
+        /* onErrorListener */
+        Response.ErrorListener onErrorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("APP_DEBUG", "Fail: " + error.toString());
             }
         };
 

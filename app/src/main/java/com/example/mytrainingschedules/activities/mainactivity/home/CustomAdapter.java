@@ -1,11 +1,14 @@
 package com.example.mytrainingschedules.activities.mainactivity.home;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import androidx.annotation.RequiresApi;
 
 import com.example.mytrainingschedules.R;
 
@@ -45,6 +48,7 @@ public class CustomAdapter extends BaseAdapter {
     public long getItemId(int i) {
         return 0;
     }
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         view = inflater.inflate(R.layout.workout_card_layout, null);
@@ -114,14 +118,15 @@ public class CustomAdapter extends BaseAdapter {
                 switch(equipmentNeeded){
                     case "true":
                     case "TRUE":
-                        equipment.setBackground(this.context.getResources().getDrawable(R.drawable.dumbell));
+                        equipment.setBackground(this.context.getDrawable(R.drawable.dumbell));
+                        //equipment.setBackground(this.context.getResources().getDrawable(R.drawable.dumbell));
                         break;
                     case "false":
                     case "FALSE":
-                        equipment.setBackground(this.context.getResources().getDrawable(R.drawable.emoji_emotions));
+                        equipment.setBackground(this.context.getDrawable(R.drawable.emoji_emotions));
                         break;
                     default:
-                        equipment.setBackground(this.context.getResources().getDrawable(R.drawable.dumbell));
+                        equipment.setBackground(this.context.getDrawable(R.drawable.dumbell));
                     break;
                 }
             }
