@@ -76,11 +76,14 @@ public class ViewSchedule extends AppCompatActivity {
                 progressBar.setVisibility(View.GONE);
                 JSONObject jsonResponse = null;
                 JSONObject result = null;
+                JSONObject dataJson = null;
                 JSONArray exercises = null;
                 try {
                     jsonResponse = new JSONObject(response);
                     result = jsonResponse.getJSONObject("result");
-                    exercises = result.getJSONArray("exercises");
+                    String dataJsonString=result.getString("dataJson");
+                    dataJson = new JSONObject(dataJsonString);
+                    exercises=dataJson.getJSONArray("exercises");
                     schedule = new Schedule(scheduleTitle, scheduleDescription, exercises);
                 } catch (JSONException e) {
                     e.printStackTrace();
