@@ -11,6 +11,7 @@ import com.example.mytrainingschedules.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 public class CustomAdapter extends BaseAdapter {
 
@@ -50,24 +51,79 @@ public class CustomAdapter extends BaseAdapter {
         TextView title = (TextView) view.findViewById(R.id.workoutTitle);
         TextView description = (TextView) view.findViewById(R.id.workoutDescription);
         TextView category = (TextView) view.findViewById(R.id.workoutCategory);
+        TextView secondCategory = (TextView) view.findViewById(R.id.workoutCategory2);
+        TextView equipment = (TextView) view.findViewById(R.id.equipment);
         try {
-            title.setText(this.data.getJSONObject(i).getString("title"));
-            description.setText(this.data.getJSONObject(i).getString("description"));
-            if(i == 0){
-                category.setText("Legs");
-                category.setBackground(this.context.getResources().getDrawable(R.drawable.legs_tag));
+            JSONObject schedule=this.data.getJSONObject(i);
+            title.setText(schedule.getString("title"));
+            description.setText(schedule.getString("description"));
+            String categoria1=schedule.getString("categoria1");
+            if(!categoria1.isEmpty() && !categoria1.equals("null")){
+                category.setText(categoria1);
+                switch(categoria1){
+                    case "legs":
+                    case "LEGS":
+                        category.setBackground(this.context.getResources().getDrawable(R.drawable.legs_tag));
+                    break;
+                    case "arms":
+                    case "ARMS":
+                        category.setBackground(this.context.getResources().getDrawable(R.drawable.arms_tag));
+                    break;
+                    case "back":
+                    case "BACK":
+                        category.setBackground(this.context.getResources().getDrawable(R.drawable.back_tag));
+                    break;
+                    case "chest":
+                    case "CHEST":
+                        category.setBackground(this.context.getResources().getDrawable(R.drawable.chest_tag));
+                    break;
+                    default:
+                        category.setBackground(this.context.getResources().getDrawable(R.drawable.default_tag));
+                    break;
+                }
             }
-            if(i == 1){
-                category.setText("Arms");
-                category.setBackground(this.context.getResources().getDrawable(R.drawable.arms_tag));
+
+            String categoria2=schedule.getString("categoria2");
+            if(!categoria2.isEmpty() && !categoria2.equals("null")){
+                secondCategory.setText(categoria2);
+                switch(categoria2){
+                    case "legs":
+                    case "LEGS":
+                        secondCategory.setBackground(this.context.getResources().getDrawable(R.drawable.legs_tag));
+                        break;
+                    case "arms":
+                    case "ARMS":
+                        secondCategory.setBackground(this.context.getResources().getDrawable(R.drawable.arms_tag));
+                        break;
+                    case "back":
+                    case "BACK":
+                        secondCategory.setBackground(this.context.getResources().getDrawable(R.drawable.back_tag));
+                        break;
+                    case "chest":
+                    case "CHEST":
+                        secondCategory.setBackground(this.context.getResources().getDrawable(R.drawable.chest_tag));
+                        break;
+                    default:
+                        secondCategory.setBackground(this.context.getResources().getDrawable(R.drawable.default_tag));
+                    break;
+                }
             }
-            if(i == 2){
-                category.setText("Back");
-                category.setBackground(this.context.getResources().getDrawable(R.drawable.back_tag));
-            }
-            if(i == 3){
-                category.setText("Chest");
-                category.setBackground(this.context.getResources().getDrawable(R.drawable.chest_tag));
+
+            String equipmentNeeded=schedule.getString("equipment");
+            if(!equipmentNeeded.isEmpty() && !equipmentNeeded.equals("null")){
+                switch(equipmentNeeded){
+                    case "true":
+                    case "TRUE":
+                        equipment.setBackground(this.context.getResources().getDrawable(R.drawable.dumbell));
+                        break;
+                    case "false":
+                    case "FALSE":
+                        equipment.setBackground(this.context.getResources().getDrawable(R.drawable.emoji_emotions));
+                        break;
+                    default:
+                        equipment.setBackground(this.context.getResources().getDrawable(R.drawable.dumbell));
+                    break;
+                }
             }
         } catch (JSONException e) {
             e.printStackTrace();
