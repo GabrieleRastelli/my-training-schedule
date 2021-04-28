@@ -42,8 +42,8 @@ import java.util.Map;
 public class RegisterActivity extends AppCompatActivity {
 
     private Button buttonRegister;
-    private EditText name, email, password, confirmPassword;
-    private TextView nameError, emailError, passwordError, confirmPasswordError, errorTextView;
+    private EditText nickname, name, email, password, confirmPassword;
+    private TextView nicknameError,nameError, emailError, passwordError, confirmPasswordError, errorTextView;
     private Animation scaleDown, scaleUp;
     private ProgressBar progressBar;
 
@@ -65,10 +65,12 @@ public class RegisterActivity extends AppCompatActivity {
                 }else if(motionEvent.getAction()==MotionEvent.ACTION_UP){
                     buttonRegister.startAnimation(scaleUp);
 
+                    nickname.clearFocus();
                     name.clearFocus();
                     email.clearFocus();
                     password.clearFocus();
                     confirmPassword.clearFocus();
+                    nicknameError.setText("");
                     nameError.setText("");
                     emailError.setText("");
                     passwordError.setText("");
@@ -91,6 +93,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 jsonObject.put("name", email.getText().toString());
                                 jsonObject.put("email", email.getText().toString());
                                 jsonObject.put("password", password.getText().toString());
+                                jsonObject.put("nickname", nickname.getText().toString());
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -177,6 +180,7 @@ public class RegisterActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.GONE);
 
+        nickname = findViewById(R.id.nicknameEditText);
         name = findViewById(R.id.nameEditText);
         email = findViewById(R.id.emailEditText);
         password = findViewById(R.id.passwordEditText);
@@ -188,6 +192,7 @@ public class RegisterActivity extends AppCompatActivity {
         password.setText("password");
         confirmPassword.setText("password");
 
+        nicknameError = findViewById(R.id.nicknameError);
         nameError = findViewById(R.id.nameError);
         emailError = findViewById(R.id.emailError);
         passwordError = findViewById(R.id.passwordError);
@@ -199,6 +204,10 @@ public class RegisterActivity extends AppCompatActivity {
 
     private boolean allFieldCompiled(){
         boolean allFieldCompiled = true;
+        if(nickname.getText().toString().equals("")){
+            nicknameError.setText("*");
+            allFieldCompiled = false;
+        }
         if(name.getText().toString().equals("")){
             nameError.setText("*");
             allFieldCompiled = false;
