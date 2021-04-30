@@ -35,6 +35,11 @@ import com.example.mytrainingschedules.activities.mainactivity.MainActivity;
 import com.example.mytrainingschedules.activities.mainactivity.user.UserPageActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import com.example.mytrainingschedules.activities.mainactivity.user.UserPageActivity;
+import com.example.mytrainingschedules.activities.schedules.CreateScheduleActivity;
+
+
+import com.example.mytrainingschedules.activities.schedules.PopActivity;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -70,23 +75,6 @@ public class HomeFragment extends Fragment {
         numberOfSchedules = root.findViewById(R.id.number_of_schedules);
         numberOfSchedules.setText("0");
 
-        /* FloatingActionButton listener: add a new schedule. */
-        floatingActionButton = getActivity().findViewById(R.id.fab);
-        floatingActionButton.setVisibility(View.VISIBLE);
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(connectionAvailable){
-                    Intent intent = new Intent(getActivity(), AddExerciseActivity.class);
-                    intent.putExtra("USER_GUID", guid);
-                    startActivity(intent);
-                }
-                else{
-                    Toast.makeText(getActivity().getApplicationContext(), "Unable to add schedule", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
         /* Parse GUID into JSONObject. */
         guid = getActivity().getIntent().getStringExtra("USER_GUID");
         JSONObject jsonObject = new JSONObject();
@@ -95,6 +83,25 @@ public class HomeFragment extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        /* FloatingActionButton listener: add a new schedule. */
+        floatingActionButton = getActivity().findViewById(R.id.fab);
+        floatingActionButton.setVisibility(View.VISIBLE);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(connectionAvailable){
+                    Intent i = new Intent(view.getContext(), CreateScheduleActivity.class);
+                    i.putExtra("guid",guid);
+                    startActivity(i);
+                }
+                else{
+                    Toast.makeText(getActivity().getApplicationContext(), "Unable to add schedule", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
 
         /* Get schedules of the user with getUserSchedules() function. */
         getUserSchedules(getContext(), root, getResources().getString(R.string.base_url) + "/homeinfo", jsonObject);
