@@ -51,6 +51,12 @@
             android:name=".activities.mainactivity.user.UserPageActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.MyTrainingSchedules.NoActionBar" />
+        <activity
+            android:name=".activities.mainactivity.home.AddExerciseActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.MyTrainingSchedules.NoActionBar" />
+
+
     </application>
 
 </manifest>

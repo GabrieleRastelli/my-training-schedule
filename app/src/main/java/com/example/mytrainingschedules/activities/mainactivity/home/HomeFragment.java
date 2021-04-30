@@ -77,7 +77,9 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if(connectionAvailable){
-                    Toast.makeText(getActivity().getApplicationContext(), "FAB", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getActivity(), AddExerciseActivity.class);
+                    intent.putExtra("USER_GUID", guid);
+                    startActivity(intent);
                 }
                 else{
                     Toast.makeText(getActivity().getApplicationContext(), "Unable to add schedule", Toast.LENGTH_SHORT).show();

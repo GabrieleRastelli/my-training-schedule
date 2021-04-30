@@ -12,12 +12,12 @@ import com.example.mytrainingschedules.activities.Exercise;
 
 import java.util.ArrayList;
 
-public class CustomListViewAdapter extends ArrayAdapter<Exercise> {
+public class ExerciseListViewAdapter extends ArrayAdapter<Exercise> {
 
     private int resourceLayout;
     private Context context;
 
-    public CustomListViewAdapter(Context context, int resource, ArrayList<Exercise> exercises) {
+    public ExerciseListViewAdapter(Context context, int resource, ArrayList<Exercise> exercises) {
         super(context, resource, exercises);
         this.resourceLayout = resource;
         this.context = context;
@@ -37,17 +37,21 @@ public class CustomListViewAdapter extends ArrayAdapter<Exercise> {
         Exercise exercise = getItem(position);
 
         if (exercise != null) {
-            TextView exercise_name = (TextView) view.findViewById(R.id.name);
-            TextView repsxsets = (TextView) view.findViewById(R.id.category);
-            TextView weight = (TextView) view.findViewById(R.id.equipment);
-            exercise_name.setText(exercise.getName());
-            repsxsets.setText(exercise.getReps() + " x " + exercise.getSets());
-            if(exercise.getWeight() == 0){
-                weight.setText("Bodyweight exercise");
+            TextView name = (TextView) view.findViewById(R.id.name);
+            TextView category = (TextView) view.findViewById(R.id.category);
+            TextView requiresEquipment = (TextView) view.findViewById(R.id.equipment);
+            name.setText(exercise.getName());
+            if(exercise.getCategory().equals("CHEST")){
+                category.setBackground(this.context.getResources().getDrawable(R.drawable.chest_tag));
+                category.setText("Chest");
+            }
+            if(exercise.isRequireEquipment()){
+                requiresEquipment.setText("Equipment requires");
             }
             else{
-                weight.setText("Weight: " + exercise.getWeight() + " kg");
+                requiresEquipment.setText("Bodyweight exercise");
             }
+
 
         }
 

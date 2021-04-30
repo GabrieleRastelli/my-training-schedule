@@ -27,8 +27,20 @@ public class Exercise {
         }
     }
 
+    public Exercise(String title, String category, boolean requireEquipment){
+        this.name = title;
+        this.sets = -1;
+        this.reps = -1;
+        this.weight = -1;
+        this.rest_between_sets = -1;
+        this.rest_between_exercises = -1;
+        this.category = category;
+        this.requireEquipment = requireEquipment;
+    }
+
     public Exercise(JSONObject exercise) throws JSONException {
         this.name = exercise.getString("exercise-name");
+        //this.id = exercise.getInt("id");
         this.sets = exercise.getInt("sets");
         this.reps = exercise.getInt("reps");
         this.weight = exercise.getInt("weight");
