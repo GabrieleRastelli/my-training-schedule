@@ -17,6 +17,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -43,6 +44,8 @@ public class PopActivity extends AppCompatActivity {
     Button btn_save,btnUpS,btnDownS,btnUpR,btnDownR,btnUpW,btnDownW;
     private Animation scaleDown, scaleUp;
     String responseReturned;
+    SeekBar restSeekBar;
+    TextView timeToRest;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -53,13 +56,42 @@ public class PopActivity extends AppCompatActivity {
         scaleDown = AnimationUtils.loadAnimation(this, R.anim.scale_down);
         scaleUp = AnimationUtils.loadAnimation(this, R.anim.scale_up);
 
+        restSeekBar=findViewById(R.id.appCompatSeekBar);
+        timeToRest=findViewById(R.id.seconds);
+
+        restSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                int minutes = progress / 60;
+                int seconds = progress - (minutes * 60);
+                StringBuilder str = new StringBuilder();
+                str.append(minutes);
+                str.append(" Minutes ");
+                str.append(seconds);
+                str.append(" Seconds ");
+                String restText=str.toString();
+                timeToRest.setText(restText);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
 
         int width=dm.widthPixels;
         int height=dm.heightPixels;
 
-        getWindow().setLayout((int)(width*.8), (int)(height*.7));
+        /* SET DIMENSIONS OF THE POPUP WINDOW */
+        getWindow().setLayout((int)(width*.8), (int)(height*.8));
 
 
         WindowManager.LayoutParams params = getWindow().getAttributes();
@@ -208,6 +240,7 @@ public class PopActivity extends AppCompatActivity {
                 }else if(motionEvent.getAction()==MotionEvent.ACTION_UP){
                     btn_save.startAnimation(scaleUp);
                     finish();
+                    restSeekBar.setProgress(0);
                 }
                 return true;
             }
