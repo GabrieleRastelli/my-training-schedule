@@ -11,10 +11,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyTrainingSchedules"
-        android:usesCleartextTraffic="true"><activity android:name=".activities.schedules.PopActivity"
-        android:theme="@style/AppTheme.PopEx"></activity>
-
-        <activity android:name=".activities.schedules.CreateScheduleActivity"></activity>
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".activities.schedules.PopActivity"
+            android:theme="@style/AppTheme.PopEx" />
+        <activity android:name=".activities.schedules.CreateScheduleActivity" />
 
         <uses-library
             android:name="org.apache.http.legacy"
@@ -58,8 +59,14 @@
             android:name=".activities.mainactivity.home.AddExerciseActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.MyTrainingSchedules.NoActionBar" />
-
-
+        <activity
+            android:name=".activities.workout.RunningWorkoutActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.MyTrainingSchedules.NoActionBar" />
+        <activity
+            android:name=".activities.workout.WorkoutTerminatedActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.MyTrainingSchedules.NoActionBar" />
     </application>
 
 </manifest>

@@ -3,7 +3,9 @@ package com.example.mytrainingschedules.activities;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Exercise {
+import java.io.Serializable;
+
+public class Exercise implements Serializable {
 
     private String name;
     private int sets;
@@ -98,5 +100,13 @@ public class Exercise {
 
     public void setRequireEquipment(boolean requireEquipment) {
         this.requireEquipment = requireEquipment;
+    }
+
+    public int getRest_between_sets() {
+        return rest_between_sets;
+    }
+
+    public int getRest_between_exercises() {
+        return rest_between_exercises;
     }
 }

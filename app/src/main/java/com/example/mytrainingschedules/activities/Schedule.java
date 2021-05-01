@@ -3,9 +3,10 @@ package com.example.mytrainingschedules.activities;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Schedule {
+public class Schedule implements Serializable {
 
     private String title;
     private String description;
@@ -68,5 +69,9 @@ public class Schedule {
 
     public void setExercises(ArrayList<Exercise> exercises) {
         this.exercises = exercises;
+    }
+
+    public int lenght(){
+        return this.exercises.size();
     }
 }

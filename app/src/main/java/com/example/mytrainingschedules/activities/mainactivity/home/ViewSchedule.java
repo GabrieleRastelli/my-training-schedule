@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -28,6 +29,7 @@ import com.example.mytrainingschedules.activities.Exercise;
 import com.example.mytrainingschedules.activities.Schedule;
 import com.example.mytrainingschedules.activities.appintro.SplashActivity;
 import com.example.mytrainingschedules.activities.mainactivity.MainActivity;
+import com.example.mytrainingschedules.activities.workout.RunningWorkoutActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
@@ -42,7 +44,7 @@ public class ViewSchedule extends AppCompatActivity {
     ProgressBar progressBar;
     CustomListViewAdapter adapter;
     ListView listOfExercises;
-    FloatingActionButton deleteSchedule;
+    FloatingActionButton deleteSchedule, playWorkout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +74,18 @@ public class ViewSchedule extends AppCompatActivity {
 
         /* get schedule info */
         getSchedule(getApplicationContext(), getResources().getString(R.string.base_url) + "/scheduleinfo", jsonObject);
+
+        /* start workout */
+        playWorkout = findViewById(R.id.play);
+        playWorkout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ViewSchedule.this, RunningWorkoutActivity.class);
+                intent.putExtra("SCHEDULE", schedule);
+                ViewSchedule.this.startActivity(intent);
+                ViewSchedule.this.finish();
+            }
+        });
 
         /* delete schedule */
         deleteSchedule = findViewById(R.id.delete);
