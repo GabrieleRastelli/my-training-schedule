@@ -1,8 +1,10 @@
 package com.example.mytrainingschedules.activities.schedules;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -91,7 +94,7 @@ public class PopActivity extends AppCompatActivity {
         int height=dm.heightPixels;
 
         /* SET DIMENSIONS OF THE POPUP WINDOW */
-        getWindow().setLayout((int)(width*.8), (int)(height*.8));
+        getWindow().setLayout((int)(width*.9), (int)(height*.9));
 
 
         WindowManager.LayoutParams params = getWindow().getAttributes();
@@ -112,7 +115,11 @@ public class PopActivity extends AppCompatActivity {
         /* postLogin() function. */
         postExercise(getApplicationContext(), url, jsonObject);
 
-        String test=responseReturned;
+        Spinner spinner = (Spinner) findViewById(R.id.ex_type);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.exercise_type, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
 
         btnUpS = findViewById(R.id.btn_up_s);
         btnUpS.setOnTouchListener(new View.OnTouchListener() {
@@ -239,6 +246,42 @@ public class PopActivity extends AppCompatActivity {
                     btn_save.startAnimation(scaleDown);
                 }else if(motionEvent.getAction()==MotionEvent.ACTION_UP){
                     btn_save.startAnimation(scaleUp);
+
+
+                    TextView titleView=findViewById(R.id.title_ex);
+                    String title = titleView.getText().toString();
+                    Spinner exType=findViewById(R.id.ex_type);
+                    String type = exType.getSelectedItem().toString();
+
+                    TextView setView=findViewById(R.id.set);
+                    int set = Integer.parseInt(setView.getText().toString());
+                    TextView repView=findViewById(R.id.rep);
+                    int rep = Integer.parseInt(repView.getText().toString());
+                    TextView pesoView=findViewById(R.id.peso);
+                    int peso = Integer.parseInt(pesoView.getText().toString());
+
+                    String equipment="FALSE";
+                    SwitchCompat switchCompat=findViewById(R.id.switchCompat);
+                    if(switchCompat.isChecked()){
+                        equipment="TRUE";
+                    }
+
+                    SeekBar restView = findViewById(R.id.appCompatSeekBar);
+                    int secondsToRest=restView.getProgress();
+
+                    int restBetweenExercises=0;
+
+                    Intent resultIntent = new Intent();
+                    resultIntent.putExtra("title", title);
+                    resultIntent.putExtra("type", type);
+                    resultIntent.putExtra("sets", set);
+                    resultIntent.putExtra("reps", rep);
+                    resultIntent.putExtra("peso", peso);
+                    resultIntent.putExtra("equipment", equipment);
+                    resultIntent.putExtra("rest-between-sets", secondsToRest);
+                    resultIntent.putExtra("rest-between-exercises", restBetweenExercises);
+
+                    setResult(Activity.RESULT_OK, resultIntent);
                     finish();
                     restSeekBar.setProgress(0);
                 }

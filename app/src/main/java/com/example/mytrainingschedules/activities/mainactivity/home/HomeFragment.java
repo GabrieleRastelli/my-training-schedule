@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -94,6 +95,7 @@ public class HomeFragment extends Fragment {
                     Intent i = new Intent(view.getContext(), CreateScheduleActivity.class);
                     i.putExtra("guid",guid);
                     startActivity(i);
+                    getActivity().finish();
                 }
                 else{
                     Toast.makeText(getActivity().getApplicationContext(), "Unable to add schedule", Toast.LENGTH_SHORT).show();
@@ -189,4 +191,18 @@ public class HomeFragment extends Fragment {
 
         queue.add(stringRequest);
     }
+
+    /*@Override
+    public void onResume() {
+        super.onResume();
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("guid", guid);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        getUserSchedules(getContext(), null, getResources().getString(R.string.base_url) + "/homeinfo", jsonObject);
+
+    }*/
+
 }

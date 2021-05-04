@@ -3,9 +3,11 @@ package com.example.mytrainingschedules.activities.mainactivity;
 import android.os.Bundle;
 
 import com.example.mytrainingschedules.R;
+import com.example.mytrainingschedules.activities.mainactivity.home.HomeFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import android.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -23,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(R.id.navigation_home, R.id.navigation_settings, R.id.navigation_premium).build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+
 
         NavigationUI.setupWithNavController(navView, navController);
     }

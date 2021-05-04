@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/layout_bg"
-    tools:context=".activities.mainactivity.home.HomeFragment">
+    tools:context=".activities.mainactivity.home.HomeFragment"
+    android:tag="home_tag">
 
     <LinearLayout
         android:id="@+id/linearLayout"

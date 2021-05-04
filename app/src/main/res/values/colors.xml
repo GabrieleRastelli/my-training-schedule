@@ -17,7 +17,7 @@
     <color name="back_color">#d35400</color>
     <color name="chest_color">#27ae60</color>
     <color name="light_grey">#F2F2F2</color>
-
+    <color name="light_orange">#ffd699</color>
     <color name="slider_background">#FEA500</color>
     <array name="gradient">
         <item>#FFFFFFFF</item>

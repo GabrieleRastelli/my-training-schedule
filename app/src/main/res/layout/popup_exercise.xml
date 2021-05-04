@@ -16,7 +16,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title_ex"
-        app:layout_constraintVertical_bias="0.065">
+        app:layout_constraintVertical_bias="0.424">
 
         <Button
             android:id="@+id/btn_down_s"
@@ -275,19 +275,6 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-        android:id="@+id/title_ex"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:completionThreshold="1"
-        android:hint="Exercise title"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.109" />
-
     <Button
         android:id="@+id/btn_save"
         android:layout_width="216dp"
@@ -306,6 +293,20 @@
         app:layout_constraintTop_toBottomOf="@+id/internal_layout"
         app:layout_constraintVertical_bias="0.0" />
 
+    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+        android:id="@+id/title_ex"
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        android:completionThreshold="1"
+        android:hint="Exercise title"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.086" />
+
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -319,5 +320,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.2" />
+
+    <Spinner
+        android:id="@+id/ex_type"
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.191"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

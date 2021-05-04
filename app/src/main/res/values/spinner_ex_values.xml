@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="exercise_type">
+        <item>CHEST</item>
+        <item>TRICEPS</item>
+        <item>BICEPS</item>
+        <item>BACK</item>
+        <item>SHOULDERS</item>
+        <item>LEGS</item>
+    </string-array>
+</resources>

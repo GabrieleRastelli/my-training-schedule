@@ -8,8 +8,7 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.mytrainingschedules.LoginFragment"
-        android:label="Login Fragment"
-        >
+        android:label="Login Fragment">
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
@@ -19,4 +18,24 @@
         android:id="@+id/registerFragment"
         android:name="com.example.mytrainingschedules.RegisterFragment"
         android:label="Register Fragment" />
+    <fragment
+        android:id="@+id/FirstFragment"
+        android:name="com.example.mytrainingschedules.activities.schedules.FirstFragment"
+        android:label="@string/first_fragment_label"
+        tools:layout="@layout/fragment_first">
+
+        <action
+            android:id="@+id/action_FirstFragment_to_SecondFragment"
+            app:destination="@id/SecondFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/SecondFragment"
+        android:name="com.example.mytrainingschedules.activities.schedules.SecondFragment"
+        android:label="@string/second_fragment_label"
+        tools:layout="@layout/fragment_second">
+
+        <action
+            android:id="@+id/action_SecondFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
+    </fragment>
 </navigation>
