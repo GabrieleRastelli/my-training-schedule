@@ -8,6 +8,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.app.Fragment;
+import android.view.WindowManager;
+
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -20,6 +22,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_layout);
         BottomNavigationView navView = findViewById(R.id.nav_view);
+
+
+        /* shows notification bar */
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.

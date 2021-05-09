@@ -82,6 +82,7 @@ public class ViewSchedule extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(ViewSchedule.this, RunningWorkoutActivity.class);
                 intent.putExtra("SCHEDULE", schedule);
+                intent.putExtra("USER_GUID",guid);
                 ViewSchedule.this.startActivity(intent);
                 ViewSchedule.this.finish();
             }

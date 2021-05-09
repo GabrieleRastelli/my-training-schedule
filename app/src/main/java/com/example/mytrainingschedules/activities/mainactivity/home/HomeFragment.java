@@ -94,8 +94,8 @@ public class HomeFragment extends Fragment {
                 if(connectionAvailable){
                     Intent i = new Intent(view.getContext(), CreateScheduleActivity.class);
                     i.putExtra("guid",guid);
-                    startActivity(i);
                     getActivity().finish();
+                    startActivity(i);
                 }
                 else{
                     Toast.makeText(getActivity().getApplicationContext(), "Unable to add schedule", Toast.LENGTH_SHORT).show();

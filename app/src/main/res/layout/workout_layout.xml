@@ -5,7 +5,90 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.workout.RunningWorkoutActivity"
-    android:background="@drawable/slide_background">
+    android:background="@drawable/slide_background"
+    android:id="@+id/background_running">
+
+    <TextView
+        android:id="@+id/finished_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/seguisb"
+        android:textColor="#000000"
+        android:text="Workout terminated succesfully"
+        android:textSize="24dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.178" />
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/seguisb"
+        android:text="It took only "
+        android:textSize="20dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.118"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.369" />
+
+    <TextView
+        android:id="@+id/rest_middle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/seguisb"
+        android:text="Your avarage rest is "
+        android:textSize="20dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.146"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.469" />
+
+    <TextView
+        android:id="@+id/motivational_quote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/seguisb"
+        android:gravity="center"
+        android:text="Motivational quote"
+        android:textSize="20dp"
+        android:textStyle="italic"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.622" />
+
+    <Button
+        android:id="@+id/btn_save"
+        android:layout_width="216dp"
+        android:layout_height="46dp"
+        android:background="@drawable/end_workout_button"
+        android:fontFamily="@font/seguisb"
+        android:text="Back Home"
+        android:textAllCaps="false"
+        android:textColor="@color/pale_green"
+        android:visibility="invisible"
+        app:backgroundTint="@color/white"
+        app:backgroundTintMode="multiply"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.8" />
 
     <TextView
         android:id="@+id/initTimer"
@@ -112,6 +195,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:maxImageSize="32dp" />
 
+    <View
+        android:id="@+id/circle_view"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:background="@drawable/circle"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/next"
+        app:layout_constraintEnd_toEndOf="@+id/next"
+        app:layout_constraintStart_toStartOf="@+id/next"
+        app:layout_constraintTop_toTopOf="@+id/next" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addSet"
         android:layout_width="wrap_content"
@@ -122,10 +216,10 @@
         android:layout_marginBottom="144dp"
         android:backgroundTint="#2980b9"
         android:scaleType="center"
-        android:src="@drawable/add"
+        android:src="@drawable/ic_baseline_timer_24"
         app:fabCustomSize="64dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:maxImageSize="32dp" />
+        app:maxImageSize="32dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
