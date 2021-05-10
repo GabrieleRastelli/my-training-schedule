@@ -59,7 +59,7 @@
                 app:layout_constraintEnd_toEndOf="parent" />
 
             <TextView
-                android:id="@+id/workoutCategory"
+                android:id="@+id/exerciseCategory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
@@ -84,7 +84,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.079"
-                app:layout_constraintStart_toEndOf="@+id/workoutCategory"
+                app:layout_constraintStart_toEndOf="@+id/exerciseCategory"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="1.0" />
 

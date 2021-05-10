@@ -15,14 +15,14 @@
         <activity
             android:name=".activities.schedules.CompleteScheduleActivity"
             android:label="@string/title_activity_complete_schedule"
-            android:theme="@style/Theme.MyTrainingSchedules.NoActionBar"></activity>
+            android:theme="@style/Theme.MyTrainingSchedules.NoActionBar" />
         <activity
             android:name=".activities.schedules.PopActivity"
             android:theme="@style/AppTheme.PopEx" />
         <activity
             android:name=".activities.schedules.CreateScheduleActivity"
             android:theme="@style/Theme.MyTrainingSchedules.NoActionBar"
-            android:windowSoftInputMode="adjustNothing"/>
+            android:windowSoftInputMode="adjustNothing" />
 
         <uses-library
             android:name="org.apache.http.legacy"
@@ -71,7 +71,7 @@
             android:label="@string/app_name"
             android:theme="@style/Theme.MyTrainingSchedules.NoActionBar" />
         <activity
-            android:name=".activities.workout.WorkoutTerminatedActivity"
+            android:name=".activities.schedules.EditScheduleActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.MyTrainingSchedules.NoActionBar" />
     </application>

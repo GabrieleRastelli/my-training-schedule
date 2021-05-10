@@ -48,7 +48,8 @@ public class Exercise implements Serializable {
         this.weight = exercise.getInt("weight");
         this.rest_between_sets = exercise.getInt("rest-between-sets");
         this.rest_between_exercises = exercise.getInt("rest-between-exercises");
-        this.category = "category";
+        // TODO: change response from "type" to "category"
+        this.category = exercise.getString("type");
         if(this.weight != 0){
             this.requireEquipment = true;
         }

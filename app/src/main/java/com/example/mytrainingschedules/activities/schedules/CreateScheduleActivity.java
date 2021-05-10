@@ -1,33 +1,19 @@
 package com.example.mytrainingschedules.activities.schedules;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
 import com.example.mytrainingschedules.R;
-import com.example.mytrainingschedules.activities.CustomStringRequest;
-import com.example.mytrainingschedules.activities.mainactivity.home.CustomAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
@@ -35,11 +21,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-
-import static java.security.AccessController.getContext;
 
 public class CreateScheduleActivity extends AppCompatActivity {
 
@@ -107,7 +90,7 @@ public class CreateScheduleActivity extends AppCompatActivity {
 
         exercisesViewAdapter = new CustomAdapterExercise(exerciseDataSet,this);
 
-        exercisesView=(RecyclerView) findViewById(R.id.exercise_view);
+        exercisesView=(RecyclerView) findViewById(R.id.listOfExercises);
         exercisesView.setHasFixedSize(true);
         exercisesView.setLayoutManager(exercisesViewLayoutManager);
         exercisesView.setAdapter(exercisesViewAdapter);

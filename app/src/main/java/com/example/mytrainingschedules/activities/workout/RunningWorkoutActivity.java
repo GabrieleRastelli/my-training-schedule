@@ -3,21 +3,14 @@ package com.example.mytrainingschedules.activities.workout;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
 
-import android.animation.Animator;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewAnimationUtils;
-import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -26,15 +19,12 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.mytrainingschedules.R;
 import com.example.mytrainingschedules.activities.Exercise;
 import com.example.mytrainingschedules.activities.Schedule;
-import com.example.mytrainingschedules.activities.applogin.RegisterActivity;
 import com.example.mytrainingschedules.activities.mainactivity.MainActivity;
-import com.example.mytrainingschedules.activities.mainactivity.home.ViewSchedule;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Random;
@@ -131,7 +121,7 @@ public class RunningWorkoutActivity extends AppCompatActivity {
         sets.setVisibility(View.GONE);
         rest = findViewById(R.id.rest);
         rest.setVisibility(View.GONE);
-        nextExercise = findViewById(R.id.next);
+        nextExercise = findViewById(R.id.done);
         nextExercise.setVisibility(View.GONE);
         addSet = findViewById(R.id.addSet);
         addSet.setVisibility(View.GONE);

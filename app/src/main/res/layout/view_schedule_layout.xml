@@ -36,12 +36,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listOfExercises"
         android:layout_width="350dp"
         android:layout_height="422dp"
         android:layout_marginTop="80dp"
-        android:paddingBottom="100dp"
+        android:paddingBottom="200dp"
         android:clipToPadding="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

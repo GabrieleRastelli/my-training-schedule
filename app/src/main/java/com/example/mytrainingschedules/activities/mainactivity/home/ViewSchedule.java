@@ -9,11 +9,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,10 +22,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.example.mytrainingschedules.R;
 import com.example.mytrainingschedules.activities.CustomStringRequest;
-import com.example.mytrainingschedules.activities.Exercise;
 import com.example.mytrainingschedules.activities.Schedule;
-import com.example.mytrainingschedules.activities.appintro.SplashActivity;
 import com.example.mytrainingschedules.activities.mainactivity.MainActivity;
+import com.example.mytrainingschedules.activities.schedules.EditScheduleActivity;
 import com.example.mytrainingschedules.activities.workout.RunningWorkoutActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -42,9 +38,10 @@ public class ViewSchedule extends AppCompatActivity {
     Schedule schedule;
     TextView title;
     ProgressBar progressBar;
-    CustomListViewAdapter adapter;
-    ListView listOfExercises;
-    FloatingActionButton deleteSchedule, playWorkout;
+    private RecyclerView listOfExercises;
+    private RecyclerView.Adapter recyclerViewAdapter;
+    private RecyclerView.LayoutManager layoutManager;
+    FloatingActionButton deleteSchedule, playWorkout, editSchedule;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +55,9 @@ public class ViewSchedule extends AppCompatActivity {
         progressBar.setVisibility(View.GONE);
 
         listOfExercises = findViewById(R.id.listOfExercises);
+        listOfExercises.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(this);
+        listOfExercises.setLayoutManager(layoutManager);
 
         /* JSON object */
         guid = getIntent().getStringExtra("USER_GUID");
@@ -82,9 +82,22 @@ public class ViewSchedule extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(ViewSchedule.this, RunningWorkoutActivity.class);
                 intent.putExtra("SCHEDULE", schedule);
-                intent.putExtra("USER_GUID",guid);
+                intent.putExtra("USER_GUID", guid);
                 ViewSchedule.this.startActivity(intent);
                 ViewSchedule.this.finish();
+            }
+        });
+
+        /* edit schedule */
+        editSchedule = findViewById(R.id.edit);
+        editSchedule.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ViewSchedule.this, EditScheduleActivity.class);
+                intent.putExtra("SCHEDULE", schedule);
+                intent.putExtra("SCHEDULE_ID", scheduleId);
+                intent.putExtra("USER_GUID", guid);
+                ViewSchedule.this.startActivity(intent);
             }
         });
 
@@ -152,7 +165,7 @@ public class ViewSchedule extends AppCompatActivity {
                     result = jsonResponse.getJSONObject("result");
                     String dataJsonString=result.getString("dataJson");
                     dataJson = new JSONObject(dataJsonString);
-                    exercises=dataJson.getJSONArray("exercises");
+                    exercises = dataJson.getJSONArray("exercises");
                     schedule = new Schedule(scheduleTitle, scheduleDescription, exercises);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -160,9 +173,8 @@ public class ViewSchedule extends AppCompatActivity {
                 }
 
                 title.setText(schedule.getTitle());
-                adapter = new CustomListViewAdapter(getApplicationContext(), R.layout.exercise_row_layout, schedule.getExercises());
-                listOfExercises.setAdapter(adapter);
-
+                recyclerViewAdapter = new CustomRecyclerViewAdapter(schedule.getExercises());
+                listOfExercises.setAdapter(recyclerViewAdapter);
             }
         };
 

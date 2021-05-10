@@ -92,6 +92,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if(connectionAvailable){
+                    //Intent i = new Intent(view.getContext(), CreateScheduleActivity.class);
                     Intent i = new Intent(view.getContext(), CreateScheduleActivity.class);
                     i.putExtra("guid",guid);
                     getActivity().finish();

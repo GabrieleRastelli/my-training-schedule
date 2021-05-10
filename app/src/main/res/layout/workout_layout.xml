@@ -180,7 +180,7 @@
         app:layout_constraintTop_toBottomOf="@+id/weight" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/next"
+        android:id="@+id/done"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
@@ -201,10 +201,10 @@
         android:layout_height="64dp"
         android:background="@drawable/circle"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/next"
-        app:layout_constraintEnd_toEndOf="@+id/next"
-        app:layout_constraintStart_toStartOf="@+id/next"
-        app:layout_constraintTop_toTopOf="@+id/next" />
+        app:layout_constraintBottom_toBottomOf="@+id/done"
+        app:layout_constraintEnd_toEndOf="@+id/done"
+        app:layout_constraintStart_toStartOf="@+id/done"
+        app:layout_constraintTop_toTopOf="@+id/done" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addSet"

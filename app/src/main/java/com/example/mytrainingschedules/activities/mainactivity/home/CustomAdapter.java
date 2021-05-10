@@ -54,7 +54,7 @@ public class CustomAdapter extends BaseAdapter {
         view = inflater.inflate(R.layout.workout_card_layout, null);
         TextView title = (TextView) view.findViewById(R.id.workoutTitle);
         TextView description = (TextView) view.findViewById(R.id.workoutDescription);
-        TextView category = (TextView) view.findViewById(R.id.workoutCategory);
+        TextView category = (TextView) view.findViewById(R.id.exerciseCategory);
         TextView secondCategory = (TextView) view.findViewById(R.id.workoutCategory2);
         TextView equipment = (TextView) view.findViewById(R.id.equipment);
         try {
