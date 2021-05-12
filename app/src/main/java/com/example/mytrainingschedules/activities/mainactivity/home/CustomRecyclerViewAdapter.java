@@ -58,7 +58,7 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
         else{
             holder.weight.setText("Weight: bodyweight");
         }
-        holder.rest.setText("Rest: " + currentExercise.getRest_between_sets() + "s");
+        holder.rest.setVisibility(View.GONE);
         holder.exerciseCategory.setText(currentExercise.getCategory());
         switch(currentExercise.getCategory()){
             case "legs":

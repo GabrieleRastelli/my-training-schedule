@@ -17,7 +17,6 @@ import com.android.volley.toolbox.Volley;
 import com.example.mytrainingschedules.R;
 import com.example.mytrainingschedules.activities.CustomStringRequest;
 import com.example.mytrainingschedules.activities.Exercise;
-import com.example.mytrainingschedules.activities.Schedule;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,7 +40,7 @@ public class AddExerciseActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.GONE);
 
-        listOfExercises = findViewById(R.id.listOfExercises);
+        listOfExercises = findViewById(R.id.allExercises);
 
         exercises = new ArrayList<Exercise>();
 

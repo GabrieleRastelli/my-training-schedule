@@ -54,7 +54,7 @@ public class ViewSchedule extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.GONE);
 
-        listOfExercises = findViewById(R.id.listOfExercises);
+        listOfExercises = findViewById(R.id.allExercises);
         listOfExercises.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         listOfExercises.setLayoutManager(layoutManager);

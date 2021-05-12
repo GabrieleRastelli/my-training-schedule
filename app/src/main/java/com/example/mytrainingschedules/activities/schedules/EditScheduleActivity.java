@@ -8,13 +8,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import com.example.mytrainingschedules.R;
 import com.example.mytrainingschedules.activities.Exercise;
 import com.example.mytrainingschedules.activities.Schedule;
-import com.example.mytrainingschedules.activities.mainactivity.home.ViewSchedule;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -41,7 +39,7 @@ public class EditScheduleActivity extends AppCompatActivity {
         schedule = (Schedule) getIntent().getSerializableExtra("SCHEDULE");
         exercises = schedule.getExercises();
 
-        listOfExercises = findViewById(R.id.listOfExercises);
+        listOfExercises = findViewById(R.id.allExercises);
         listOfExercises.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         listOfExercises.setLayoutManager(layoutManager);
@@ -70,7 +68,7 @@ public class EditScheduleActivity extends AppCompatActivity {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), PopActivity.class);
+                Intent intent = new Intent(getApplicationContext(), AddExerciseActivity.class);
                 intent.putExtra("USER_GUID", guid);
                 startActivityForResult(intent, 0);
             }
