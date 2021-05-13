@@ -59,7 +59,10 @@ public class EditScheduleActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-
+                /*TODO: non va*/
+                int position = viewHolder.getAdapterPosition();
+                exercises.remove(position);
+                recyclerViewAdapter.notifyItemRemoved(position);
             }
         });
         helper.attachToRecyclerView(listOfExercises);

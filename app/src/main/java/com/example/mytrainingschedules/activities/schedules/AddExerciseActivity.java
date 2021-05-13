@@ -116,7 +116,8 @@ public class AddExerciseActivity extends AppCompatActivity implements RecyclerVi
                     Toast.makeText(getApplicationContext(), "Please select an exercise, or create one", Toast.LENGTH_LONG).show();
                 }
                 else{
-                    // start new activity
+                    Intent intent = new Intent(getApplicationContext(), SetExerciseDataActivity.class);
+                    startActivityForResult(intent, 0);
                 }
             }
         });

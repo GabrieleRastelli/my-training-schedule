@@ -1,9 +1,6 @@
 package com.example.mytrainingschedules.activities.schedules;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,13 +13,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.example.mytrainingschedules.activities.CustomStringRequest;
 import com.example.mytrainingschedules.activities.mainactivity.MainActivity;
-import com.example.mytrainingschedules.activities.mainactivity.home.HomeFragment;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SwitchCompat;
-import androidx.appcompat.widget.Toolbar;
 
 import android.view.MotionEvent;
 import android.view.View;
@@ -30,8 +22,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.SeekBar;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -78,7 +68,7 @@ public class CompleteScheduleActivity extends AppCompatActivity {
                     try {
                         jsonObject.put("guid",getIntent().getStringExtra("guid"));
                         jsonObject.put("dataJson",getIntent().getStringExtra("dataJson"));
-                        title= (EditText)findViewById(R.id.title);
+                        title= (EditText)findViewById(R.id.exerciseTitle);
                         jsonObject.put("title",title.getText().toString());
                         description= (EditText)findViewById(R.id.description);
                         jsonObject.put("description",description.getText().toString());

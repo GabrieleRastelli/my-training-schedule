@@ -48,7 +48,7 @@ public class ViewSchedule extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_schedule_layout);
 
-        title = findViewById(R.id.title);
+        title = findViewById(R.id.exerciseTitle);
         title.setText("");
 
         progressBar = findViewById(R.id.progressBar);
