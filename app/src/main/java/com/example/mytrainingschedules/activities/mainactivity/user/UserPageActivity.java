@@ -57,12 +57,16 @@ public class UserPageActivity extends AppCompatActivity {
 
     private HomeViewModel homeViewModel;
 
-    String email = null;
-    String name = null;
-    String imageB64 = null;
-    String guid = null;
+    private Animation scaleDown, scaleUp;
+    private String email = null;
+    private String name = null;
+    private String imageB64 = null;
+    private String guid = null;
+    private String nickname = null;
 
-    TextView errorTextView;
+    private Button buttonEdit;
+
+    TextView errorTextView, numberOfSchedules, username;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -70,10 +74,9 @@ public class UserPageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_page_layout);
 
-        errorTextView = findViewById(R.id.errorTextView2);
-        errorTextView.setText("");
-        errorTextView.setVisibility(View.GONE);
+        initGUI();
 
+        numberOfSchedules.setText(getIntent().getStringExtra("N_SCHEDULES"));
         /* transform GUID into JSONObject*/
         guid = this.getIntent().getStringExtra("USER_GUID");
         JSONObject jsonObject = new JSONObject();
@@ -87,7 +90,32 @@ public class UserPageActivity extends AppCompatActivity {
 
     }
 
+    private void initGUI(){
+        errorTextView = findViewById(R.id.errorTextView2);
+        errorTextView.setText("");
+        errorTextView.setVisibility(View.GONE);
 
+        scaleDown = AnimationUtils.loadAnimation(this, R.anim.scale_down);
+        scaleUp = AnimationUtils.loadAnimation(this, R.anim.scale_up);
+
+        buttonEdit = findViewById(R.id.btn_edit_profile);
+
+        username = findViewById(R.id.nickname);
+
+        buttonEdit.setOnTouchListener(new View.OnTouchListener() {
+                                          @Override
+                                          public boolean onTouch(View v, MotionEvent motionEvent) {
+                                              if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                                                  buttonEdit.startAnimation(scaleDown);
+                                              } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                                                  buttonEdit.startAnimation(scaleUp);
+                                              }
+                                              return true;
+                                          }
+                                      });
+
+        numberOfSchedules=findViewById(R.id.schede_create_numero);
+    }
 
     private void getUserInfo(Context context, View root, String url, JSONObject jsonObject) {
         RequestQueue queue = Volley.newRequestQueue(context);
@@ -114,6 +142,9 @@ public class UserPageActivity extends AppCompatActivity {
                             case "name":
                                 name = result.get(key).toString();
                                 break;
+                            case "nickname":
+                                nickname = result.get(key).toString();
+                                break;
                         }
                     }
                 } catch (JSONException e) {
@@ -124,14 +155,15 @@ public class UserPageActivity extends AppCompatActivity {
                 nameView.setText(name);
                 TextView emailView = findViewById(R.id.user_email);
                 emailView.setText(email);
-                if (imageB64 != null) {
+                TextView nicknameView = findViewById(R.id.nickname);
+                nicknameView.setText(nickname);
+                if (imageB64 != null && !imageB64.isEmpty()) {
                     ImageView profileImageView = findViewById(R.id.user_image);
 
                     byte[] decodedString = Base64.decode(imageB64, Base64.DEFAULT);
                     Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
                     profileImageView.setImageBitmap(decodedByte);
                 }
-
             }
         };
 

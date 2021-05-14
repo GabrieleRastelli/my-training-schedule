@@ -116,6 +116,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), UserPageActivity.class);
                 intent.putExtra("USER_GUID", guid);
+                intent.putExtra("N_SCHEDULES", numberOfSchedules.getText().toString());
                 startActivity(intent);
             }
         });
