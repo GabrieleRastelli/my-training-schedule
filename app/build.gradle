@@ -49,5 +49,7 @@ dependencies {
     implementation 'com.mcxiaoke.volley:library:1.0.19'
     implementation 'com.google.android.material:material:1.2.0-alpha03'
     implementation 'org.apache.commons:commons-lang3:3.6'
+    implementation 'androidx.recyclerview:recyclerview:1.2.0'
 
+    implementation "androidx.annotation:annotation:1.0.0"
 }

@@ -129,7 +129,7 @@ public class PremiumFragment extends Fragment {
                 }
 
                 if(result.length() == 0){
-                    errorTextView.setText("No schedules found, click the \"+\" button to add your first schedule!");
+                    errorTextView.setText("No schedules found!");
                     errorTextView.setTextColor(Color.DKGRAY);
                     errorTextView.setVisibility(View.VISIBLE);
                     numberOfSchedules.setText("" + 0);
