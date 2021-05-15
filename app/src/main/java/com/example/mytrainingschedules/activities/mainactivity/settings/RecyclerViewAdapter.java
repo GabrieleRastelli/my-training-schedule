@@ -26,11 +26,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private Context context;
     private List<Schedule> data;
 
-    private List<Schedule> dataTmp;
-    private List<Schedule> dataFull;
     private LayoutInflater inflater;
 
 
+    public void filterList (ArrayList<Schedule> filteredList){
+        data=filteredList;
+        notifyDataSetChanged();
+    }
     public RecyclerViewAdapter(Context context, List<Schedule> data) {
         this.context = context;
         this.data = new ArrayList<Schedule>();

@@ -43,6 +43,7 @@ import java.util.List;
 public class SettingsFragment extends Fragment {
 
     private SettingsViewModel settingsViewModel;
+    List<Schedule> schede=new ArrayList<Schedule>();
     Context context;
     FloatingActionButton fab;
     RecyclerView recyclerView;
@@ -74,6 +75,24 @@ public class SettingsFragment extends Fragment {
 
         recyclerView=root.findViewById(R.id.recycler_view);
 
+        EditText searchbar=root.findViewById(R.id.searchbar);
+        searchbar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                filter(s.toString());
+            }
+        });
+
         /* to set animation programmatically
         LayoutAnimationController animationController = AnimationUtils.loadLayoutAnimation(context,R.anim.layout_animation_fall_down);
         recyclerView.setLayoutAnimation(animationController);*/
@@ -88,6 +107,18 @@ public class SettingsFragment extends Fragment {
 
 
         return root;
+    }
+
+    private void filter(String restriction){
+        ArrayList<Schedule> filteredList=new ArrayList<>();
+
+        for(Schedule schedule : schede){
+            if(schedule.getTitle().toLowerCase().contains(restriction.toLowerCase())){
+                filteredList.add(schedule);
+            }
+        }
+        adapter.filterList(filteredList);
+        recyclerView.scheduleLayoutAnimation(); /* without this method animation is not displayed */
     }
 
     /* to re-run animation */
@@ -108,7 +139,6 @@ public class SettingsFragment extends Fragment {
             public void onResponse(String response) {
                 connectionAvailable = true;
                 JSONObject jsonResponse = null;
-                List<Schedule> schede=new ArrayList<Schedule>();
                 try {
                     jsonResponse = new JSONObject(response);
                     result = jsonResponse.getJSONArray("result");
