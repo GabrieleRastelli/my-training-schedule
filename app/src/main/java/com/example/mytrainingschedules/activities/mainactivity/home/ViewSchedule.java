@@ -36,7 +36,7 @@ public class ViewSchedule extends AppCompatActivity {
 
     String guid, scheduleId, scheduleTitle, scheduleDescription;
     Schedule schedule;
-    TextView title;
+    TextView title, creator;
     ProgressBar progressBar;
     private RecyclerView listOfExercises;
     private RecyclerView.Adapter recyclerViewAdapter;
@@ -48,22 +48,8 @@ public class ViewSchedule extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_schedule_layout);
 
-        title = findViewById(R.id.exerciseTitle);
-        title.setText("");
+        initGUI();
 
-        progressBar = findViewById(R.id.progressBar);
-        progressBar.setVisibility(View.GONE);
-
-        listOfExercises = findViewById(R.id.allExercises);
-        listOfExercises.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(this);
-        listOfExercises.setLayoutManager(layoutManager);
-
-        /* JSON object */
-        guid = getIntent().getStringExtra("USER_GUID");
-        scheduleId = getIntent().getStringExtra("SCHEDULE_ID");
-        scheduleTitle = getIntent().getStringExtra("SCHEDULE_TITLE");
-        scheduleDescription = getIntent().getStringExtra("SCHEDULE_DESCRIPTION");
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("guid", guid);
@@ -74,6 +60,28 @@ public class ViewSchedule extends AppCompatActivity {
 
         /* get schedule info */
         getSchedule(getApplicationContext(), getResources().getString(R.string.base_url) + "/scheduleinfo", jsonObject);
+
+
+    }
+
+    private void initGUI(){
+        title = findViewById(R.id.exerciseTitle);
+        title.setText("");
+
+        progressBar = findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.GONE);
+
+        creator=findViewById(R.id.creator);
+        listOfExercises = findViewById(R.id.allExercises);
+        listOfExercises.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(this);
+        listOfExercises.setLayoutManager(layoutManager);
+
+        /* JSON object */
+        guid = getIntent().getStringExtra("USER_GUID");
+        scheduleId = getIntent().getStringExtra("SCHEDULE_ID");
+        scheduleTitle = getIntent().getStringExtra("SCHEDULE_TITLE");
+        scheduleDescription = getIntent().getStringExtra("SCHEDULE_DESCRIPTION");
 
         /* start workout */
         playWorkout = findViewById(R.id.play);
@@ -144,7 +152,6 @@ public class ViewSchedule extends AppCompatActivity {
                 });
             }
         });
-
     }
 
     private void getSchedule(Context context, String url, JSONObject jsonObject) {
@@ -163,6 +170,8 @@ public class ViewSchedule extends AppCompatActivity {
                 try {
                     jsonResponse = new JSONObject(response);
                     result = jsonResponse.getJSONObject("result");
+                    String createdBy="Created by: "+result.getString("creator");
+                    creator.setText(createdBy);
                     String dataJsonString=result.getString("dataJson");
                     dataJson = new JSONObject(dataJsonString);
                     exercises = dataJson.getJSONArray("exercises");
