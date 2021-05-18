@@ -40,11 +40,15 @@ import com.example.mytrainingschedules.activities.mainactivity.MainActivity;
 import com.example.mytrainingschedules.activities.mainactivity.home.CustomAdapter;
 import com.example.mytrainingschedules.activities.mainactivity.home.HomeViewModel;
 
+import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.HashMap;
@@ -63,9 +67,9 @@ public class UserPageActivity extends AppCompatActivity {
     private String imageB64 = null;
     private String guid = null;
     private String nickname = null;
-
+    ImageView editName,editNickname, userImage;
     private Button buttonEdit;
-
+    public static final int PICK_IMAGE = 1;
     TextView errorTextView, numberOfSchedules, username;
 
     @SuppressLint("ClickableViewAccessibility")
@@ -98,23 +102,59 @@ public class UserPageActivity extends AppCompatActivity {
         scaleDown = AnimationUtils.loadAnimation(this, R.anim.scale_down);
         scaleUp = AnimationUtils.loadAnimation(this, R.anim.scale_up);
 
-        buttonEdit = findViewById(R.id.btn_edit_profile);
 
         username = findViewById(R.id.nickname);
 
-        buttonEdit.setOnTouchListener(new View.OnTouchListener() {
-                                          @Override
-                                          public boolean onTouch(View v, MotionEvent motionEvent) {
-                                              if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                                                  buttonEdit.startAnimation(scaleDown);
-                                              } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                                                  buttonEdit.startAnimation(scaleUp);
-                                              }
-                                              return true;
-                                          }
-                                      });
+        editName = findViewById(R.id.edit_name);
+        editName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "vuoi cambiare nome", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        editNickname = findViewById(R.id.edit_nickname);
+        editNickname.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "vuoi cambiare nickname", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        userImage = findViewById(R.id.user_image);
+        userImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
+            }
+        });
 
         numberOfSchedules=findViewById(R.id.schede_create_numero);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE) {
+            if (data == null) {
+                Toast.makeText(getApplicationContext(), "Can't change image, try later.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            try {
+                /*InputStream inputStream = getContentResolver().openInputStream(data.getData());
+                IOUtils
+                byte[] imageBytes = new byte[(int)file.length()];
+                inputStream.read(imageBytes, 0, imageBytes.length);
+                inputStream.close();
+                String imageStr = org.apache.commons.codec.binary.Base64.encodeBase64String(imageBytes);*/
+            } catch (IOException e) {
+                Toast.makeText(getApplicationContext(), "Can't change image, try later.", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     private void getUserInfo(Context context, View root, String url, JSONObject jsonObject) {

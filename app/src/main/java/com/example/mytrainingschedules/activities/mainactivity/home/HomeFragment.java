@@ -2,8 +2,11 @@ package com.example.mytrainingschedules.activities.mainactivity.home;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,6 +50,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
@@ -108,6 +112,9 @@ public class HomeFragment extends Fragment {
 
         /* Get schedules of the user with getUserSchedules() function. */
         getUserSchedules(getContext(), root, getResources().getString(R.string.base_url) + "/homeinfo", jsonObject);
+
+        /* Get user image */
+        getUserImage(getContext(), root, getResources().getString(R.string.base_url) + "/userinfo", jsonObject);
 
         /* User account page. */
         ImageView imgFavorite = root.findViewById(R.id.accountImage);
@@ -194,17 +201,61 @@ public class HomeFragment extends Fragment {
         queue.add(stringRequest);
     }
 
-    /*@Override
-    public void onResume() {
-        super.onResume();
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("guid", guid);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        getUserSchedules(getContext(), null, getResources().getString(R.string.base_url) + "/homeinfo", jsonObject);
+    private void getUserImage(Context context, View root, String url, JSONObject jsonObject) {
+        RequestQueue queue = Volley.newRequestQueue(context);
 
-    }*/
+        /* onSuccessListener */
+        Response.Listener<String> onSuccessListener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                JSONObject jsonResponse = null;
+                JSONObject result = null;
+                String imageB64 = null;
+                try {
+                    jsonResponse = new JSONObject(response);
+                    result = jsonResponse.getJSONObject("result");
+                    Iterator<?> keys = result.keys();
+                    while (keys.hasNext()) {
+                        String key = (String) keys.next();
+                        switch (key) {
+                            case "image":
+                                imageB64 = result.get(key).toString();
+                                break;
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if (imageB64 != null && !imageB64.isEmpty()) {
+                    ImageView profileImageView = getActivity().findViewById(R.id.user_image);
+
+                    byte[] decodedString = Base64.decode(imageB64, Base64.DEFAULT);
+                    Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                    profileImageView.setImageBitmap(decodedByte);
+                }
+            }
+        };
+
+        /* onErrorListener */
+        Response.ErrorListener onErrorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("APP_DEBUG", "Fail: " + error.toString());
+                errorTextView.setVisibility(View.VISIBLE);
+                if (error.toString().equals("com.android.volley.TimeoutError")) {
+                    errorTextView.setText("Can't connect to the server");
+                } else if (error.toString().equals("com.android.volley.AuthFailureError")) {
+                    errorTextView.setText("Invalid credentials");
+                } else {
+                    errorTextView.setText("No Internet connection");
+                }
+            }
+        };
+
+        CustomStringRequest stringRequest = new CustomStringRequest(Request.Method.POST, url, jsonObject, onSuccessListener, onErrorListener);
+
+        queue.add(stringRequest);
+    }
 
 }

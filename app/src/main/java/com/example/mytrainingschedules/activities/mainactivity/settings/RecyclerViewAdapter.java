@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -25,16 +26,16 @@ import java.util.List;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
     private Context context;
     private List<Schedule> data;
-
     private LayoutInflater inflater;
-
+    private OnItemClickListener onItemClickListener;
 
     public void filterList (ArrayList<Schedule> filteredList){
         data=filteredList;
         notifyDataSetChanged();
     }
-    public RecyclerViewAdapter(Context context, List<Schedule> data) {
+    public RecyclerViewAdapter(Context context, List<Schedule> data, OnItemClickListener onItemClickListener) {
         this.context = context;
+        this.onItemClickListener=onItemClickListener;
         this.data = new ArrayList<Schedule>();
         for(int i = 0; i < data.size(); i++){
             this.data.add(data.get(i));
@@ -48,7 +49,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_schedule_layout,parent, false);
 
-        return new ViewHolder(view);
+        return new ViewHolder(view,onItemClickListener);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -129,6 +130,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
         String creator=schedule.getCreator();
         holder.creator.setText("Created by: "+creator);
+        Integer downloads=schedule.getDownloads();
+        holder.downloads.setText(String.valueOf(downloads)+" downloads");
     }
 
 
@@ -138,11 +141,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return this.data.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public TextView title, description, categoria1, categoria2, creator, equipment;
+        public TextView title, description, categoria1, categoria2, creator, equipment, downloads;
+        OnItemClickListener onItemClickListener;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(View itemView, OnItemClickListener onItemClickListener) {
             super(itemView);
             title = itemView.findViewById(R.id.workoutTitle);
             description = itemView.findViewById(R.id.workoutDescription);
@@ -150,6 +154,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             categoria2 = itemView.findViewById(R.id.workoutCategory2);
             creator = itemView.findViewById(R.id.created_by);
             equipment = itemView.findViewById(R.id.equipment);
+            downloads=itemView.findViewById(R.id.downloads);
+            this.onItemClickListener=onItemClickListener;
+
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+            onItemClickListener.onItemClick(getLayoutPosition());
+        }
+    }
+
+    public interface OnItemClickListener{
+        void onItemClick(int position);
     }
 }
