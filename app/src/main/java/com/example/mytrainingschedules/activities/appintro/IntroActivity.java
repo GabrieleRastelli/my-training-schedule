@@ -3,13 +3,11 @@ package com.example.mytrainingschedules.activities.appintro;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -44,7 +42,7 @@ public class IntroActivity extends AppCompatActivity {
 
         screenPager.setAdapter(introViewPagerAdapter);
 
-        textView = findViewById(R.id.textView);
+        textView = findViewById(R.id.exerciseTitle);
         textView.setText("");
 
         buttonNext = findViewById(R.id.buttonNext);

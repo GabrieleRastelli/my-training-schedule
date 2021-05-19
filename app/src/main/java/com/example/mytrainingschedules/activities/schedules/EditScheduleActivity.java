@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.mytrainingschedules.R;
 import com.example.mytrainingschedules.activities.Exercise;
@@ -18,10 +20,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class EditScheduleActivity extends AppCompatActivity {
+public class EditScheduleActivity extends AppCompatActivity implements RecyclerViewClickListener {
 
     private RecyclerView listOfExercises;
-    private RecyclerView.Adapter recyclerViewAdapter;
+    private EditScheduleRecyclerViewAdapter recyclerViewAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private Schedule schedule;
     private int scheduleId;
@@ -43,7 +45,7 @@ public class EditScheduleActivity extends AppCompatActivity {
         listOfExercises.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         listOfExercises.setLayoutManager(layoutManager);
-        recyclerViewAdapter = new CustomAdapterExercise2(exercises);
+        recyclerViewAdapter = new EditScheduleRecyclerViewAdapter(exercises, this);
         listOfExercises.setAdapter(recyclerViewAdapter);
 
         /* drag and drop items in recycler view */
@@ -77,5 +79,14 @@ public class EditScheduleActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void recyclerViewListClicked(View view, int position) {
+        TextView exerciseTitle =  view.findViewById(R.id.exerciseTitle);
+        Intent intent = new Intent(getApplicationContext(), PopActivity.class);
+        intent.putExtra("EXERCISE_TITLE", exerciseTitle.getText());
+        startActivityForResult(intent, 0);
+        //recyclerViewAdapter.notifyDataSetChanged();
     }
 }

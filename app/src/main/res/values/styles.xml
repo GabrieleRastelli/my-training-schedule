@@ -9,9 +9,12 @@
     </style>
 
 
-    <style name="AppTheme.PopEx">
+    <style name="AppTheme.PopEx" parent="Theme.AppCompat.Light.Dialog">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowCloseOnTouchOutside">true</item>
+        <item name="colorPrimary">@color/orange</item>
+        <item name="colorPrimaryDark">@color/strong_orange</item>
+        <item name="colorAccent">@color/white</item>
     </style>
 
     <style name="editStyle">

@@ -1,8 +1,5 @@
 package com.example.mytrainingschedules.activities.schedules;
 
-import android.content.DialogInterface;
-import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +16,7 @@ import com.example.mytrainingschedules.activities.Exercise;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomRecyclerViewAdapterExercises extends RecyclerView.Adapter<CustomRecyclerViewAdapterExercises.CustomViewHolder> implements Filterable {
+public class AddExerciseRecyclerViewAdapter extends RecyclerView.Adapter<AddExerciseRecyclerViewAdapter.CustomViewHolder> implements Filterable {
 
     private ArrayList<Exercise> exerciseList;
     private ArrayList<Exercise> exerciseListFull;
@@ -57,7 +54,7 @@ public class CustomRecyclerViewAdapterExercises extends RecyclerView.Adapter<Cus
         }
     };
 
-    public static class CustomViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public static class CustomViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public TextView exerciseTitle, exerciseCategory, checkIcon;
 
@@ -75,10 +72,10 @@ public class CustomRecyclerViewAdapterExercises extends RecyclerView.Adapter<Cus
         }
     }
 
-    public CustomRecyclerViewAdapterExercises(ArrayList<Exercise> exerciseList, RecyclerViewClickListener itemListener){
+    public AddExerciseRecyclerViewAdapter(ArrayList<Exercise> exerciseList, RecyclerViewClickListener itemListener){
         this.exerciseList = exerciseList;
         this.exerciseListFull = new ArrayList<Exercise>(exerciseList);
-        CustomRecyclerViewAdapterExercises.itemListener = itemListener;
+        AddExerciseRecyclerViewAdapter.itemListener = itemListener;
     }
 
     public void setData(ArrayList<Exercise> exerciseList){

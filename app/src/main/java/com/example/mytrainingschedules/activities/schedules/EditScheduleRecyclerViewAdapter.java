@@ -13,11 +13,12 @@ import com.example.mytrainingschedules.activities.Exercise;
 
 import java.util.ArrayList;
 
-public class CustomAdapterExercise2 extends RecyclerView.Adapter<CustomAdapterExercise2.CustomViewHolder> {
+public class EditScheduleRecyclerViewAdapter extends RecyclerView.Adapter<EditScheduleRecyclerViewAdapter.CustomViewHolder> {
 
     private ArrayList<Exercise> exerciseList;
+    private static RecyclerViewClickListener itemListener;
 
-    public static class CustomViewHolder extends RecyclerView.ViewHolder {
+    public static class CustomViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public TextView exerciseTitle, exerciseCategory, reps, sets, weight, rest;
 
@@ -29,12 +30,19 @@ public class CustomAdapterExercise2 extends RecyclerView.Adapter<CustomAdapterEx
             sets = itemView.findViewById(R.id.sets);
             weight = itemView.findViewById(R.id.weight);
             rest = itemView.findViewById(R.id.rest);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            itemListener.recyclerViewListClicked(view, getLayoutPosition());
         }
 
     }
 
-    public CustomAdapterExercise2(ArrayList<Exercise> exerciseList){
+    public EditScheduleRecyclerViewAdapter(ArrayList<Exercise> exerciseList, RecyclerViewClickListener itemListener){
         this.exerciseList = exerciseList;
+        EditScheduleRecyclerViewAdapter.itemListener = itemListener;
     }
 
     /* compulsory override methods */
