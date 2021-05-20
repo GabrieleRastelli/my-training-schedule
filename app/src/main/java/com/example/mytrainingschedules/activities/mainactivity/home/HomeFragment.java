@@ -66,9 +66,9 @@ public class HomeFragment extends Fragment {
     private String imageB64;
     private ImageView immagineProfilo;
     /*
-    * getActivity() --> MainActivity
-    * root          --> HomeFragment
-    */
+     * getActivity() --> MainActivity
+     * root          --> HomeFragment
+     */
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.home_fragment, container, false);
