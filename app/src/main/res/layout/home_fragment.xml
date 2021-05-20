@@ -53,18 +53,29 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/title_home" />
 
-            <ImageView
-                android:id="@+id/accountImage"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView"
                 android:layout_width="62dp"
                 android:layout_height="62dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="28dp"
-                android:layout_marginEnd="40dp"
-                android:layout_marginRight="40dp"
-                android:src="@drawable/account_default"
+                app:cardCornerRadius="50dp"
+                app:cardElevation="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.899"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:clickable="true"/>
+                app:layout_constraintVertical_bias="0.488">
+
+                <ImageView
+                    android:id="@+id/user_home_image"
+                    android:layout_width="62dp"
+                    android:layout_height="62dp"
+                    android:layout_alignParentRight="true"
+                    android:adjustViewBounds="true"
+                    android:clickable="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/default_image" />
+            </androidx.cardview.widget.CardView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
