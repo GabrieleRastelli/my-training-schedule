@@ -56,105 +56,28 @@ public class PopActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.popup_exercise);
 
-        /*scaleDown = AnimationUtils.loadAnimation(this, R.anim.scale_down);
-        scaleUp = AnimationUtils.loadAnimation(this, R.anim.scale_up); */
-
-        seekBar = findViewById(R.id.seekBar);
-
         title = getIntent().getStringExtra("EXERCISE_TITLE");
         setTitle(title);
 
-        /*restSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                int minutes = progress / 60;
-                int seconds = progress - (minutes * 60);
-                StringBuilder str = new StringBuilder();
-                str.append(minutes);
-                str.append(" Minutes ");
-                str.append(seconds);
-                str.append(" Seconds ");
-                String restText=str.toString();
-                timeToRest.setText(restText);
-            }
+        reps = getIntent().getIntExtra("REPS", 8);
+        sets = getIntent().getIntExtra("SETS", 3);
+        weight = getIntent().getIntExtra("WEIGHT", 0);
+        rest = getIntent().getIntExtra("REST", 60);
+        repsTextView = findViewById(R.id.reps);
+        repsTextView.setText("Reps: " + reps);
+        setsTextView = findViewById(R.id.sets);
+        setsTextView.setText("Sets: " + sets);
+        weightTextView = findViewById(R.id.weight);
+        weightTextView.setText("Weight: " + weight + " kg");
+        restTextView = findViewById(R.id.rest);
+        restTextView.setText("Rest: " + rest + "s");
 
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+        initUI();
 
-            }
 
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });*/
-
-        /*DisplayMetrics dm = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(dm);
-        int width = dm.widthPixels;
-        int height = dm.heightPixels;
-        /* SET DIMENSIONS OF THE POPUP WINDOW
-        getWindow().setLayout((int)(width*.9), (int)(height*.9));
-        WindowManager.LayoutParams params = getWindow().getAttributes();
-        params.gravity = Gravity.CENTER;
-        params.x = 0;
-        params.y = -20;
-        getWindow().setAttributes(params); */
-
-        initButtons();
-
-        /*btn_save = findViewById(R.id.btn_save);
-        btn_save.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent motionEvent) {
-                if(motionEvent.getAction() == MotionEvent.ACTION_DOWN){
-                    btn_save.startAnimation(scaleDown);
-                }else if(motionEvent.getAction() == MotionEvent.ACTION_UP){
-                    btn_save.startAnimation(scaleUp);
-
-                    TextView titleView = findViewById(R.id.title_ex);
-                    String title = titleView.getText().toString();
-                    Spinner exType = findViewById(R.id.ex_type);
-                    String type = exType.getSelectedItem().toString();
-
-                    TextView setView = findViewById(R.id.set);
-                    int set = Integer.parseInt(setView.getText().toString());
-                    TextView repView = findViewById(R.id.rep);
-                    int rep = Integer.parseInt(repView.getText().toString());
-                    TextView pesoView = findViewById(R.id.peso);
-                    int peso = Integer.parseInt(pesoView.getText().toString());
-
-                    String equipment = "FALSE";
-                    SwitchCompat switchCompat = findViewById(R.id.switchCompat);
-                    if(switchCompat.isChecked()){
-                        equipment = "TRUE";
-                    }
-
-                    SeekBar restView = findViewById(R.id.appCompatSeekBar);
-                    int secondsToRest = restView.getProgress();
-
-                    int restBetweenExercises=0;
-
-                    Intent resultIntent = new Intent();
-                    resultIntent.putExtra("title", title);
-                    resultIntent.putExtra("type", type);
-                    resultIntent.putExtra("sets", set);
-                    resultIntent.putExtra("reps", rep);
-                    resultIntent.putExtra("peso", peso);
-                    resultIntent.putExtra("equipment", equipment);
-                    resultIntent.putExtra("rest-between-sets", secondsToRest);
-                    resultIntent.putExtra("rest-between-exercises", restBetweenExercises);
-
-                    setResult(Activity.RESULT_OK, resultIntent);
-                    finish();
-                    restSeekBar.setProgress(0);
-                }
-                return true;
-            }
-        });*/
     }
 
-    private void initButtons(){
+    private void initUI(){
         rep_add = findViewById(R.id.rep_add);
         rep_add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -213,6 +136,26 @@ public class PopActivity extends AppCompatActivity {
                     weight--;
                     weightTextView.setText("Weight: " + weight + " kg");
                 }
+            }
+        });
+
+        seekBar = findViewById(R.id.seekBar);
+        seekBar.setProgress(rest / 5);
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                rest = i * 5;
+                restTextView.setText("Rest: " + rest + "s");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
             }
         });
     }

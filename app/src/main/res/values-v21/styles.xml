@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="MySeekBar" parent="Widget.AppCompat.SeekBar">
+        <item name="android:progressBackgroundTint">#C3C3C3</item>
+        <item name="android:progressTint">@color/orange</item>
+        <item name="android:colorControlActivated">@color/strong_orange</item>
+    </style>
+</resources>

@@ -30,7 +30,6 @@ import com.android.volley.toolbox.Volley;
 import com.example.mytrainingschedules.R;
 import com.example.mytrainingschedules.activities.CustomStringRequest;
 import com.example.mytrainingschedules.activities.mainactivity.home.CustomAdapter;
-import com.example.mytrainingschedules.activities.schedules.CustomRecyclerViewAdapterExercises;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
@@ -45,7 +44,7 @@ public class SettingsFragment extends Fragment {
     private SettingsViewModel settingsViewModel;
     List<Schedule> schede=new ArrayList<Schedule>();
     Context context;
-    FloatingActionButton fab;
+    FloatingActionButton floatingActionButton;
     RecyclerView recyclerView;
     TextView errorTextView;
     private String guid;
@@ -58,6 +57,9 @@ public class SettingsFragment extends Fragment {
         settingsViewModel = new ViewModelProvider(this).get(SettingsViewModel.class);
         View root = inflater.inflate(R.layout.settings_fragment, container, false);
         context=getActivity();
+
+        floatingActionButton = getActivity().findViewById(R.id.fab);
+        floatingActionButton.setVisibility(View.GONE);
 
         errorTextView = root.findViewById(R.id.errorTextView);
         errorTextView.setText("");
@@ -156,7 +158,7 @@ public class SettingsFragment extends Fragment {
                     }
 
                     recyclerView.setLayoutManager(new LinearLayoutManager(context));
-                    adapter=new RecyclerViewAdapter(context, schede);
+                    //adapter=new RecyclerViewAdapter(context, schede);
                     recyclerView.setAdapter(adapter);
                     recyclerView.scheduleLayoutAnimation();
 

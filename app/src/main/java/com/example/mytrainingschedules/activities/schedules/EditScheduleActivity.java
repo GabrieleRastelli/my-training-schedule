@@ -83,9 +83,13 @@ public class EditScheduleActivity extends AppCompatActivity implements RecyclerV
 
     @Override
     public void recyclerViewListClicked(View view, int position) {
-        TextView exerciseTitle =  view.findViewById(R.id.exerciseTitle);
+        Exercise currentExercise = exercises.get(position);
         Intent intent = new Intent(getApplicationContext(), PopActivity.class);
-        intent.putExtra("EXERCISE_TITLE", exerciseTitle.getText());
+        intent.putExtra("EXERCISE_TITLE", currentExercise.getName());
+        intent.putExtra("REPS", currentExercise.getReps());
+        intent.putExtra("SETS", currentExercise.getSets());
+        intent.putExtra("WEIGHT", currentExercise.getWeight());
+        intent.putExtra("REST", currentExercise.getRest_between_sets());
         startActivityForResult(intent, 0);
         //recyclerViewAdapter.notifyDataSetChanged();
     }
