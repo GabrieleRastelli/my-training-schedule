@@ -63,8 +63,7 @@ public class HomeFragment extends Fragment {
     private TextView errorTextView, numberOfSchedules;
     private boolean connectionAvailable;
     private JSONArray result = null;
-    private String imageB64;
-    private ImageView immagineProfilo;
+
     /*
     * getActivity() --> MainActivity
     * root          --> HomeFragment
@@ -118,8 +117,8 @@ public class HomeFragment extends Fragment {
         getUserImage(getContext(), root, getResources().getString(R.string.base_url) + "/userinfo", jsonObject);
 
         /* User account page. */
-        immagineProfilo = root.findViewById(R.id.user_home_image);
-        immagineProfilo.setOnClickListener(new View.OnClickListener() {
+        ImageView imgFavorite = root.findViewById(R.id.accountImage);
+        imgFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), UserPageActivity.class);
@@ -211,7 +210,7 @@ public class HomeFragment extends Fragment {
             public void onResponse(String response) {
                 JSONObject jsonResponse = null;
                 JSONObject result = null;
-                imageB64 = null;
+                String imageB64 = null;
                 try {
                     jsonResponse = new JSONObject(response);
                     result = jsonResponse.getJSONObject("result");
@@ -219,7 +218,7 @@ public class HomeFragment extends Fragment {
                     while (keys.hasNext()) {
                         String key = (String) keys.next();
                         switch (key) {
-                            case "profileImage":
+                            case "image":
                                 imageB64 = result.get(key).toString();
                                 break;
                         }
@@ -229,10 +228,11 @@ public class HomeFragment extends Fragment {
                 }
 
                 if (imageB64 != null && !imageB64.isEmpty()) {
+                    ImageView profileImageView = getActivity().findViewById(R.id.user_image);
 
                     byte[] decodedString = Base64.decode(imageB64, Base64.DEFAULT);
                     Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-                    immagineProfilo.setImageBitmap(decodedByte);
+                    profileImageView.setImageBitmap(decodedByte);
                 }
             }
         };

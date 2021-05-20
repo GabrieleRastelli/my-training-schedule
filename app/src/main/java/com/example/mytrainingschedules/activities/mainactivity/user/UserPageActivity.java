@@ -144,16 +144,16 @@ public class UserPageActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Can't change image, try later.", Toast.LENGTH_SHORT).show();
                 return;
             }
-            try {
+            /*try {
                 /*InputStream inputStream = getContentResolver().openInputStream(data.getData());
                 IOUtils
                 byte[] imageBytes = new byte[(int)file.length()];
                 inputStream.read(imageBytes, 0, imageBytes.length);
                 inputStream.close();
-                String imageStr = org.apache.commons.codec.binary.Base64.encodeBase64String(imageBytes);*/
+                String imageStr = org.apache.commons.codec.binary.Base64.encodeBase64String(imageBytes);
             } catch (IOException e) {
                 Toast.makeText(getApplicationContext(), "Can't change image, try later.", Toast.LENGTH_SHORT).show();
-            }
+            } */
         }
     }
 
