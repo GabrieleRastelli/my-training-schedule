@@ -110,4 +110,31 @@ public class Exercise implements Serializable {
     public int getRest_between_exercises() {
         return rest_between_exercises;
     }
+
+    public void setRest_between_sets(int rest_between_sets) {
+        this.rest_between_sets = rest_between_sets;
+    }
+
+    public void setRest_between_exercises(int rest_between_exercises) {
+        this.rest_between_exercises = rest_between_exercises;
+    }
+
+    public JSONObject getJsonExercise() throws JSONException {
+        JSONObject exercise = new JSONObject();
+        exercise.put("exercise-name", this.name);
+        exercise.put("sets", sets);
+        exercise.put("reps", reps);
+        exercise.put("weight", weight);
+        exercise.put("rest-between-sets", rest_between_sets);
+        exercise.put("rest-between-exercises", rest_between_exercises);
+        exercise.put("type", category);
+        if(requireEquipment){
+            exercise.put("equipment", "TRUE");
+        }
+        else{
+            exercise.put("equipment", "FALSE");
+        }
+
+        return exercise;
+    }
 }

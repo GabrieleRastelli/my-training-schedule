@@ -34,7 +34,8 @@ import org.json.JSONObject;
 
 public class ViewSchedule extends AppCompatActivity {
 
-    String guid, scheduleId, scheduleTitle, scheduleDescription;
+    String guid, scheduleTitle, scheduleDescription;
+    int scheduleId;
     Schedule schedule;
     TextView title, creator;
     ProgressBar progressBar;
@@ -79,7 +80,7 @@ public class ViewSchedule extends AppCompatActivity {
 
         /* JSON object */
         guid = getIntent().getStringExtra("USER_GUID");
-        scheduleId = getIntent().getStringExtra("SCHEDULE_ID");
+        scheduleId = getIntent().getIntExtra("SCHEDULE_ID", -1);
         scheduleTitle = getIntent().getStringExtra("SCHEDULE_TITLE");
         scheduleDescription = getIntent().getStringExtra("SCHEDULE_DESCRIPTION");
 

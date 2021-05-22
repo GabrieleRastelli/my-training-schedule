@@ -31,6 +31,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.mytrainingschedules.R;
 import com.example.mytrainingschedules.activities.CustomStringRequest;
+import com.example.mytrainingschedules.activities.Exercise;
+import com.example.mytrainingschedules.activities.Schedule;
 import com.example.mytrainingschedules.activities.applogin.LoginActivity;
 import com.example.mytrainingschedules.activities.mainactivity.MainActivity;
 import com.example.mytrainingschedules.activities.utils.VolleyCallback;
@@ -48,8 +50,14 @@ public class PopActivity extends AppCompatActivity {
     private TextView restTextView, repsTextView, setsTextView, weightTextView;
     private FloatingActionButton rep_add, rep_sub, set_add, set_sub, weight_add, weight_sub;
     private SeekBar seekBar;
-    private String title, category;
-    private int reps, sets, weight, rest;
+    private String title;
+    private int reps, sets, rest;
+    private float weight;
+    private Schedule schedule;
+    private int scheduleId;
+    private String guid;
+    private ArrayList<Exercise> exercises;
+    private Button save;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,11 +66,45 @@ public class PopActivity extends AppCompatActivity {
 
         title = getIntent().getStringExtra("EXERCISE_TITLE");
         setTitle(title);
+        scheduleId = getIntent().getIntExtra("SCHEDULE_ID", -1);
+        guid = getIntent().getStringExtra("USER_GUID");
+        schedule = (Schedule) getIntent().getSerializableExtra("SCHEDULE");
+        exercises = schedule.getExercises();
+        int index = getIntent().getIntExtra("INDEX", -1);
+        save = findViewById(R.id.save);
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                exercises.get(index).setReps(reps);
+                exercises.get(index).setSets(sets);
+                exercises.get(index).setWeight(weight);
+                if(weight != 0){
+                    exercises.get(index).setRequireEquipment(true);
+                }
+                else{
+                    exercises.get(index).setRequireEquipment(false);
+                }
+                exercises.get(index).setRest_between_sets(rest);
 
-        reps = getIntent().getIntExtra("REPS", 8);
-        sets = getIntent().getIntExtra("SETS", 3);
-        weight = getIntent().getIntExtra("WEIGHT", 0);
-        rest = getIntent().getIntExtra("REST", 60);
+                schedule.setExercises(exercises);
+                Intent intent = new Intent(getApplicationContext(), EditScheduleActivity.class);
+                intent.putExtra("SCHEDULE", schedule);
+                intent.putExtra("USER_GUID", guid);
+                intent.putExtra("SCHEDULE_ID", scheduleId);
+                startActivity(intent);
+            }
+        });
+
+        reps = exercises.get(index).getReps();
+        sets = exercises.get(index).getSets();
+        weight = exercises.get(index).getWeight();
+        rest = exercises.get(index).getRest_between_sets();
+
+        initUI();
+
+    }
+
+    private void initUI(){
         repsTextView = findViewById(R.id.reps);
         repsTextView.setText("Reps: " + reps);
         setsTextView = findViewById(R.id.sets);
@@ -71,13 +113,6 @@ public class PopActivity extends AppCompatActivity {
         weightTextView.setText("Weight: " + weight + " kg");
         restTextView = findViewById(R.id.rest);
         restTextView.setText("Rest: " + rest + "s");
-
-        initUI();
-
-
-    }
-
-    private void initUI(){
         rep_add = findViewById(R.id.rep_add);
         rep_add.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -6,16 +6,30 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
 import com.example.mytrainingschedules.R;
+import com.example.mytrainingschedules.activities.CustomStringRequest;
 import com.example.mytrainingschedules.activities.Exercise;
 import com.example.mytrainingschedules.activities.Schedule;
+import com.example.mytrainingschedules.activities.mainactivity.MainActivity;
+import com.example.mytrainingschedules.activities.mainactivity.home.HomeFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,7 +41,7 @@ public class EditScheduleActivity extends AppCompatActivity implements RecyclerV
     private RecyclerView.LayoutManager layoutManager;
     private Schedule schedule;
     private int scheduleId;
-    private String guid;
+    private String guid, title, description;
     private ArrayList<Exercise> exercises;
     FloatingActionButton add, done;
 
@@ -36,9 +50,11 @@ public class EditScheduleActivity extends AppCompatActivity implements RecyclerV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_schedule_layout);
 
-        scheduleId = Integer.parseInt(getIntent().getStringExtra("SCHEDULE_ID"));
+        scheduleId = getIntent().getIntExtra("SCHEDULE_ID", -1);
         guid = getIntent().getStringExtra("USER_GUID");
         schedule = (Schedule) getIntent().getSerializableExtra("SCHEDULE");
+        title = schedule.getTitle();
+        description = schedule.getDescription();
         exercises = schedule.getExercises();
 
         listOfExercises = findViewById(R.id.allExercises);
@@ -74,8 +90,29 @@ public class EditScheduleActivity extends AppCompatActivity implements RecyclerV
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), AddExerciseActivity.class);
+                intent.putExtra("SCHEDULE", schedule);
                 intent.putExtra("USER_GUID", guid);
+                intent.putExtra("SCHEDULE_ID", scheduleId);
                 startActivityForResult(intent, 0);
+            }
+        });
+
+        done = findViewById(R.id.done);
+        done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String url = getResources().getString(R.string.base_url) + "/updateschedule";
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("guid", guid);
+                    jsonObject.put("schedule", scheduleId);
+                    jsonObject.put("title", title);
+                    jsonObject.put("description", description);
+                    jsonObject.put("dataJson", schedule.getJsonExercises());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                editSchedule(getApplicationContext(), url, jsonObject);
             }
         });
 
@@ -85,12 +122,40 @@ public class EditScheduleActivity extends AppCompatActivity implements RecyclerV
     public void recyclerViewListClicked(View view, int position) {
         Exercise currentExercise = exercises.get(position);
         Intent intent = new Intent(getApplicationContext(), PopActivity.class);
-        intent.putExtra("EXERCISE_TITLE", currentExercise.getName());
-        intent.putExtra("REPS", currentExercise.getReps());
-        intent.putExtra("SETS", currentExercise.getSets());
-        intent.putExtra("WEIGHT", currentExercise.getWeight());
-        intent.putExtra("REST", currentExercise.getRest_between_sets());
+        intent.putExtra("SCHEDULE", schedule);
+        intent.putExtra("USER_GUID", guid);
+        intent.putExtra("SCHEDULE_ID", scheduleId);
+        intent.putExtra("INDEX", position);
         startActivityForResult(intent, 0);
         //recyclerViewAdapter.notifyDataSetChanged();
     }
+
+    private void editSchedule(Context context, String url, JSONObject jsonObject) {
+        RequestQueue queue = Volley.newRequestQueue(context);
+
+        /* onSuccessListener */
+        Response.Listener<String> onSuccessListener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(context, "Schedule succesfully updated", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(context, MainActivity.class);
+                intent.putExtra("USER_GUID", guid);
+                startActivity(intent);
+                finish();
+            }
+        };
+
+        /* onErrorListener */
+        Response.ErrorListener onErrorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("APP_DEBUG", "Fail: " + error.toString());
+            }
+        };
+
+        CustomStringRequest stringRequest = new CustomStringRequest(Request.Method.POST, url, jsonObject, onSuccessListener, onErrorListener);
+
+        queue.add(stringRequest);
+    }
+
 }

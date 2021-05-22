@@ -2,6 +2,7 @@ package com.example.mytrainingschedules.activities;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -74,4 +75,19 @@ public class Schedule implements Serializable {
     public int lenght(){
         return this.exercises.size();
     }
+
+    public void addExercise(Exercise exercise) {
+        this.exercises.add(exercise);
+    }
+
+    public JSONObject getJsonExercises() throws JSONException {
+        JSONArray exercises = new JSONArray();
+        for (Exercise currentExercise: this.exercises) {
+            exercises.put(currentExercise.getJsonExercise());
+        }
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("exercises", exercises);
+        return jsonObject;
+    }
+
 }

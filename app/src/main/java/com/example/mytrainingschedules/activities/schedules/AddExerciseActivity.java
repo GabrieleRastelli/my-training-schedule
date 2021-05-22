@@ -23,6 +23,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.mytrainingschedules.R;
 import com.example.mytrainingschedules.activities.CustomStringRequest;
 import com.example.mytrainingschedules.activities.Exercise;
+import com.example.mytrainingschedules.activities.Schedule;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
@@ -40,6 +41,9 @@ public class AddExerciseActivity extends AppCompatActivity implements RecyclerVi
     private EditText searchbar;
     private String selectedExerciseTitle, selectedExerciseCategory;
     private FloatingActionButton next;
+    private Schedule schedule;
+    private int scheduleId;
+    private String guid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +52,10 @@ public class AddExerciseActivity extends AppCompatActivity implements RecyclerVi
 
         selectedExerciseTitle = null;
         selectedExerciseCategory = null;
+
+        scheduleId = getIntent().getIntExtra("SCHEDULE_ID", -1);
+        guid = getIntent().getStringExtra("USER_GUID");
+        schedule = (Schedule) getIntent().getSerializableExtra("SCHEDULE");
 
         exerciseList = new ArrayList<Exercise>();
         allExercises = findViewById(R.id.allExercises);
@@ -97,6 +105,9 @@ public class AddExerciseActivity extends AppCompatActivity implements RecyclerVi
                     Intent intent = new Intent(getApplicationContext(), SetExerciseDataActivity.class);
                     intent.putExtra("EXERCISE_TITLE", selectedExerciseTitle);
                     intent.putExtra("EXERCISE_CATEGORY", selectedExerciseCategory);
+                    intent.putExtra("SCHEDULE", schedule);
+                    intent.putExtra("USER_GUID", guid);
+                    intent.putExtra("SCHEDULE_ID", scheduleId);
                     startActivityForResult(intent, 0);
                 }
             }

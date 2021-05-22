@@ -137,7 +137,7 @@ public class HomeFragment extends Fragment {
                 try {
                     Intent intent = new Intent(getContext(), ViewSchedule.class);
                     intent.putExtra("USER_GUID", guid);
-                    intent.putExtra("SCHEDULE_ID", result.getJSONObject(i).getString("scheduleId"));
+                    intent.putExtra("SCHEDULE_ID", result.getJSONObject(i).getInt("scheduleId"));
                     /* TODO: remove this after change api response */
                     intent.putExtra("SCHEDULE_TITLE", result.getJSONObject(i).getString("title"));
                     intent.putExtra("SCHEDULE_DESCRIPTION", result.getJSONObject(i).getString("description"));
