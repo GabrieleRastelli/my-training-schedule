@@ -122,6 +122,7 @@ public class EditScheduleActivity extends AppCompatActivity implements RecyclerV
     public void recyclerViewListClicked(View view, int position) {
         Exercise currentExercise = exercises.get(position);
         Intent intent = new Intent(getApplicationContext(), PopActivity.class);
+        intent.putExtra("EXERCISE_TITLE", currentExercise.getName());
         intent.putExtra("SCHEDULE", schedule);
         intent.putExtra("USER_GUID", guid);
         intent.putExtra("SCHEDULE_ID", scheduleId);
