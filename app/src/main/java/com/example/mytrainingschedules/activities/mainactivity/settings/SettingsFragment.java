@@ -125,7 +125,7 @@ public class SettingsFragment extends Fragment implements RecyclerViewAdapter.On
             }
         }
         adapter.filterList(filteredList);
-        recyclerView.scheduleLayoutAnimation(); /* without this method animation is not displayed */
+        //recyclerView.scheduleLayoutAnimation(); /* without this method animation is not displayed */
     }
 
     /* to re-run animation */
