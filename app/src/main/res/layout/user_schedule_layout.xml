@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card"
     android:layout_width="match_parent"
-    android:layout_height="175dp"
+    android:layout_height="150dp"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
@@ -13,9 +13,13 @@
         android:textAlignment="center"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="20dp"
-        app:cardElevation="12dp"
+        app:cardElevation="6dp"
         app:contentPadding="14dp"
-        android:layout_margin="18dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginLeft="14dp"
+
         android:layout_gravity="center" >
 
         <androidx.constraintlayout.widget.ConstraintLayout
