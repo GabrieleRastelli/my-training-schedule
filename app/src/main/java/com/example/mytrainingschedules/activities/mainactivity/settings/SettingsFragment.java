@@ -55,7 +55,7 @@ public class SettingsFragment extends Fragment implements RecyclerViewAdapter.On
     private RecyclerViewAdapter adapter;
 
     private ArrayList<Schedule> filteredList;
-    
+
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         settingsViewModel = new ViewModelProvider(this).get(SettingsViewModel.class);
         View root = inflater.inflate(R.layout.settings_fragment, container, false);
