@@ -1,6 +1,7 @@
 package com.example.mytrainingschedules.activities.mainactivity.settings;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -39,7 +40,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SettingsFragment extends Fragment {
+public class SettingsFragment extends Fragment implements RecyclerViewAdapter.OnItemClickListener {
 
     private SettingsViewModel settingsViewModel;
     List<Schedule> schede=new ArrayList<Schedule>();
@@ -53,6 +54,8 @@ public class SettingsFragment extends Fragment {
     private EditText searchbar;
     private RecyclerViewAdapter adapter;
 
+    private ArrayList<Schedule> filteredList;
+    
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         settingsViewModel = new ViewModelProvider(this).get(SettingsViewModel.class);
         View root = inflater.inflate(R.layout.settings_fragment, container, false);
@@ -65,6 +68,8 @@ public class SettingsFragment extends Fragment {
         errorTextView.setText("");
         errorTextView.setVisibility(View.GONE);
         connectionAvailable = false;
+
+        filteredList=new ArrayList<>();
 
         /* Parse GUID into JSONObject. */
         guid = getActivity().getIntent().getStringExtra("USER_GUID");
@@ -100,7 +105,7 @@ public class SettingsFragment extends Fragment {
         recyclerView.setLayoutAnimation(animationController);*/
 
         /* Get all schedules. */
-        getUserSchedules(getContext(), root, getResources().getString(R.string.base_url) + "/allschedules", jsonObject);
+        getAllSchedules(getContext(), root, getResources().getString(R.string.base_url) + "/allschedules", jsonObject);
 
         /*RecyclerViewAdapter adapter=new RecyclerViewAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
@@ -115,7 +120,7 @@ public class SettingsFragment extends Fragment {
         ArrayList<Schedule> filteredList=new ArrayList<>();
 
         for(Schedule schedule : schede){
-            if(schedule.getTitle().toLowerCase().contains(restriction.toLowerCase())){
+            if(schedule.getTitle().toLowerCase().contains(restriction.toLowerCase()) || schedule.getCreator().toLowerCase().contains(restriction.toLowerCase())){
                 filteredList.add(schedule);
             }
         }
@@ -132,7 +137,7 @@ public class SettingsFragment extends Fragment {
         recyclerView.scheduleLayoutAnimation();
     }
 
-    private void getUserSchedules(Context context, View root, String url, JSONObject jsonObject) {
+    private void getAllSchedules(Context context, View root, String url, JSONObject jsonObject) {
         RequestQueue queue = Volley.newRequestQueue(context);
 
         /* onSuccessListener */
@@ -147,7 +152,7 @@ public class SettingsFragment extends Fragment {
 
 
                     if(result.length() == 0){
-                        errorTextView.setText("No schedules found, click the \"+\" button to add your first schedule!");
+                        errorTextView.setText("No schedules found!");
                         errorTextView.setTextColor(Color.DKGRAY);
                         errorTextView.setVisibility(View.VISIBLE);
                     }
@@ -157,14 +162,15 @@ public class SettingsFragment extends Fragment {
                         schede.add(new Schedule(scheda));
                     }
 
+                    filteredList=new ArrayList<Schedule>(schede);
                     recyclerView.setLayoutManager(new LinearLayoutManager(context));
-                    //adapter=new RecyclerViewAdapter(context, schede);
+                    adapter=new RecyclerViewAdapter(context, schede, SettingsFragment.this);
                     recyclerView.setAdapter(adapter);
                     recyclerView.scheduleLayoutAnimation();
 
                 } catch (JSONException e) {
-                e.printStackTrace();
-            }
+                    e.printStackTrace();
+                }
             }
         };
 
@@ -188,5 +194,15 @@ public class SettingsFragment extends Fragment {
         CustomStringRequest stringRequest = new CustomStringRequest(Request.Method.POST, url, jsonObject, onSuccessListener, onErrorListener);
 
         queue.add(stringRequest);
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Intent intent = new Intent(getContext(), DownloadScheduleActivity.class);
+        intent.putExtra("USER_GUID", guid);
+        intent.putExtra("SCHEDULE_ID", String.valueOf(filteredList.get(position).getScheduleId()));
+        intent.putExtra("SCHEDULE_TITLE", filteredList.get(position).getTitle());
+        intent.putExtra("SCHEDULE_DESCRIPTION", filteredList.get(position).getDescription());
+        getContext().startActivity(intent);
     }
 }
