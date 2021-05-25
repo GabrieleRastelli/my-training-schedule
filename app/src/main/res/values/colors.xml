@@ -21,6 +21,11 @@
     <color name="slider_background">#FEA500</color>
     <color name="transparent">#00000000</color>
     <color name="pale_green">#2ecc71</color>
+    <color name="light_blue">#b3d1ff</color>
+    <color name="light_green">#b3ffb3</color>
+    <color name="light_red">#ffb3b3</color>
+    <color name="dark_yellow">#cc9900</color>
+    <color name="light_yellow">#ffff99</color>
     <array name="gradient">
         <item>#FFFFFFFF</item>
         <item>#C2C5CC</item>

@@ -17,8 +17,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.viewpager.widget.ViewPager;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -36,6 +39,7 @@ import com.example.mytrainingschedules.activities.mainactivity.home.CustomAdapte
 import com.example.mytrainingschedules.activities.mainactivity.home.ViewSchedule;
 import com.example.mytrainingschedules.activities.mainactivity.user.UserPageActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,14 +51,10 @@ import java.util.List;
 
 public class PremiumFragment extends Fragment {
 
-    private String guid;
-    private ArrayList<Schedule> schedules;
-    private GridView gridView;
-    private CustomAdapter adapter;
-    private FloatingActionButton floatingActionButton;
-    private TextView errorTextView, numberOfSchedules;
-    private boolean connectionAvailable;
-    private JSONArray result = null;
+
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+    private MainAdapter mainAdapter;
 
     /*
      * getActivity() --> MainActivity
@@ -64,102 +64,55 @@ public class PremiumFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.premium_fragment, container, false);
 
-        errorTextView = root.findViewById(R.id.errorTextView);
-        errorTextView.setText("");
-        errorTextView.setVisibility(View.GONE);
-        connectionAvailable = false;
+        tabLayout=root.findViewById(R.id.tab_layout);
+        viewPager=root.findViewById(R.id.view_pager);
 
-        numberOfSchedules = root.findViewById(R.id.number_of_schedules);
-        numberOfSchedules.setText("0");
-
-        /* FloatingActionButton listener: add a new schedule. */
-        floatingActionButton = getActivity().findViewById(R.id.fab);
-        floatingActionButton.setVisibility(View.INVISIBLE);
-
-        /* Parse GUID into JSONObject. */
-        guid = getActivity().getIntent().getStringExtra("USER_GUID");
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("guid", guid);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        /* Get schedules of the user with getUserSchedules() function. */
-        getUserSchedules(getContext(), root, getResources().getString(R.string.base_url) + "/suggestedinfo", jsonObject);
+        mainAdapter=new MainAdapter(getChildFragmentManager());
 
 
+        mainAdapter.AddFragment(new SuggestedFragment(), "Suggested");
+        mainAdapter.AddFragment(new PopularFragment(), "Popular");
 
-        /* gridView OnClickListener. */
-        gridView = root.findViewById(R.id.grid);
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                try {
-                    Intent intent = new Intent(getContext(), ViewSchedule.class);
-                    intent.putExtra("USER_GUID", guid);
-                    intent.putExtra("SCHEDULE_ID", result.getJSONObject(i).getString("scheduleId"));
-                    /* TODO: remove this after change api response */
-                    intent.putExtra("SCHEDULE_TITLE", result.getJSONObject(i).getString("title"));
-                    intent.putExtra("SCHEDULE_DESCRIPTION", result.getJSONObject(i).getString("description"));
-                    getContext().startActivity(intent);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        viewPager.setAdapter(mainAdapter);
+
+        tabLayout.setupWithViewPager(viewPager);
+
 
         return root;
     }
 
-    private void getUserSchedules(Context context, View root, String url, JSONObject jsonObject) {
-        RequestQueue queue = Volley.newRequestQueue(context);
+    private class MainAdapter extends FragmentPagerAdapter{
+        ArrayList<Fragment> fragmentArrayList=new ArrayList<>();
+        ArrayList<String> stringArrayList=new ArrayList<>();
 
-        /* onSuccessListener */
-        Response.Listener<String> onSuccessListener = new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                connectionAvailable = true;
-                JSONObject jsonResponse = null;
-                try {
-                    jsonResponse = new JSONObject(response);
-                    result = jsonResponse.getJSONArray("result");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
 
-                if(result.length() == 0){
-                    errorTextView.setText("No schedules found!");
-                    errorTextView.setTextColor(Color.DKGRAY);
-                    errorTextView.setVisibility(View.VISIBLE);
-                    numberOfSchedules.setText("" + 0);
-                }
+        public void AddFragment( Fragment fragment, String s){
+            fragmentArrayList.add(fragment);
+            stringArrayList.add(s);
+        }
 
-                numberOfSchedules.setText("" + result.length());
-                adapter = new CustomAdapter(context, result);
-                gridView.setAdapter(adapter);
-            }
-        };
 
-        /* onErrorListener */
-        Response.ErrorListener onErrorListener = new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                connectionAvailable = false;
-                Log.d("APP_DEBUG", "Fail: " + error.toString());
-                errorTextView.setVisibility(View.VISIBLE);
-                if (error.toString().equals("com.android.volley.TimeoutError")) {
-                    errorTextView.setText("Can't connect to the server");
-                } else if (error.toString().equals("com.android.volley.AuthFailureError")) {
-                    errorTextView.setText("Invalid credentials");
-                } else {
-                    errorTextView.setText("No Internet connection");
-                }
-            }
-        };
+        public MainAdapter(@NonNull FragmentManager fm) {
+            super(fm);
+        }
 
-        CustomStringRequest stringRequest = new CustomStringRequest(Request.Method.POST, url, jsonObject, onSuccessListener, onErrorListener);
+        @NonNull
+        @Override
+        public Fragment getItem(int position) {
+            return fragmentArrayList.get(position);
+        }
 
-        queue.add(stringRequest);
+        @Override
+        public int getCount() {
+            return fragmentArrayList.size();
+        }
+
+        @Nullable
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return stringArrayList.get(position);
+        }
     }
+
+
 }
