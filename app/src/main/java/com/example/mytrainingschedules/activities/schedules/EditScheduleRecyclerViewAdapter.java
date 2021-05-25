@@ -27,7 +27,7 @@ public class EditScheduleRecyclerViewAdapter extends RecyclerView.Adapter<EditSc
             exerciseTitle = itemView.findViewById(R.id.exerciseTitle);
             exerciseCategory = itemView.findViewById(R.id.exerciseCategory);
             reps = itemView.findViewById(R.id.reps);
-            sets = itemView.findViewById(R.id.sets);
+            sets = itemView.findViewById(R.id.index);
             weight = itemView.findViewById(R.id.weight);
             rest = itemView.findViewById(R.id.rest);
             itemView.setOnClickListener(this);
@@ -58,10 +58,10 @@ public class EditScheduleRecyclerViewAdapter extends RecyclerView.Adapter<EditSc
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
         Exercise currentExercise = exerciseList.get(position);
         holder.exerciseTitle.setText(currentExercise.getName());
-        holder.reps.setText("Reps: " + currentExercise.getReps());
-        holder.sets.setText("Sets: " + currentExercise.getSets());
-        if(currentExercise.isRequireEquipment()){
-            holder.weight.setText("Weight: " + currentExercise.getWeight() + " kg");
+        holder.reps.setText("Reps: " + currentExercise.getSets().get(0).getReps());
+        holder.sets.setText("Sets: " + currentExercise.getSetsNumber());
+        if(currentExercise.requireEquipment()){
+            holder.weight.setText("Weight: " + currentExercise.getSets().get(0).getWeight() + " kg");
         }
         else{
             holder.weight.setText("Weight: bodyweight");

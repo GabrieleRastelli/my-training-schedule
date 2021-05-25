@@ -45,7 +45,7 @@ public class ExerciseListViewAdapter extends ArrayAdapter<Exercise> {
                 category.setBackground(this.context.getResources().getDrawable(R.drawable.chest_tag));
                 category.setText("Chest");
             }
-            if(exercise.isRequireEquipment()){
+            if(exercise.requireEquipment()){
                 requiresEquipment.setText("Equipment requires");
             }
             else{

@@ -1,9 +1,6 @@
 package com.example.mytrainingschedules.activities.mainactivity.settings;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -11,7 +8,6 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,12 +24,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.mytrainingschedules.R;
 import com.example.mytrainingschedules.activities.CustomStringRequest;
 import com.example.mytrainingschedules.activities.Schedule;
-import com.example.mytrainingschedules.activities.mainactivity.MainActivity;
 import com.example.mytrainingschedules.activities.mainactivity.home.CustomRecyclerViewAdapter;
-import com.example.mytrainingschedules.activities.mainactivity.home.ViewSchedule;
-import com.example.mytrainingschedules.activities.schedules.EditScheduleActivity;
-import com.example.mytrainingschedules.activities.workout.RunningWorkoutActivity;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -106,7 +97,7 @@ public class DownloadScheduleActivity extends AppCompatActivity {
         progressBar.setVisibility(View.GONE);
 
         creator=findViewById(R.id.creator);
-        listOfExercises = findViewById(R.id.allExercises);
+        listOfExercises = findViewById(R.id.setsRecyclerView);
         listOfExercises.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         listOfExercises.setLayoutManager(layoutManager);

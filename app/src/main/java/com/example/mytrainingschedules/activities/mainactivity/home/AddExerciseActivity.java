@@ -40,7 +40,7 @@ public class AddExerciseActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.GONE);
 
-        listOfExercises = findViewById(R.id.allExercises);
+        listOfExercises = findViewById(R.id.setsRecyclerView);
 
         exercises = new ArrayList<Exercise>();
 

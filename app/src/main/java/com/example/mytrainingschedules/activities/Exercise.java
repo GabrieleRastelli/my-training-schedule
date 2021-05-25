@@ -1,39 +1,39 @@
 package com.example.mytrainingschedules.activities;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Exercise implements Serializable {
 
     private String name;
-    private int sets;
-    private int reps;
-    private float weight;
+    private ArrayList<Set> sets;
     private int rest_between_sets;
     private int rest_between_exercises;
     private String category;
     private boolean requireEquipment;
 
-    public Exercise(String name, int sets, int reps, float weight, int rest_between_sets, int rest_between_exercises, String category) {
+    public Exercise(String name, ArrayList<Set> sets, int reps, float weight, int rest_between_sets, int rest_between_exercises, String category) {
         this.name = name;
         this.sets = sets;
-        this.reps = reps;
-        this.weight = weight;
         this.rest_between_sets = rest_between_sets;
         this.rest_between_exercises = rest_between_exercises;
         this.category = category;
-        if(this.weight != 0){
-            this.requireEquipment = true;
+        for(Set set: this.sets) {
+            if(set.requireEquipment() == true){
+                this.requireEquipment = true;
+                return;
+            }
         }
+        this.requireEquipment = false;
     }
 
     public Exercise(String title, String category, boolean requireEquipment){
         this.name = title;
-        this.sets = -1;
-        this.reps = -1;
-        this.weight = -1;
+        this.sets = null;
         this.rest_between_sets = -1;
         this.rest_between_exercises = -1;
         this.category = category;
@@ -42,17 +42,25 @@ public class Exercise implements Serializable {
 
     public Exercise(JSONObject exercise) throws JSONException {
         this.name = exercise.getString("exercise-name");
-        //this.id = exercise.getInt("id");
-        this.sets = exercise.getInt("sets");
-        this.reps = exercise.getInt("reps");
-        this.weight = exercise.getInt("weight");
+        this.requireEquipment = false;
+        this.sets = new ArrayList<Set>();
+        JSONArray setsJsonArray = exercise.getJSONArray("sets");
+        for(int i = 0; i < setsJsonArray.length(); i++) {
+            JSONObject setJsonObject = setsJsonArray.getJSONObject(i);
+            Set set = new Set(setJsonObject.getInt("reps"), setJsonObject.getInt("weight"));
+            if(set.getWeight() == 0){
+                set.setRequireEquipment(false);
+            }
+            else{
+                set.setRequireEquipment(true);
+                this.requireEquipment = true;
+            }
+            this.sets.add(set);
+        }
         this.rest_between_sets = exercise.getInt("rest-between-sets");
         this.rest_between_exercises = exercise.getInt("rest-between-exercises");
         // TODO: change response from "type" to "category"
         this.category = exercise.getString("type");
-        if(this.weight != 0){
-            this.requireEquipment = true;
-        }
     }
 
     public String getName() {
@@ -63,28 +71,12 @@ public class Exercise implements Serializable {
         this.name = name;
     }
 
-    public int getSets() {
+    public ArrayList<Set> getSets() {
         return sets;
     }
 
-    public void setSets(int sets) {
+    public void setSets(ArrayList<Set> sets) {
         this.sets = sets;
-    }
-
-    public int getReps() {
-        return reps;
-    }
-
-    public void setReps(int reps) {
-        this.reps = reps;
-    }
-
-    public float getWeight() {
-        return weight;
-    }
-
-    public void setWeight(float weight) {
-        this.weight = weight;
     }
 
     public String getCategory() {
@@ -95,7 +87,7 @@ public class Exercise implements Serializable {
         this.category = category;
     }
 
-    public boolean isRequireEquipment() {
+    public boolean requireEquipment() {
         return requireEquipment;
     }
 
@@ -122,9 +114,14 @@ public class Exercise implements Serializable {
     public JSONObject getJsonExercise() throws JSONException {
         JSONObject exercise = new JSONObject();
         exercise.put("exercise-name", this.name);
+        JSONArray sets = new JSONArray();
+        for(Set set: this.sets) {
+           JSONObject setJsonObject = new JSONObject();
+           setJsonObject.put("reps", set.getReps());
+           setJsonObject.put("weight", set.getWeight());
+           sets.put(setJsonObject);
+        }
         exercise.put("sets", sets);
-        exercise.put("reps", reps);
-        exercise.put("weight", weight);
         exercise.put("rest-between-sets", rest_between_sets);
         exercise.put("rest-between-exercises", rest_between_exercises);
         exercise.put("type", category);
@@ -136,5 +133,9 @@ public class Exercise implements Serializable {
         }
 
         return exercise;
+    }
+
+    public int getSetsNumber(){
+        return this.sets.size();
     }
 }

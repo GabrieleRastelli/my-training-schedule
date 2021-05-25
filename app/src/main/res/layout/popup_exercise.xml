@@ -29,7 +29,7 @@
         android:fontFamily="@font/seguisb"
         android:text="Reps: XX"
         android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/sets"
+        app:layout_constraintEnd_toStartOf="@+id/index"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rep_add" />
 
@@ -75,11 +75,11 @@
         app:fabCustomSize="36dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/rep_sub"
-        app:layout_constraintTop_toBottomOf="@+id/sets"
+        app:layout_constraintTop_toBottomOf="@+id/index"
         app:maxImageSize="20dp" />
 
     <TextView
-        android:id="@+id/sets"
+        android:id="@+id/index"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"

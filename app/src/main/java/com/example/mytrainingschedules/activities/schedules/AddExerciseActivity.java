@@ -58,7 +58,7 @@ public class AddExerciseActivity extends AppCompatActivity implements RecyclerVi
         schedule = (Schedule) getIntent().getSerializableExtra("SCHEDULE");
 
         exerciseList = new ArrayList<Exercise>();
-        allExercises = findViewById(R.id.allExercises);
+        allExercises = findViewById(R.id.setsRecyclerView);
         allExercises.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         allExercises.setLayoutManager(layoutManager);

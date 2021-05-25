@@ -56,7 +56,7 @@
             app:layout_constraintTop_toBottomOf="@+id/exerciseTitle" />
 
         <TextView
-            android:id="@+id/sets"
+            android:id="@+id/index"
             android:layout_width="56dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -91,7 +91,7 @@
             android:fontFamily="@font/seguisb"
             android:text="Rest"
             android:textSize="14sp"
-            app:layout_constraintStart_toEndOf="@+id/sets"
+            app:layout_constraintStart_toEndOf="@+id/index"
             app:layout_constraintTop_toBottomOf="@+id/weight" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

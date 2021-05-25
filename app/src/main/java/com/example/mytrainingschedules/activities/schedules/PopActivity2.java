@@ -1,55 +1,77 @@
 package com.example.mytrainingschedules.activities.schedules;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.mytrainingschedules.R;
+import com.example.mytrainingschedules.activities.CustomStringRequest;
 import com.example.mytrainingschedules.activities.Exercise;
 import com.example.mytrainingschedules.activities.Schedule;
 import com.example.mytrainingschedules.activities.Set;
+import com.example.mytrainingschedules.activities.applogin.LoginActivity;
+import com.example.mytrainingschedules.activities.mainactivity.MainActivity;
+import com.example.mytrainingschedules.activities.utils.VolleyCallback;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-public class SetExerciseDataActivity extends AppCompatActivity implements RecyclerViewClickListener {
+import java.util.ArrayList;
+import java.util.List;
+
+public class PopActivity2 extends AppCompatActivity implements RecyclerViewClickListener {
 
     private RecyclerView setsRecyclerView;
     private SetsRecyclerViewAdapter recyclerViewAdapter;
     private RecyclerView.LayoutManager layoutManager;
-    private TextView msg, titleTextView;
-    private String title;
     private ArrayList<Set> sets;
     private SeekBar seekBar;
+    private String title;
+    //private int reps, sets, rest;
     private TextView restTextView;
-    private Button addset;
     private float weight;
     private Schedule schedule;
     private int scheduleId;
     private String guid;
     private ArrayList<Exercise> exercises;
-    private FloatingActionButton save;
+    private Button save;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.set_exercise_data_layout);
-
-        sets = new ArrayList<Set>();
-
-        msg = findViewById(R.id.msg);
-        msg.setVisibility(View.VISIBLE);
-        titleTextView = findViewById(R.id.title);
+        setContentView(R.layout.popup2);
 
         title = getIntent().getStringExtra("EXERCISE_TITLE");
-        titleTextView.setText(title);
+        setTitle(title);
         scheduleId = getIntent().getIntExtra("SCHEDULE_ID", -1);
         guid = getIntent().getStringExtra("USER_GUID");
         schedule = (Schedule) getIntent().getSerializableExtra("SCHEDULE");
@@ -63,17 +85,7 @@ public class SetExerciseDataActivity extends AppCompatActivity implements Recycl
         recyclerViewAdapter = new SetsRecyclerViewAdapter(sets, this);
         setsRecyclerView.setAdapter(recyclerViewAdapter);
 
-        addset = findViewById(R.id.add);
-        addset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                msg.setVisibility(View.GONE);
-                sets.add(new Set(recyclerViewAdapter.getLastRepCount(), recyclerViewAdapter.getLastWeightCount()));
-                recyclerViewAdapter.notifyDataSetChanged();
-            }
-        });
-
-        //save = findViewById(R.id.save);
+        save = findViewById(R.id.save);
         /*save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -126,7 +138,14 @@ public class SetExerciseDataActivity extends AppCompatActivity implements Recycl
 
     @Override
     public void recyclerViewListClicked(View view, int position) {
-        Log.d("APP_DEBUG", position + "");
+        Exercise currentExercise = exercises.get(position);
+        Intent intent = new Intent(getApplicationContext(), PopActivity2.class);
+        intent.putExtra("EXERCISE_TITLE", currentExercise.getName());
+        intent.putExtra("SCHEDULE", schedule);
+        intent.putExtra("USER_GUID", guid);
+        intent.putExtra("SCHEDULE_ID", scheduleId);
+        intent.putExtra("INDEX", position);
+        startActivityForResult(intent, 0);
         //recyclerViewAdapter.notifyDataSetChanged();
     }
 }

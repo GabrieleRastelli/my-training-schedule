@@ -90,7 +90,7 @@ public class CreateScheduleActivity extends AppCompatActivity {
 
         exercisesViewAdapter = new CustomAdapterExercise(exerciseDataSet,this);
 
-        exercisesView=(RecyclerView) findViewById(R.id.allExercises);
+        exercisesView=(RecyclerView) findViewById(R.id.setsRecyclerView);
         exercisesView.setHasFixedSize(true);
         exercisesView.setLayoutManager(exercisesViewLayoutManager);
         exercisesView.setAdapter(exercisesViewAdapter);

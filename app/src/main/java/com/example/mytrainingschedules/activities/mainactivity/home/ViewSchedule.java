@@ -73,7 +73,7 @@ public class ViewSchedule extends AppCompatActivity {
         progressBar.setVisibility(View.GONE);
 
         creator=findViewById(R.id.creator);
-        listOfExercises = findViewById(R.id.allExercises);
+        listOfExercises = findViewById(R.id.setsRecyclerView);
         listOfExercises.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         listOfExercises.setLayoutManager(layoutManager);
@@ -174,6 +174,7 @@ public class ViewSchedule extends AppCompatActivity {
                     String createdBy="Created by: "+result.getString("creator");
                     creator.setText(createdBy);
                     String dataJsonString=result.getString("dataJson");
+                    //Log.d("APP_DEBUG", dataJsonString);
                     dataJson = new JSONObject(dataJsonString);
                     exercises = dataJson.getJSONArray("exercises");
                     schedule = new Schedule(scheduleTitle, scheduleDescription, exercises);

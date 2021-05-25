@@ -20,7 +20,7 @@ public class Schedule implements Serializable {
         this.exercises = exercises;
         this.requireEquipment = false;
         for (Exercise exercise: exercises) {
-            if(exercise.isRequireEquipment()){
+            if(exercise.requireEquipment()){
                 this.requireEquipment = true;
             }
         }
@@ -34,7 +34,7 @@ public class Schedule implements Serializable {
         for(int i = 0; i < exercises.length(); i++){
             Exercise exercise = new Exercise(exercises.getJSONObject(i));
             this.exercises.add(exercise);
-            if(exercise.isRequireEquipment()){
+            if(exercise.requireEquipment()){
                 this.requireEquipment = true;
             }
         }
@@ -56,7 +56,7 @@ public class Schedule implements Serializable {
         this.description = description;
     }
 
-    public boolean isRequireEquipment() {
+    public boolean requireEquipment() {
         return requireEquipment;
     }
 

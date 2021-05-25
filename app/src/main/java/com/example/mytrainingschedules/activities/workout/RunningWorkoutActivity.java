@@ -117,7 +117,7 @@ public class RunningWorkoutActivity extends AppCompatActivity {
         reps.setVisibility(View.GONE);
         weight = findViewById(R.id.weight);
         weight.setVisibility(View.GONE);
-        sets = findViewById(R.id.sets);
+        sets = findViewById(R.id.index);
         sets.setVisibility(View.GONE);
         rest = findViewById(R.id.rest);
         rest.setVisibility(View.GONE);
@@ -224,15 +224,16 @@ public class RunningWorkoutActivity extends AppCompatActivity {
         Exercise currentExercise = schedule.getExercises().get(index);
         rest.setVisibility(View.GONE);
         exerciseName.setText(currentExercise.getName());
-        reps.setText(currentExercise.getReps() + " reps");
-        if(currentExercise.isRequireEquipment()){
-            weight.setText(currentExercise.getWeight() + " kg");
+        // TODO: maybe change this
+        reps.setText(currentExercise.getSets().get(doneSets).getReps() + " reps");
+        if(currentExercise.requireEquipment()){
+            weight.setText(currentExercise.getSets().get(doneSets).getWeight() + " kg");
         }
         else{
             weight.setText("Bodyweight exercise");
         }
         sets.setVisibility(View.VISIBLE);
-        sets.setText("Sets: " + (currentExercise.getSets() - doneSets));
+        sets.setText("Sets: " + (currentExercise.getSetsNumber() - doneSets));
         addSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -272,7 +273,7 @@ public class RunningWorkoutActivity extends AppCompatActivity {
     private void rest(int index, int doneSets){
         Exercise currentExercise = schedule.getExercises().get(index);
         doneSets++;
-        if(doneSets == currentExercise.getSets()){
+        if(doneSets == currentExercise.getSetsNumber()){
             // rest between sets
             sets.setVisibility(View.GONE);
             rest.setVisibility(View.VISIBLE);
@@ -307,7 +308,7 @@ public class RunningWorkoutActivity extends AppCompatActivity {
                     if((restEnd-restStart)!=0){
                         numberOfTimeRested++;
                     }
-                    sets.setText("Sets: " + (currentExercise.getSets() - doneSetsTmp));
+                    sets.setText("Sets: " + (currentExercise.getSetsNumber() - doneSetsTmp));
                     startExercise(index, doneSetsTmp);
                 }
             }.start();
@@ -328,7 +329,7 @@ public class RunningWorkoutActivity extends AppCompatActivity {
         Exercise currentExercise = schedule.getExercises().get(index);
         doneSets++;
 
-        sets.setText("Sets: " + (currentExercise.getSets() - doneSets));
+        sets.setText("Sets: " + (currentExercise.getSetsNumber() - doneSets));
         startExercise(index, doneSets);
     }
 

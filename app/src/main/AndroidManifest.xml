@@ -13,6 +13,9 @@
         android:theme="@style/Theme.MyTrainingSchedules"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".activities.schedules.PopActivity2"
+            android:theme="@style/AppTheme.PopEx" />
+        <activity
             android:name=".activities.schedules.CompleteScheduleActivity"
             android:label="@string/title_activity_complete_schedule"
             android:theme="@style/Theme.MyTrainingSchedules.NoActionBar" />

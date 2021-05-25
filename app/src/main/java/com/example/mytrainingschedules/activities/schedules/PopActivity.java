@@ -1,49 +1,19 @@
 package com.example.mytrainingschedules.activities.schedules;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SwitchCompat;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.SeekBar;
-import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.mytrainingschedules.R;
-import com.example.mytrainingschedules.activities.CustomStringRequest;
 import com.example.mytrainingschedules.activities.Exercise;
 import com.example.mytrainingschedules.activities.Schedule;
-import com.example.mytrainingschedules.activities.applogin.LoginActivity;
-import com.example.mytrainingschedules.activities.mainactivity.MainActivity;
-import com.example.mytrainingschedules.activities.utils.VolleyCallback;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.List;
 
 public class PopActivity extends AppCompatActivity {
 
@@ -72,7 +42,7 @@ public class PopActivity extends AppCompatActivity {
         exercises = schedule.getExercises();
         int index = getIntent().getIntExtra("INDEX", -1);
         save = findViewById(R.id.save);
-        save.setOnClickListener(new View.OnClickListener() {
+        /*save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 exercises.get(index).setReps(reps);
@@ -98,7 +68,7 @@ public class PopActivity extends AppCompatActivity {
         reps = exercises.get(index).getReps();
         sets = exercises.get(index).getSets();
         weight = exercises.get(index).getWeight();
-        rest = exercises.get(index).getRest_between_sets();
+        rest = exercises.get(index).getRest_between_sets();*/
 
         initUI();
 
@@ -107,7 +77,7 @@ public class PopActivity extends AppCompatActivity {
     private void initUI(){
         repsTextView = findViewById(R.id.reps);
         repsTextView.setText("Reps: " + reps);
-        setsTextView = findViewById(R.id.sets);
+        setsTextView = findViewById(R.id.index);
         setsTextView.setText("Sets: " + sets);
         weightTextView = findViewById(R.id.weight);
         weightTextView.setText("Weight: " + weight + " kg");

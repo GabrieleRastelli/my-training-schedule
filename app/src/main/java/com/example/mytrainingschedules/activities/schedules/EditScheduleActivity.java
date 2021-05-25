@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -24,10 +23,8 @@ import com.example.mytrainingschedules.activities.CustomStringRequest;
 import com.example.mytrainingschedules.activities.Exercise;
 import com.example.mytrainingschedules.activities.Schedule;
 import com.example.mytrainingschedules.activities.mainactivity.MainActivity;
-import com.example.mytrainingschedules.activities.mainactivity.home.HomeFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -57,7 +54,7 @@ public class EditScheduleActivity extends AppCompatActivity implements RecyclerV
         description = schedule.getDescription();
         exercises = schedule.getExercises();
 
-        listOfExercises = findViewById(R.id.allExercises);
+        listOfExercises = findViewById(R.id.setsRecyclerView);
         listOfExercises.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         listOfExercises.setLayoutManager(layoutManager);
@@ -121,7 +118,7 @@ public class EditScheduleActivity extends AppCompatActivity implements RecyclerV
     @Override
     public void recyclerViewListClicked(View view, int position) {
         Exercise currentExercise = exercises.get(position);
-        Intent intent = new Intent(getApplicationContext(), PopActivity.class);
+        Intent intent = new Intent(getApplicationContext(), PopActivity2.class);
         intent.putExtra("EXERCISE_TITLE", currentExercise.getName());
         intent.putExtra("SCHEDULE", schedule);
         intent.putExtra("USER_GUID", guid);
