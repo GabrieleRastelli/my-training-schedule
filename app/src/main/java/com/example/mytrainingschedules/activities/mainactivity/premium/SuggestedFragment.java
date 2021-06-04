@@ -37,7 +37,7 @@ public class SuggestedFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private String guid;
-    private boolean connectionAvailable;
+    private boolean connectionAvailable=true;
     private JSONArray result = null;
     private ArrayList<Schedule> filteredList;
     private List<Schedule> schede=new ArrayList<Schedule>();
