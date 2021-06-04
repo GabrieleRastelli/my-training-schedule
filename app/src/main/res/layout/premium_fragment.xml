@@ -15,18 +15,53 @@
         android:text="Explore schedules"
         android:textColor="@color/black"
         android:textSize="26dp"
-        app:layout_constraintBottom_toTopOf="@+id/view_pager"
+        app:layout_constraintBottom_toTopOf="@+id/gridFilter"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.093"
+        app:layout_constraintHorizontal_bias="0.079"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.2" />
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/filterDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/seguisb"
+        android:text="Select exercise's type"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/gridFilter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.054"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/exerciseTitle"
+        app:layout_constraintVertical_bias="0.533" />
+
+    <GridView
+        android:id="@+id/gridFilter"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="490dp"
+        android:clipToPadding="false"
+        android:horizontalSpacing="4dp"
+        android:layoutAnimation="@anim/layout_animation_fall_down"
+        android:listSelector="@android:color/transparent"
+        android:numColumns="3"
+        android:padding="0dp"
+        android:paddingBottom="150dp"
+        android:verticalSpacing="4dp"
+        android:layout_marginTop="120dp"
+        app:layout_constraintBottom_toTopOf="@+id/view_pager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/view_pager"
-        android:layout_marginTop="130dp">
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="130dp"
+        android:layout_marginTop="250dp">
 
 
         <com.google.android.material.tabs.TabLayout
@@ -37,12 +72,12 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tabMode="fixed"
-            app:tabSelectedTextColor="@color/white"
             app:tabGravity="center"
-            app:tabIndicatorGravity="stretch"
+            app:tabIndicator="@drawable/tab_indicator"
             app:tabIndicatorAnimationMode="elastic"
-            app:tabIndicator="@drawable/tab_indicator">
+            app:tabIndicatorGravity="stretch"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="@color/white">
 
 
         </com.google.android.material.tabs.TabLayout>

@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -55,6 +56,8 @@ public class PremiumFragment extends Fragment {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private MainAdapter mainAdapter;
+    private GridView gridView;
+    private ScheduleFilterAdapter scheduleFilterAdapter;
 
     /*
      * getActivity() --> MainActivity
@@ -77,6 +80,16 @@ public class PremiumFragment extends Fragment {
 
         tabLayout.setupWithViewPager(viewPager);
 
+        gridView = root.findViewById(R.id.gridFilter);
+        /* make gridView not scrollable */
+        gridView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return event.getAction() == MotionEvent.ACTION_MOVE;
+            }
+        });
+        scheduleFilterAdapter = new ScheduleFilterAdapter(getContext());
+        gridView.setAdapter(scheduleFilterAdapter);
 
         return root;
     }
