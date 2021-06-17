@@ -72,6 +72,7 @@ public class AddExerciseActivity extends AppCompatActivity implements RecyclerVi
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
         /* getExercises() function. */
         getExercises(getApplicationContext(), url, jsonObject);
 

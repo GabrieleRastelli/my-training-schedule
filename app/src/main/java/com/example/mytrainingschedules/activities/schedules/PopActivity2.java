@@ -78,6 +78,9 @@ public class PopActivity2 extends AppCompatActivity implements RecyclerViewClick
         exercises = schedule.getExercises();
         int index = getIntent().getIntExtra("INDEX", -1);
 
+        sets = new ArrayList<Set>();
+        sets.add(new Set(8, 0));
+
         setsRecyclerView = findViewById(R.id.setsRecyclerView);
         setsRecyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);

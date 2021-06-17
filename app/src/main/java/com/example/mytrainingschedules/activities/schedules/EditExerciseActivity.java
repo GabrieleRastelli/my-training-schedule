@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
@@ -20,13 +19,14 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
-public class SetExerciseDataActivity extends AppCompatActivity implements RecyclerViewClickListener {
+public class EditExerciseActivity extends AppCompatActivity implements RecyclerViewClickListener {
 
     private RecyclerView setsRecyclerView;
     private SetsRecyclerViewAdapter recyclerViewAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private String title, category, guid;
     private int rest;
+    private Exercise exercise;
     private ArrayList<Set> sets;
     private TextView startingMessage, titleTextView, restTextView;
     private SeekBar seekBar;
@@ -37,23 +37,25 @@ public class SetExerciseDataActivity extends AppCompatActivity implements Recycl
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        /* TODO: far si che questa activity sia un PopUp */
         super.onCreate(savedInstanceState);
         setContentView(R.layout.set_exercise_data_layout);
 
-        sets = new ArrayList<Set>();
-
         startingMessage = findViewById(R.id.msg);
-        startingMessage.setVisibility(View.VISIBLE);
+        startingMessage.setVisibility(View.GONE);
 
+        titleTextView = findViewById(R.id.exerciseTitle);
         titleTextView = findViewById(R.id.exerciseTitle);
         title = getIntent().getStringExtra("EXERCISE_TITLE");
         titleTextView.setText(title);
-        category = getIntent().getStringExtra("EXERCISE_CATEGORY");
         scheduleId = getIntent().getIntExtra("SCHEDULE_ID", -1);
         guid = getIntent().getStringExtra("USER_GUID");
         schedule = (Schedule) getIntent().getSerializableExtra("SCHEDULE");
         ArrayList<Exercise> exercises = schedule.getExercises();
         int index = getIntent().getIntExtra("INDEX", -1);
+
+        exercise = exercises.get(index);
+        sets = exercise.getSets();
 
         setsRecyclerView = findViewById(R.id.setsRecyclerView);
         setsRecyclerView.setHasFixedSize(true);
@@ -76,8 +78,8 @@ public class SetExerciseDataActivity extends AppCompatActivity implements Recycl
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Exercise exercise = new Exercise(title, sets, rest, 0, category);
-                schedule.addExercise(exercise);
+                exercise.setSets(sets);
+                exercise.setRest_between_sets(rest);
                 Intent intent = new Intent(getApplicationContext(), EditScheduleActivity.class);
                 intent.putExtra("SCHEDULE", schedule);
                 intent.putExtra("USER_GUID", guid);
@@ -92,11 +94,11 @@ public class SetExerciseDataActivity extends AppCompatActivity implements Recycl
 
     private void initUI(){
         restTextView = findViewById(R.id.rest);
-        rest = 60;
+        rest = exercise.getRest_between_sets();
         restTextView.setText("Rest: " + rest + "s");
-        
+
         seekBar = findViewById(R.id.seekBar);
-        seekBar.setProgress(12);
+        seekBar.setProgress(rest / 5);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
@@ -120,4 +122,5 @@ public class SetExerciseDataActivity extends AppCompatActivity implements Recycl
     public void recyclerViewListClicked(View view, int position) {
         // nothing
     }
+
 }

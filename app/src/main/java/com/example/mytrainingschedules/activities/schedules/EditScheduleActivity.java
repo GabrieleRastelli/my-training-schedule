@@ -118,7 +118,7 @@ public class EditScheduleActivity extends AppCompatActivity implements RecyclerV
     @Override
     public void recyclerViewListClicked(View view, int position) {
         Exercise currentExercise = exercises.get(position);
-        Intent intent = new Intent(getApplicationContext(), PopActivity2.class);
+        Intent intent = new Intent(getApplicationContext(), EditExerciseActivity.class);
         intent.putExtra("EXERCISE_TITLE", currentExercise.getName());
         intent.putExtra("SCHEDULE", schedule);
         intent.putExtra("USER_GUID", guid);

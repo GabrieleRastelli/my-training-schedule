@@ -22,4 +22,5 @@
     <style name="Theme.MyTrainingSchedules.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.MyTrainingSchedules.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
 </resources>

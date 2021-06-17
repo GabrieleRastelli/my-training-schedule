@@ -174,7 +174,7 @@ public class ViewSchedule extends AppCompatActivity {
                     String createdBy="Created by: "+result.getString("creator");
                     creator.setText(createdBy);
                     String dataJsonString=result.getString("dataJson");
-                    //Log.d("APP_DEBUG", dataJsonString);
+                    Log.d("APP_DEBUG", dataJsonString);
                     dataJson = new JSONObject(dataJsonString);
                     exercises = dataJson.getJSONArray("exercises");
                     schedule = new Schedule(scheduleTitle, scheduleDescription, exercises);

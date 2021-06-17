@@ -16,7 +16,7 @@ public class Exercise implements Serializable {
     private String category;
     private boolean requireEquipment;
 
-    public Exercise(String name, ArrayList<Set> sets, int reps, float weight, int rest_between_sets, int rest_between_exercises, String category) {
+    public Exercise(String name, ArrayList<Set> sets, int rest_between_sets, int rest_between_exercises, String category) {
         this.name = name;
         this.sets = sets;
         this.rest_between_sets = rest_between_sets;
