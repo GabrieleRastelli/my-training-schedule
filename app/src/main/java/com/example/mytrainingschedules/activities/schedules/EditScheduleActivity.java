@@ -61,8 +61,10 @@ public class EditScheduleActivity extends AppCompatActivity implements RecyclerV
         recyclerViewAdapter = new EditScheduleRecyclerViewAdapter(exercises, this);
         listOfExercises.setAdapter(recyclerViewAdapter);
 
+        recyclerViewAdapter.notifyDataSetChanged();
+
         /* drag and drop items in recycler view */
-        ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper. RIGHT ) {
+        ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT ) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder dragged, @NonNull RecyclerView.ViewHolder target) {
                 int positionDragged = dragged.getAdapterPosition();
@@ -74,7 +76,6 @@ public class EditScheduleActivity extends AppCompatActivity implements RecyclerV
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                /*TODO: non va*/
                 int position = viewHolder.getAdapterPosition();
                 exercises.remove(position);
                 recyclerViewAdapter.notifyItemRemoved(position);
@@ -125,7 +126,7 @@ public class EditScheduleActivity extends AppCompatActivity implements RecyclerV
         intent.putExtra("SCHEDULE_ID", scheduleId);
         intent.putExtra("INDEX", position);
         startActivityForResult(intent, 0);
-        //recyclerViewAdapter.notifyDataSetChanged();
+        recyclerViewAdapter.notifyDataSetChanged();
     }
 
     private void editSchedule(Context context, String url, JSONObject jsonObject) {

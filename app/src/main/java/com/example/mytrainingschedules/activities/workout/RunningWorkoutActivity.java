@@ -295,7 +295,7 @@ public class RunningWorkoutActivity extends AppCompatActivity {
             int doneSetsTmp = doneSets;
             sets.setVisibility(View.GONE);
             rest.setVisibility(View.VISIBLE);
-            timerReps = new CountDownTimer((currentExercise.getRest_between_sets() + 1) * 1000, 1000) {
+            timerReps = new CountDownTimer((currentExercise.getRest() + 1) * 1000, 1000) {
                 public void onTick(long millisUntilFinished) {
                     addSet.setImageResource(R.drawable.tick);
                     rest.setText("Rest: " + millisUntilFinished / 1000);

@@ -61,6 +61,7 @@ public class HomeFragment extends Fragment {
     private CustomAdapter adapter;
     private FloatingActionButton floatingActionButton;
     private TextView errorTextView, numberOfSchedules;
+    private ImageView errorImageView;
     private boolean connectionAvailable;
     private JSONArray result = null;
     private String imageB64;
@@ -73,6 +74,8 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.home_fragment, container, false);
 
+        errorImageView = root.findViewById(R.id.errorImageView);
+        errorImageView.setVisibility(View.GONE);
         errorTextView = root.findViewById(R.id.errorTextView);
         errorTextView.setText("");
         errorTextView.setVisibility(View.GONE);
@@ -193,6 +196,7 @@ public class HomeFragment extends Fragment {
                     errorTextView.setText("Invalid credentials");
                 } else {
                     errorTextView.setText("No Internet connection");
+                    errorImageView.setVisibility(View.VISIBLE);
                 }
             }
         };
@@ -249,6 +253,7 @@ public class HomeFragment extends Fragment {
                     errorTextView.setText("Invalid credentials");
                 } else {
                     errorTextView.setText("No Internet connection");
+                    errorImageView.setVisibility(View.VISIBLE);
                 }
             }
         };

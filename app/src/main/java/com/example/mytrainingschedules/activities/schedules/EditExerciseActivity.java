@@ -1,6 +1,8 @@
 package com.example.mytrainingschedules.activities.schedules;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,6 +20,7 @@ import com.example.mytrainingschedules.activities.Set;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class EditExerciseActivity extends AppCompatActivity implements RecyclerViewClickListener {
 
@@ -79,7 +82,7 @@ public class EditExerciseActivity extends AppCompatActivity implements RecyclerV
             @Override
             public void onClick(View view) {
                 exercise.setSets(sets);
-                exercise.setRest_between_sets(rest);
+                exercise.setRest(rest);
                 Intent intent = new Intent(getApplicationContext(), EditScheduleActivity.class);
                 intent.putExtra("SCHEDULE", schedule);
                 intent.putExtra("USER_GUID", guid);
@@ -88,13 +91,33 @@ public class EditExerciseActivity extends AppCompatActivity implements RecyclerV
             }
         });
 
+        /* drag and drop items in recycler view */
+        ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT ) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder dragged, @NonNull RecyclerView.ViewHolder target) {
+                int positionDragged = dragged.getAdapterPosition();
+                int positionTarget = target.getAdapterPosition();
+                Collections.swap(sets, positionDragged, positionTarget);
+                recyclerViewAdapter.notifyItemMoved(positionDragged, positionTarget);
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
+                sets.remove(position);
+                recyclerViewAdapter.notifyItemRemoved(position);
+            }
+        });
+        helper.attachToRecyclerView(setsRecyclerView);
+
         initUI();
 
     }
 
     private void initUI(){
         restTextView = findViewById(R.id.rest);
-        rest = exercise.getRest_between_sets();
+        rest = exercise.getRest();
         restTextView.setText("Rest: " + rest + "s");
 
         seekBar = findViewById(R.id.seekBar);

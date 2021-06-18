@@ -77,6 +77,12 @@ public class Exercise implements Serializable {
 
     public void setSets(ArrayList<Set> sets) {
         this.sets = sets;
+        this.requireEquipment = false;
+        for(Set set: sets){
+            if(set.requireEquipment()){
+                this.requireEquipment = true;
+            }
+        }
     }
 
     public String getCategory() {
@@ -95,7 +101,7 @@ public class Exercise implements Serializable {
         this.requireEquipment = requireEquipment;
     }
 
-    public int getRest_between_sets() {
+    public int getRest() {
         return rest_between_sets;
     }
 
@@ -103,7 +109,7 @@ public class Exercise implements Serializable {
         return rest_between_exercises;
     }
 
-    public void setRest_between_sets(int rest_between_sets) {
+    public void setRest(int rest_between_sets) {
         this.rest_between_sets = rest_between_sets;
     }
 
@@ -137,5 +143,45 @@ public class Exercise implements Serializable {
 
     public int getSetsNumber(){
         return this.sets.size();
+    }
+
+    public int getMinReps(){
+        int minReps = this.sets.get(0).getReps();
+        for(Set set: this.sets){
+            if(set.getReps() < minReps){
+                minReps = set.getReps();
+            }
+        }
+        return minReps;
+    }
+
+    public int getMaxReps(){
+        int maxReps = this.sets.get(0).getReps();
+        for(Set set: this.sets){
+            if(set.getReps() > maxReps){
+                maxReps = set.getReps();
+            }
+        }
+        return maxReps;
+    }
+
+    public int getMinWeight(){
+        int minWeight = this.sets.get(0).getWeight();
+        for(Set set: this.sets){
+            if(set.getWeight() < minWeight){
+                minWeight = set.getWeight();
+            }
+        }
+        return minWeight;
+    }
+
+    public int getMaxWeight(){
+        int maxWeight = this.sets.get(0).getWeight();
+        for(Set set: this.sets){
+            if(set.getWeight() > maxWeight){
+                maxWeight = set.getWeight();
+            }
+        }
+        return maxWeight;
     }
 }

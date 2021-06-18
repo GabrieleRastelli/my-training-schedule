@@ -58,15 +58,27 @@ public class EditScheduleRecyclerViewAdapter extends RecyclerView.Adapter<EditSc
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
         Exercise currentExercise = exerciseList.get(position);
         holder.exerciseTitle.setText(currentExercise.getName());
-        holder.reps.setText("Reps: " + currentExercise.getSets().get(0).getReps());
-        holder.sets.setText("Sets: " + currentExercise.getSetsNumber());
-        if(currentExercise.requireEquipment()){
-            holder.weight.setText("Weight: " + currentExercise.getSets().get(0).getWeight() + " kg");
+        if(currentExercise.getMinReps() == currentExercise.getMaxReps()){
+            holder.reps.setText("Reps: " + currentExercise.getMinReps());
         }
         else{
-            holder.weight.setText("Weight: bodyweight");
+            holder.reps.setText("Reps: " + currentExercise.getMinReps() + " - " + currentExercise.getMaxReps());
         }
-        holder.rest.setText("Rest: " + currentExercise.getRest_between_sets() + "s");
+        holder.sets.setText("Sets: " + currentExercise.getSetsNumber());
+        if(currentExercise.requireEquipment()){
+            if(currentExercise.getMinWeight() == currentExercise.getMaxWeight()){
+                holder.weight.setText("Weight: " + currentExercise.getMaxWeight() + " kg");
+            }
+            else{
+                holder.weight.setText("Weight: " + currentExercise.getMinWeight() + " - " + currentExercise.getMaxWeight() + " kg");
+            }
+        }
+        else{
+            if(currentExercise.getMinWeight() == 0 && currentExercise.getMaxWeight() == 0){
+                holder.weight.setText("Weight: bodyweight");
+            }
+        }
+        holder.rest.setText("Rest: " + currentExercise.getRest() + "s");
         holder.exerciseCategory.setText(currentExercise.getCategory());
         switch(currentExercise.getCategory()){
             case "legs":
