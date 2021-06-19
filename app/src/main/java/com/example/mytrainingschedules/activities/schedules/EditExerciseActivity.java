@@ -47,8 +47,8 @@ public class EditExerciseActivity extends AppCompatActivity implements RecyclerV
         startingMessage = findViewById(R.id.msg);
         startingMessage.setVisibility(View.GONE);
 
-        titleTextView = findViewById(R.id.exerciseTitle);
-        titleTextView = findViewById(R.id.exerciseTitle);
+        titleTextView = findViewById(R.id.activityTitle);
+        titleTextView = findViewById(R.id.activityTitle);
         title = getIntent().getStringExtra("EXERCISE_TITLE");
         titleTextView.setText(title);
         scheduleId = getIntent().getIntExtra("SCHEDULE_ID", -1);
@@ -83,7 +83,13 @@ public class EditExerciseActivity extends AppCompatActivity implements RecyclerV
             public void onClick(View view) {
                 exercise.setSets(sets);
                 exercise.setRest(rest);
-                Intent intent = new Intent(getApplicationContext(), EditScheduleActivity.class);
+                Intent intent;
+                if(scheduleId == 0){
+                    intent = new Intent(getApplicationContext(), CreateScheduleActivity.class);
+                }
+                else{
+                    intent = new Intent(getApplicationContext(), EditScheduleActivity.class);
+                }
                 intent.putExtra("SCHEDULE", schedule);
                 intent.putExtra("USER_GUID", guid);
                 intent.putExtra("SCHEDULE_ID", scheduleId);

@@ -18,11 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -32,26 +28,19 @@ import com.android.volley.toolbox.Volley;
 import com.example.mytrainingschedules.R;
 import com.example.mytrainingschedules.activities.CustomStringRequest;
 import com.example.mytrainingschedules.activities.Schedule;
-import com.example.mytrainingschedules.activities.appintro.IntroActivity;
-import com.example.mytrainingschedules.activities.appintro.SplashActivity;
-import com.example.mytrainingschedules.activities.applogin.LoginActivity;
-import com.example.mytrainingschedules.activities.mainactivity.MainActivity;
-import com.example.mytrainingschedules.activities.mainactivity.user.UserPageActivity;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import com.example.mytrainingschedules.activities.mainactivity.user.UserPageActivity;
 import com.example.mytrainingschedules.activities.schedules.CreateScheduleActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import com.example.mytrainingschedules.activities.schedules.CreateScheduleActivityOld;
 
 
-import com.example.mytrainingschedules.activities.schedules.PopActivity;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
-import java.util.List;
 
 public class HomeFragment extends Fragment {
 
@@ -100,11 +89,11 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if(connectionAvailable){
-                    //Intent i = new Intent(view.getContext(), CreateScheduleActivity.class);
-                    Intent i = new Intent(view.getContext(), CreateScheduleActivity.class);
-                    i.putExtra("guid",guid);
+                    Intent intent = new Intent(view.getContext(), CreateScheduleActivity.class);
+                    intent.putExtra("USER_GUID", guid);
+                    intent.putExtra("SCHEDULE", new Schedule());
                     getActivity().finish();
-                    startActivity(i);
+                    startActivity(intent);
                 }
                 else{
                     Toast.makeText(getActivity().getApplicationContext(), "Unable to add schedule", Toast.LENGTH_SHORT).show();

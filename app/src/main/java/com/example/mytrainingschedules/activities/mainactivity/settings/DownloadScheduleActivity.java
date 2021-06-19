@@ -65,7 +65,7 @@ public class DownloadScheduleActivity extends AppCompatActivity {
     }
 
     private void initGUI(){
-        title = findViewById(R.id.exerciseTitle);
+        title = findViewById(R.id.activityTitle);
         title.setText("");
 
         scaleDown = AnimationUtils.loadAnimation(this, R.anim.scale_down);

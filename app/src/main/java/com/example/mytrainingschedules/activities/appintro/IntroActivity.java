@@ -42,7 +42,7 @@ public class IntroActivity extends AppCompatActivity {
 
         screenPager.setAdapter(introViewPagerAdapter);
 
-        textView = findViewById(R.id.exerciseTitle);
+        textView = findViewById(R.id.activityTitle);
         textView.setText("");
 
         buttonNext = findViewById(R.id.buttonNext);

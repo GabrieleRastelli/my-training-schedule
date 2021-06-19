@@ -1,159 +1,133 @@
 package com.example.mytrainingschedules.activities.schedules;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
 import com.example.mytrainingschedules.R;
+import com.example.mytrainingschedules.activities.CustomStringRequest;
+import com.example.mytrainingschedules.activities.Exercise;
+import com.example.mytrainingschedules.activities.Schedule;
+import com.example.mytrainingschedules.activities.mainactivity.MainActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
-public class CreateScheduleActivity extends AppCompatActivity {
+public class CreateScheduleActivity extends AppCompatActivity implements RecyclerViewClickListener {
 
-    FloatingActionButton btn_exe,save_schedule;
-
-    private boolean connectionAvailable;
-
-    RecyclerView exercisesView;
-    RecyclerView.Adapter exercisesViewAdapter;
-    LinearLayoutManager exercisesViewLayoutManager;
-
-    private TextView errorTextView;
-
-    List<JSONObject> exerciseDataSet = new ArrayList<>();
+    private RecyclerView listOfExercises;
+    private EditScheduleRecyclerViewAdapter recyclerViewAdapter;
+    private RecyclerView.LayoutManager layoutManager;
+    private Schedule schedule;
+    private String guid, title, description;
+    private int scheduleId = 0; // SEMPRE 0!
+    private ArrayList<Exercise> exercises;
+    FloatingActionButton add, next;
+    private TextView message;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_schedule);
+        setContentView(R.layout.create_schedule_layout);
 
-        errorTextView = findViewById(R.id.errorTextView);
-        errorTextView.setText("");
-        errorTextView.setVisibility(View.GONE);
+        guid = getIntent().getStringExtra("USER_GUID");
+        schedule = (Schedule) getIntent().getSerializableExtra("SCHEDULE");
+        title = "";
+        description = "";
+        exercises = schedule.getExercises();
 
-        btn_exe=findViewById(R.id.add_exercise);
-        save_schedule=findViewById(R.id.save_schedule);
+        message = findViewById(R.id.message);
+        if(exercises.size() == 0){
+            message.setVisibility(View.VISIBLE);
+        }
+        else{
+            message.setVisibility(View.GONE);
+        }
 
-        btn_exe.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), PopActivity.class);
-                i.putExtra("guid",getIntent().getStringExtra("guid"));
-                startActivityForResult(i, 0);
+        listOfExercises = findViewById(R.id.setsRecyclerView);
+        listOfExercises.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(this);
+        listOfExercises.setLayoutManager(layoutManager);
+        recyclerViewAdapter = new EditScheduleRecyclerViewAdapter(exercises, this);
+        listOfExercises.setAdapter(recyclerViewAdapter);
 
-            }
-        });
+        recyclerViewAdapter.notifyDataSetChanged();
 
-        save_schedule.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                try {
-                    JSONArray myArray = new JSONArray(exerciseDataSet);
-                    JSONObject exercises= new JSONObject();
-                    exercises.put("exercises",myArray);
-                    String dataJson=exercises.toString();
-
-                    Intent i = new Intent(getApplicationContext(), CompleteScheduleActivity.class);
-                    i.putExtra("guid",getIntent().getStringExtra("guid"));
-                    i.putExtra("dataJson",dataJson);
-                    startActivity(i);
-
-                }catch(JSONException e){
-                    Toast.makeText(getApplicationContext(), "Unable to save schedule", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-        /* dataset init
-        for (int i=0;i<20;i++){
-            exerciseDataSet.add(new ListItem( Integer.toString(i), "petto",3,8, 30, "FALSE", 90));
-        }*/
-
-        exercisesViewLayoutManager= new LinearLayoutManager(this);
-
-        exercisesViewAdapter = new CustomAdapterExercise(exerciseDataSet,this);
-
-        exercisesView=(RecyclerView) findViewById(R.id.setsRecyclerView);
-        exercisesView.setHasFixedSize(true);
-        exercisesView.setLayoutManager(exercisesViewLayoutManager);
-        exercisesView.setAdapter(exercisesViewAdapter);
-
-
-        /*DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(exercisesView.getContext(), exercisesViewLayoutManager.getOrientation());
-        dividerItemDecoration.setOrientation(DividerItemDecoration.HORIZONTAL);
-        exercisesView.addItemDecoration(dividerItemDecoration);*/
-
-        ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper. RIGHT ) {
+        /* drag and drop items in recycler view */
+        ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT ) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder dragged, @NonNull RecyclerView.ViewHolder target) {
-                int position_dragged=dragged.getAdapterPosition();
-                int position_target=target.getAdapterPosition();
-
-                Collections.swap(exerciseDataSet, position_dragged, position_target);
-
-                exercisesViewAdapter.notifyItemMoved(position_dragged, position_target);
-
+                int positionDragged = dragged.getAdapterPosition();
+                int positionTarget = target.getAdapterPosition();
+                Collections.swap(exercises, positionDragged, positionTarget);
+                recyclerViewAdapter.notifyItemMoved(positionDragged, positionTarget);
                 return false;
             }
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                int position=viewHolder.getAdapterPosition();
-                exerciseDataSet.remove(position);
-                exercisesViewAdapter.notifyItemRemoved(position);
+                int position = viewHolder.getAdapterPosition();
+                exercises.remove(position);
+                recyclerViewAdapter.notifyItemRemoved(position);
+            }
+        });
+        helper.attachToRecyclerView(listOfExercises);
+
+        add = findViewById(R.id.add);
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), AddExerciseActivity.class);
+                intent.putExtra("SCHEDULE", schedule);
+                intent.putExtra("USER_GUID", guid);
+                intent.putExtra("SCHEDULE_ID", scheduleId);
+                startActivityForResult(intent, 0);
             }
         });
 
-        helper.attachToRecyclerView(exercisesView);
+        next = findViewById(R.id.next);
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), SetScheduleDataActivity.class);
+                intent.putExtra("SCHEDULE", schedule);
+                intent.putExtra("USER_GUID", guid);
+                startActivityForResult(intent, 0);
+            }
+        });
+
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch(requestCode) {
-            case (0) : {
-                if (resultCode == Activity.RESULT_OK) {
-
-                    JSONObject exercise=new JSONObject();
-                    try {
-                        exercise.put("exercise-name", data.getStringExtra("title"));
-                        exercise.put("sets", data.getIntExtra("sets",0));
-                        exercise.put("reps", data.getIntExtra("reps",0));
-                        exercise.put("weight", data.getIntExtra("peso",0));
-                        exercise.put("rest-between-sets", data.getIntExtra("rest-between-sets",0));
-                        exercise.put("rest-between-exercises", data.getIntExtra("rest-between-exercises",0));
-                        exercise.put("type", data.getStringExtra("type"));
-                        exercise.put("equipment", data.getStringExtra("equipment"));
-                        exerciseDataSet.add(exercise);
-                        exercisesViewAdapter.notifyDataSetChanged();
-                    }catch(JSONException e){
-                        e.printStackTrace();
-                    }
-
-
-                    // TODO Update your TextView.
-                }
-                break;
-            }
-        }
+    public void recyclerViewListClicked(View view, int position) {
+        Exercise currentExercise = exercises.get(position);
+        Intent intent = new Intent(getApplicationContext(), EditExerciseActivity.class);
+        intent.putExtra("EXERCISE_TITLE", currentExercise.getName());
+        intent.putExtra("SCHEDULE", schedule);
+        intent.putExtra("SCHEDULE_ID", scheduleId);
+        intent.putExtra("USER_GUID", guid);
+        intent.putExtra("INDEX", position);
+        startActivityForResult(intent, 0);
+        recyclerViewAdapter.notifyDataSetChanged();
     }
-
 
 }

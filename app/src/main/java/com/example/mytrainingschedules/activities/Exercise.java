@@ -146,6 +146,9 @@ public class Exercise implements Serializable {
     }
 
     public int getMinReps(){
+        if(this.sets.size() == 0){
+            return 0;
+        }
         int minReps = this.sets.get(0).getReps();
         for(Set set: this.sets){
             if(set.getReps() < minReps){
@@ -156,6 +159,9 @@ public class Exercise implements Serializable {
     }
 
     public int getMaxReps(){
+        if(this.sets.size() == 0){
+            return 0;
+        }
         int maxReps = this.sets.get(0).getReps();
         for(Set set: this.sets){
             if(set.getReps() > maxReps){
@@ -166,6 +172,9 @@ public class Exercise implements Serializable {
     }
 
     public int getMinWeight(){
+        if(this.sets.size() == 0){
+            return 0;
+        }
         int minWeight = this.sets.get(0).getWeight();
         for(Set set: this.sets){
             if(set.getWeight() < minWeight){
@@ -176,6 +185,9 @@ public class Exercise implements Serializable {
     }
 
     public int getMaxWeight(){
+        if(this.sets.size() == 0){
+            return 0;
+        }
         int maxWeight = this.sets.get(0).getWeight();
         for(Set set: this.sets){
             if(set.getWeight() > maxWeight){

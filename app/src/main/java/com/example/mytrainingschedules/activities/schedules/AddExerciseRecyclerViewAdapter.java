@@ -60,7 +60,7 @@ public class AddExerciseRecyclerViewAdapter extends RecyclerView.Adapter<AddExer
 
         public CustomViewHolder(@NonNull View itemView) {
             super(itemView);
-            exerciseTitle = itemView.findViewById(R.id.exerciseTitle);
+            exerciseTitle = itemView.findViewById(R.id.activityTitle);
             exerciseCategory = itemView.findViewById(R.id.exerciseCategory);
             checkIcon = itemView.findViewById(R.id.checkIcon);
             itemView.setOnClickListener(this);

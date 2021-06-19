@@ -68,7 +68,7 @@ public class CompleteScheduleActivity extends AppCompatActivity {
                     try {
                         jsonObject.put("guid",getIntent().getStringExtra("guid"));
                         jsonObject.put("dataJson",getIntent().getStringExtra("dataJson"));
-                        title= (EditText)findViewById(R.id.exerciseTitle);
+                        title= (EditText)findViewById(R.id.activityTitle);
                         jsonObject.put("title",title.getText().toString());
                         description= (EditText)findViewById(R.id.description);
                         jsonObject.put("description",description.getText().toString());

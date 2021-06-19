@@ -24,6 +24,7 @@ import com.example.mytrainingschedules.R;
 import com.example.mytrainingschedules.activities.CustomStringRequest;
 import com.example.mytrainingschedules.activities.Exercise;
 import com.example.mytrainingschedules.activities.Schedule;
+import com.example.mytrainingschedules.activities.Set;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
@@ -53,9 +54,9 @@ public class AddExerciseActivity extends AppCompatActivity implements RecyclerVi
         selectedExerciseTitle = null;
         selectedExerciseCategory = null;
 
-        scheduleId = getIntent().getIntExtra("SCHEDULE_ID", -1);
         guid = getIntent().getStringExtra("USER_GUID");
         schedule = (Schedule) getIntent().getSerializableExtra("SCHEDULE");
+        scheduleId = getIntent().getIntExtra("SCHEDULE_ID", -1);
 
         exerciseList = new ArrayList<Exercise>();
         allExercises = findViewById(R.id.setsRecyclerView);
@@ -103,13 +104,19 @@ public class AddExerciseActivity extends AppCompatActivity implements RecyclerVi
                     Toast.makeText(getApplicationContext(), "Please select an exercise, or create one", Toast.LENGTH_LONG).show();
                 }
                 else{
-                    Intent intent = new Intent(getApplicationContext(), SetExerciseDataActivity.class);
-                    intent.putExtra("EXERCISE_TITLE", selectedExerciseTitle);
-                    intent.putExtra("EXERCISE_CATEGORY", selectedExerciseCategory);
+                    Exercise exercise = new Exercise(selectedExerciseTitle, new ArrayList<Set>(), 0, 0, selectedExerciseCategory);
+                    schedule.addExercise(exercise);
+                    Intent intent;
+                    if(scheduleId == 0){
+                        intent = new Intent(getApplicationContext(), CreateScheduleActivity.class);
+                    }
+                    else{
+                        intent = new Intent(getApplicationContext(), EditScheduleActivity.class);
+                    }
                     intent.putExtra("SCHEDULE", schedule);
                     intent.putExtra("USER_GUID", guid);
                     intent.putExtra("SCHEDULE_ID", scheduleId);
-                    startActivityForResult(intent, 0);
+                    startActivity(intent);
                 }
             }
         });
@@ -162,7 +169,7 @@ public class AddExerciseActivity extends AppCompatActivity implements RecyclerVi
             selectedExerciseCategory = null;
         }
         else{
-            TextView exerciseTitleTextView = view.findViewById(R.id.exerciseTitle);
+            TextView exerciseTitleTextView = view.findViewById(R.id.activityTitle);
             selectedExerciseTitle = exerciseTitleTextView.getText().toString();
             TextView exerciseCategoryTextView = view.findViewById(R.id.exerciseCategory);
             selectedExerciseCategory = exerciseCategoryTextView.getText().toString();

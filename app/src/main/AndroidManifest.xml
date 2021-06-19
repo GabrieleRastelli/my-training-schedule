@@ -12,9 +12,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyTrainingSchedules"
         android:usesCleartextTraffic="true">
+        <activity android:name=".activities.schedules.SetScheduleDataActivity"
+            android:theme="@style/Theme.MyTrainingSchedules.NoActionBar"  />
+        <activity
+            android:name=".activities.schedules.CreateScheduleActivity"
+            android:theme="@style/Theme.MyTrainingSchedules.NoActionBar" />
         <activity
             android:name=".activities.schedules.EditExerciseActivity"
-            android:theme="@style/Theme.MyTrainingSchedules.NoActionBar"></activity>
+            android:theme="@style/Theme.MyTrainingSchedules.NoActionBar" />
         <activity
             android:name=".activities.schedules.PopActivity2"
             android:theme="@style/AppTheme.PopEx" />
@@ -26,7 +31,7 @@
             android:name=".activities.schedules.PopActivity"
             android:theme="@style/AppTheme.PopEx" />
         <activity
-            android:name=".activities.schedules.CreateScheduleActivity"
+            android:name=".activities.schedules.CreateScheduleActivityOld"
             android:theme="@style/Theme.MyTrainingSchedules.NoActionBar"
             android:windowSoftInputMode="adjustNothing" />
 

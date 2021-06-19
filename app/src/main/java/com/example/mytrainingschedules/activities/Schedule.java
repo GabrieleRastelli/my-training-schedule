@@ -14,6 +14,13 @@ public class Schedule implements Serializable {
     private boolean requireEquipment;
     ArrayList<Exercise> exercises;
 
+    public Schedule(){
+        this.title = "";
+        this.description = "";
+        this.exercises = new ArrayList<Exercise>();
+        this.requireEquipment = false;
+    }
+
     public Schedule(String title, String description, ArrayList<Exercise> exercises) {
         this.title = title;
         this.description = description;

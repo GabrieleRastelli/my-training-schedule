@@ -66,7 +66,7 @@ public class ViewSchedule extends AppCompatActivity {
     }
 
     private void initGUI(){
-        title = findViewById(R.id.exerciseTitle);
+        title = findViewById(R.id.activityTitle);
         title.setText("");
 
         progressBar = findViewById(R.id.progressBar);

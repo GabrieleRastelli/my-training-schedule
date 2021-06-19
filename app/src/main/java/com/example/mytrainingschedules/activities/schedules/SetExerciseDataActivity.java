@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
@@ -45,15 +44,13 @@ public class SetExerciseDataActivity extends AppCompatActivity implements Recycl
         startingMessage = findViewById(R.id.msg);
         startingMessage.setVisibility(View.VISIBLE);
 
-        titleTextView = findViewById(R.id.exerciseTitle);
+        titleTextView = findViewById(R.id.activityTitle);
         title = getIntent().getStringExtra("EXERCISE_TITLE");
         titleTextView.setText(title);
         category = getIntent().getStringExtra("EXERCISE_CATEGORY");
-        scheduleId = getIntent().getIntExtra("SCHEDULE_ID", -1);
         guid = getIntent().getStringExtra("USER_GUID");
         schedule = (Schedule) getIntent().getSerializableExtra("SCHEDULE");
         ArrayList<Exercise> exercises = schedule.getExercises();
-        int index = getIntent().getIntExtra("INDEX", -1);
 
         setsRecyclerView = findViewById(R.id.setsRecyclerView);
         setsRecyclerView.setHasFixedSize(true);
