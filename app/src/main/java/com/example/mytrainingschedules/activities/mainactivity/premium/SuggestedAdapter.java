@@ -5,6 +5,7 @@ import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +35,7 @@ public class SuggestedAdapter extends RecyclerView.Adapter<SuggestedAdapter.View
         data=filteredList;
         notifyDataSetChanged();
     }
+
     public SuggestedAdapter(Context context, List<Schedule> data) {
         this.context = context;
         this.data = new ArrayList<Schedule>();
@@ -43,7 +45,7 @@ public class SuggestedAdapter extends RecyclerView.Adapter<SuggestedAdapter.View
         inflater = (LayoutInflater.from(context));
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

@@ -1,12 +1,16 @@
 package com.example.mytrainingschedules.activities.mainactivity.premium;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
@@ -17,14 +21,25 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ScheduleFilterAdapter extends BaseAdapter {
 
     private Context context;
     private JSONArray data;
     private LayoutInflater inflater;
+    private Map<Integer, Boolean> clickedFilter;
+    private boolean clickedPerformed=false;
+    private boolean endedInit=false;
 
     public ScheduleFilterAdapter(Context context){
         this.context = context;
+        clickedFilter=new HashMap<>();
+        /* non è stato clickato nessun filtro */
+        for(Integer i=0;i<6;i++) {
+            clickedFilter.put(i, false);
+        }
         inflater = (LayoutInflater.from(context));
     }
 
@@ -41,10 +56,14 @@ public class ScheduleFilterAdapter extends BaseAdapter {
     public long getItemId(int i) {
         return 0;
     }
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+
+
+
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         view = inflater.inflate(R.layout.exercise_filter, null);
+
+
         TextView exType = (TextView) view.findViewById(R.id.exercise_type);
         TextView exImage = (TextView) view.findViewById(R.id.image_ex);
         CardView exBg = (CardView) view.findViewById(R.id.cardViewFilter);
@@ -52,36 +71,44 @@ public class ScheduleFilterAdapter extends BaseAdapter {
         switch(i){
             case 0:
                 exType.setText("Chest");
-                exImage.setBackgroundResource(R.drawable.man_doing_chest);
                 exBg.setBackgroundResource(R.drawable.gradient_green);
+                exImage.setBackgroundResource(R.drawable.man_doing_chest);
                 break;
             case 1:
                 exType.setText("Arms");
-                exImage.setBackgroundResource(R.drawable.man_doing_biceps);
                 exBg.setBackgroundResource(R.drawable.gradient_red);
+                exImage.setBackgroundResource(R.drawable.man_doing_biceps);
                 break;
             case 2:
                 exType.setText("Back");
-                exImage.setBackgroundResource(R.drawable.man_doing_back);
                 exBg.setBackgroundResource(R.drawable.gradient_orange);
+                exImage.setBackgroundResource(R.drawable.man_doing_back);
                 break;
             case 3:
                 exType.setText("Legs");
-                exImage.setBackgroundResource(R.drawable.man_doing_squats);
                 exBg.setBackgroundResource(R.drawable.gradient_blue);
+                exImage.setBackgroundResource(R.drawable.man_doing_squats);
                 break;
             case 4:
                 exType.setText("Shoulders");
-                exImage.setBackgroundResource(R.drawable.man_doing_shoulders);
                 exBg.setBackgroundResource(R.drawable.gradient_yellow);
+                exImage.setBackgroundResource(R.drawable.man_doing_shoulders);
                 break;
             case 5:
                 exType.setText("Free");
-                exImage.setBackgroundResource(R.drawable.woman_doing_core);
                 exBg.setBackgroundResource(R.drawable.gradient_default);
+                exImage.setBackgroundResource(R.drawable.woman_doing_core);
                 break;
         }
         return view;
+    }
+
+    public boolean isEnabled(int _position){
+        return true;
+    }
+
+    public interface GridViewItemClickListener{
+        void onGridItemClick(View v, int index);
     }
 
 }
