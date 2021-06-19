@@ -133,6 +133,7 @@ public class HomeFragment extends Fragment {
                     /* TODO: remove this after change api response */
                     intent.putExtra("SCHEDULE_TITLE", result.getJSONObject(i).getString("title"));
                     intent.putExtra("SCHEDULE_DESCRIPTION", result.getJSONObject(i).getString("description"));
+                    getActivity().finish();
                     getContext().startActivity(intent);
                 } catch (JSONException e) {
                     e.printStackTrace();

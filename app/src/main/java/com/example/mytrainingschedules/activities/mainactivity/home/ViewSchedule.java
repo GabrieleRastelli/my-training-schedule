@@ -221,6 +221,7 @@ public class ViewSchedule extends AppCompatActivity {
                 JSONObject jsonResponse = null;
                 try {
                     jsonResponse = new JSONObject(response);
+
                     Toast.makeText(context, "Schedule deleted successfully", Toast.LENGTH_SHORT).show();
                 } catch (JSONException e) {
                     e.printStackTrace();
