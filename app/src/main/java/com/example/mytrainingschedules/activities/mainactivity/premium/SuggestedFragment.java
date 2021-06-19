@@ -42,8 +42,15 @@ public class SuggestedFragment extends Fragment implements SuggestedAdapter.OnIt
     private boolean connectionAvailable=true;
     private JSONArray result = null;
     private ArrayList<Schedule> filteredList;
-    private List<Schedule> schede=new ArrayList<Schedule>();
+    private List<Schedule> schede;
     private SuggestedAdapter adapter;
+    private List <String> categoriesToDisplay;
+
+    public SuggestedFragment(List<String> categoriesToDisplay){
+        this.categoriesToDisplay=new ArrayList<>();
+        this.categoriesToDisplay=categoriesToDisplay;
+
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_suggested, container, false);
@@ -65,6 +72,18 @@ public class SuggestedFragment extends Fragment implements SuggestedAdapter.OnIt
         return root;
     }
 
+    private void filter(){
+        ArrayList<Schedule> filteredList=new ArrayList<>();
+
+        for(Schedule schedule : schede){
+            if(categoriesToDisplay.size()==0 || categoriesToDisplay.contains(schedule.getCategoria1().toUpperCase()) || categoriesToDisplay.contains(schedule.getCategoria2().toUpperCase())){
+                filteredList.add(schedule);
+            }
+        }
+        adapter.filterList(filteredList);
+        //recyclerView.scheduleLayoutAnimation(); /* without this method animation is not displayed */
+    }
+
     private void getSuggestedSchedules(Context context, View root, String url, JSONObject jsonObject) {
         RequestQueue queue = Volley.newRequestQueue(context);
 
@@ -76,7 +95,7 @@ public class SuggestedFragment extends Fragment implements SuggestedAdapter.OnIt
                 try {
                     jsonResponse = new JSONObject(response);
                     result = jsonResponse.getJSONArray("result");
-
+                    schede=new ArrayList<Schedule>();
                     for (int i=0;i<result.length();i++){
                         JSONObject scheda = (JSONObject) result.get(i);
                         schede.add(new Schedule(scheda));
@@ -87,7 +106,7 @@ public class SuggestedFragment extends Fragment implements SuggestedAdapter.OnIt
                     adapter =new SuggestedAdapter(context, schede, SuggestedFragment.this);
                     recyclerView.setAdapter(adapter);
                     recyclerView.scheduleLayoutAnimation();
-
+                    filter();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

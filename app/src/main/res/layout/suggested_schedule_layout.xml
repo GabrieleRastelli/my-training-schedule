@@ -47,14 +47,18 @@
 
             <TextView
                 android:id="@+id/workoutDescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="243dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginRight="2dp"
                 android:ellipsize="end"
                 android:fontFamily="@font/seguisb"
-                android:maxLines="3"
+                android:maxLines="1"
                 android:text="Description"
                 android:textSize="14sp"
                 android:textStyle="italic"
+                app:layout_constraintEnd_toStartOf="@+id/image"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/workoutTitle" />
 
