@@ -1,6 +1,7 @@
 package com.example.mytrainingschedules.activities.mainactivity.premium;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -22,6 +23,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.example.mytrainingschedules.R;
 import com.example.mytrainingschedules.activities.CustomStringRequest;
+import com.example.mytrainingschedules.activities.mainactivity.settings.DownloadScheduleActivity;
 import com.example.mytrainingschedules.activities.mainactivity.settings.RecyclerViewAdapter;
 import com.example.mytrainingschedules.activities.mainactivity.settings.Schedule;
 import com.example.mytrainingschedules.activities.mainactivity.settings.SettingsFragment;
@@ -33,7 +35,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SuggestedFragment extends Fragment {
+public class SuggestedFragment extends Fragment implements SuggestedAdapter.OnItemClickListener{
 
     private RecyclerView recyclerView;
     private String guid;
@@ -57,13 +59,13 @@ public class SuggestedFragment extends Fragment {
             e.printStackTrace();
         }
 
-        getUserSchedules(getContext(), root, getResources().getString(R.string.base_url) + "/suggestedinfo", jsonObject);
+        getSuggestedSchedules(getContext(), root, getResources().getString(R.string.base_url) + "/suggestedinfo", jsonObject);
 
 
         return root;
     }
 
-    private void getUserSchedules(Context context, View root, String url, JSONObject jsonObject) {
+    private void getSuggestedSchedules(Context context, View root, String url, JSONObject jsonObject) {
         RequestQueue queue = Volley.newRequestQueue(context);
 
         Response.Listener<String> onSuccessListener = new Response.Listener<String>() {
@@ -82,7 +84,7 @@ public class SuggestedFragment extends Fragment {
 
                     filteredList=new ArrayList<Schedule>(schede);
                     recyclerView.setLayoutManager(new LinearLayoutManager(context));
-                    adapter =new SuggestedAdapter(context, schede);
+                    adapter =new SuggestedAdapter(context, schede, SuggestedFragment.this);
                     recyclerView.setAdapter(adapter);
                     recyclerView.scheduleLayoutAnimation();
 
@@ -103,5 +105,15 @@ public class SuggestedFragment extends Fragment {
         CustomStringRequest stringRequest = new CustomStringRequest(Request.Method.POST, url, jsonObject, onSuccessListener, onErrorListener);
 
         queue.add(stringRequest);
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Intent intent = new Intent(getContext(), DownloadScheduleActivity.class);
+        intent.putExtra("USER_GUID", guid);
+        intent.putExtra("SCHEDULE_ID", String.valueOf(filteredList.get(position).getScheduleId()));
+        intent.putExtra("SCHEDULE_TITLE", filteredList.get(position).getTitle());
+        intent.putExtra("SCHEDULE_DESCRIPTION", filteredList.get(position).getDescription());
+        getContext().startActivity(intent);
     }
 }

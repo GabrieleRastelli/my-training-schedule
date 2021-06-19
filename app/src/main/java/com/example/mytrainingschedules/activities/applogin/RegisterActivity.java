@@ -186,11 +186,6 @@ public class RegisterActivity extends AppCompatActivity {
         password = findViewById(R.id.passwordEditText);
         confirmPassword = findViewById(R.id.confirmPasswordEditText);
 
-        /* TODO: remove */
-        name.setText("Mattia");
-        email.setText("mattiagualtieri@gmail.com");
-        password.setText("password");
-        confirmPassword.setText("password");
 
         nicknameError = findViewById(R.id.nicknameError);
         nameError = findViewById(R.id.nameError);

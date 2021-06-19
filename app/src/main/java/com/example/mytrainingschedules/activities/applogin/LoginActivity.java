@@ -183,9 +183,6 @@ public class LoginActivity extends AppCompatActivity {
         email = findViewById(R.id.emailEditText);
         password = findViewById(R.id.confirmPasswordEditText);
 
-        /* TODO: remove */
-        email.setText("mattiagualtieri@gmail.com");
-        password.setText("password");
 
         emailError = findViewById(R.id.passwordError);
         passwordError = findViewById(R.id.confirmPasswordError);

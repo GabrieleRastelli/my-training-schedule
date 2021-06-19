@@ -85,6 +85,7 @@ public class DownloadScheduleActivity extends AppCompatActivity {
                         jsonObject.put("guid",guid);
                         jsonObject.put("schedule",scheduleId);
                         downloadSchedule(getApplicationContext(), getResources().getString(R.string.base_url) + "/downloadschedule", jsonObject);
+                        progressBar.setVisibility(View.VISIBLE);
                     } catch (JSONException e) {
                         Toast.makeText(getApplicationContext(), "Unable to save schedule", Toast.LENGTH_SHORT).show();
                     }
@@ -171,6 +172,7 @@ public class DownloadScheduleActivity extends AppCompatActivity {
         Response.Listener<String> onSuccessListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                progressBar.setVisibility(View.INVISIBLE);
                 Toast.makeText(getApplicationContext(), "Schedule saved, you can now find it in your schedules!", Toast.LENGTH_SHORT).show();
             }
         };
@@ -178,6 +180,7 @@ public class DownloadScheduleActivity extends AppCompatActivity {
         Response.ErrorListener onErrorListener = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                progressBar.setVisibility(View.INVISIBLE);
                 /*connectionAvailable = false;
                 Log.d("APP_DEBUG", "Fail: " + error.toString());
                 errorTextView.setVisibility(View.VISIBLE);

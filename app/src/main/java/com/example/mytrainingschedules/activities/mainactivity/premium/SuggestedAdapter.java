@@ -5,6 +5,7 @@ import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.TextView;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mytrainingschedules.R;
 import com.example.mytrainingschedules.activities.Exercise;
+import com.example.mytrainingschedules.activities.mainactivity.settings.RecyclerViewAdapter;
 import com.example.mytrainingschedules.activities.mainactivity.settings.Schedule;
 
 import org.json.JSONArray;
@@ -30,14 +32,16 @@ public class SuggestedAdapter extends RecyclerView.Adapter<SuggestedAdapter.View
     private Context context;
     private List<Schedule> data;
     private LayoutInflater inflater;
+    private OnItemClickListener onItemClickListener;
 
     public void filterList (ArrayList<Schedule> filteredList){
         data=filteredList;
         notifyDataSetChanged();
     }
 
-    public SuggestedAdapter(Context context, List<Schedule> data) {
+    public SuggestedAdapter(Context context, List<Schedule> data, OnItemClickListener onItemClickListener) {
         this.context = context;
+        this.onItemClickListener=onItemClickListener;
         this.data = new ArrayList<Schedule>();
         for(int i = 0; i < data.size(); i++){
             this.data.add(data.get(i));
@@ -51,7 +55,7 @@ public class SuggestedAdapter extends RecyclerView.Adapter<SuggestedAdapter.View
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.suggested_schedule_layout,parent, false);
 
-        return new ViewHolder(view);
+        return new ViewHolder(view,onItemClickListener);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -160,12 +164,13 @@ public class SuggestedAdapter extends RecyclerView.Adapter<SuggestedAdapter.View
         return this.data.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public TextView title, description, categoria1, categoria2, creator, equipment, downloads, image;
         CardView cardView;
+        OnItemClickListener onItemClickListener;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(View itemView, OnItemClickListener onItemClickListener) {
             super(itemView);
             title = itemView.findViewById(R.id.workoutTitle);
             description = itemView.findViewById(R.id.workoutDescription);
@@ -176,7 +181,18 @@ public class SuggestedAdapter extends RecyclerView.Adapter<SuggestedAdapter.View
             downloads=itemView.findViewById(R.id.downloads);
             image=itemView.findViewById(R.id.image);
             cardView=itemView.findViewById(R.id.cardView);
+            this.onItemClickListener=onItemClickListener;
 
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+            onItemClickListener.onItemClick(getLayoutPosition());
+        }
+    }
+
+    public interface OnItemClickListener{
+        void onItemClick(int position);
     }
 }
