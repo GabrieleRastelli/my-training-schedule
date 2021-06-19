@@ -44,9 +44,6 @@ public class EditExerciseActivity extends AppCompatActivity implements RecyclerV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.set_exercise_data_layout);
 
-        startingMessage = findViewById(R.id.msg);
-        startingMessage.setVisibility(View.GONE);
-
         titleTextView = findViewById(R.id.activityTitle);
         titleTextView = findViewById(R.id.activityTitle);
         title = getIntent().getStringExtra("EXERCISE_TITLE");
@@ -59,6 +56,14 @@ public class EditExerciseActivity extends AppCompatActivity implements RecyclerV
 
         exercise = exercises.get(index);
         sets = exercise.getSets();
+
+        startingMessage = findViewById(R.id.msg);
+        if(sets.size() == 0){
+            startingMessage.setVisibility(View.VISIBLE);
+        }
+        else{
+            startingMessage.setVisibility(View.GONE);
+        }
 
         setsRecyclerView = findViewById(R.id.setsRecyclerView);
         setsRecyclerView.setHasFixedSize(true);
