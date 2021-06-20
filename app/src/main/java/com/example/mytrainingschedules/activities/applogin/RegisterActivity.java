@@ -86,20 +86,32 @@ public class RegisterActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "Passwords are different", Toast.LENGTH_SHORT).show();
                         }else{
 
-                            /* This is the POST request. */
-                            String url = getResources().getString(R.string.base_url) + "/register";
-                            JSONObject jsonObject = new JSONObject();
-                            try {
-                                jsonObject.put("name", email.getText().toString());
-                                jsonObject.put("email", email.getText().toString());
-                                jsonObject.put("password", password.getText().toString());
-                                jsonObject.put("nickname", nickname.getText().toString());
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                            boolean nicknameValid = true;
+                            String nick = nickname.getText().toString().trim();
+                            for(int i = 0; i < nick.length(); i++){
+                                if((nick.charAt(i) >= 58 && nick.charAt(i) <= 94) || (nick.charAt(i) >= 33 && nick.charAt(i) <= 47) || nick.charAt(i) >= 123){
+                                    nicknameError.setText("*");
+                                    Toast.makeText(getApplicationContext(), "Username can't contain special characters and needs to be lower", Toast.LENGTH_SHORT).show();
+                                    nicknameValid = false;
+                                }
                             }
 
-                            /* postRegister() function. */
-                            postRegister(getApplicationContext(), url, jsonObject);
+                            if(nicknameValid){
+                                /* This is the POST request. */
+                                String url = getResources().getString(R.string.base_url) + "/register";
+                                JSONObject jsonObject = new JSONObject();
+                                try {
+                                    jsonObject.put("name", email.getText().toString());
+                                    jsonObject.put("email", email.getText().toString().trim());
+                                    jsonObject.put("password", password.getText().toString());
+                                    jsonObject.put("nickname", nickname.getText().toString().toLowerCase().trim());
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                                /* postRegister() function. */
+                                postRegister(getApplicationContext(), url, jsonObject);
+                            }
 
                         }
 
@@ -134,7 +146,7 @@ public class RegisterActivity extends AppCompatActivity {
                 }
                 /* saves guid in file */
                 writeToFile("guid", guid, getApplicationContext());
-                intent.putExtra("USER_GUID",guid);
+                intent.putExtra("USER_GUID", guid);
                 startActivity(intent);
             }
         };
