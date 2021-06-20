@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -155,6 +157,34 @@ public class EditScheduleActivity extends AppCompatActivity implements RecyclerV
         CustomStringRequest stringRequest = new CustomStringRequest(Request.Method.POST, url, jsonObject, onSuccessListener, onErrorListener);
 
         queue.add(stringRequest);
+    }
+
+    @Override
+    public void onBackPressed() {
+        /* alert dialog */
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (!isFinishing()){
+                    new AlertDialog.Builder(EditScheduleActivity.this)
+                            .setTitle("Do you want to exit?")
+                            .setMessage("All progress will be lost")
+                            .setCancelable(true)
+                            .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    EditScheduleActivity.this.finish();
+                                }
+                            })
+                            .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    // nothing
+                                }
+                            }).show();
+                }
+            }
+        });
     }
 
 }

@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,6 +26,7 @@ import com.example.mytrainingschedules.activities.CustomStringRequest;
 import com.example.mytrainingschedules.activities.Exercise;
 import com.example.mytrainingschedules.activities.Schedule;
 import com.example.mytrainingschedules.activities.mainactivity.MainActivity;
+import com.example.mytrainingschedules.activities.workout.RunningWorkoutActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONException;
@@ -128,6 +131,35 @@ public class CreateScheduleActivity extends AppCompatActivity implements Recycle
         intent.putExtra("INDEX", position);
         startActivityForResult(intent, 0);
         recyclerViewAdapter.notifyDataSetChanged();
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        /* alert dialog */
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (!isFinishing()){
+                    new AlertDialog.Builder(CreateScheduleActivity.this)
+                            .setTitle("Do you want to exit?")
+                            .setMessage("All progress will be lost")
+                            .setCancelable(true)
+                            .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    CreateScheduleActivity.this.finish();
+                                }
+                            })
+                            .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    // nothing
+                                }
+                            }).show();
+                }
+            }
+        });
     }
 
 }

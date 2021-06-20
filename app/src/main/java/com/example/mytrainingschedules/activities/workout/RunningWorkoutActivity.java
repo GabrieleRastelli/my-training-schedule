@@ -4,7 +4,9 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,6 +27,7 @@ import com.example.mytrainingschedules.R;
 import com.example.mytrainingschedules.activities.Exercise;
 import com.example.mytrainingschedules.activities.Schedule;
 import com.example.mytrainingschedules.activities.mainactivity.MainActivity;
+import com.example.mytrainingschedules.activities.mainactivity.home.ViewSchedule;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Random;
@@ -34,6 +37,9 @@ public class RunningWorkoutActivity extends AppCompatActivity {
     private Schedule schedule;
     private TextView initTimer, exerciseName, reps, weight, sets, rest;
     private FloatingActionButton nextExercise, addSet;
+
+    private String guid;
+    private int scheduleId;
 
     TextView middleRest,time,text,motivationalQuote;
     private Button btnSave;
@@ -69,10 +75,11 @@ public class RunningWorkoutActivity extends AppCompatActivity {
         /* no notifications during training */
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        context=this;
-        trainingStart=System.currentTimeMillis();
+        context = this;
+        trainingStart = System.currentTimeMillis();
 
-
+        guid = getIntent().getStringExtra("USER_GUID");
+        scheduleId = getIntent().getIntExtra("SCHEDULE_ID", -1);
         schedule = (Schedule) getIntent().getSerializableExtra("SCHEDULE");
 
         initGUI();
@@ -333,4 +340,32 @@ public class RunningWorkoutActivity extends AppCompatActivity {
         startExercise(index, doneSets);
     }
 
+    @Override
+    public void onBackPressed() {
+
+        /* alert dialog */
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (!isFinishing()){
+                    new AlertDialog.Builder(RunningWorkoutActivity.this)
+                            .setTitle("Terminate workout")
+                            .setMessage("Do you want to end this workout?")
+                            .setCancelable(true)
+                            .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    RunningWorkoutActivity.this.finish();
+                                }
+                            })
+                            .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    // nothing
+                                }
+                            }).show();
+                }
+            }
+        });
+    }
 }

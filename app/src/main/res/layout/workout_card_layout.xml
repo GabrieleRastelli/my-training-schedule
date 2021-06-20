@@ -59,7 +59,7 @@
                 app:layout_constraintEnd_toEndOf="parent" />
 
             <TextView
-                android:id="@+id/exerciseCategory"
+                android:id="@+id/workoutCategory2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
@@ -70,13 +70,13 @@
                 android:text="Category"
                 android:textColor="@color/white"
                 android:textSize="14sp"
-                app:layout_constraintBottom_toTopOf="@+id/workoutCategory2"
+                app:layout_constraintBottom_toTopOf="@+id/exerciseCategory"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/workoutDescription"
                 app:layout_constraintVertical_bias="1.0" />
 
             <TextView
-                android:id="@+id/workoutCategory2"
+                android:id="@+id/exerciseCategory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"

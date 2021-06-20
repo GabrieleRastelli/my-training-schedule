@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,6 +56,7 @@ public class HomeFragment extends Fragment {
     private JSONArray result = null;
     private String imageB64;
     private ImageView immagineProfilo;
+    private ProgressBar progressBar;
     /*
      * getActivity() --> MainActivity
      * root          --> HomeFragment
@@ -69,6 +71,9 @@ public class HomeFragment extends Fragment {
         errorTextView.setText("");
         errorTextView.setVisibility(View.GONE);
         connectionAvailable = false;
+
+        progressBar = root.findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.GONE);
 
         numberOfSchedules = root.findViewById(R.id.number_of_schedules);
         numberOfSchedules.setText("0");
@@ -92,7 +97,7 @@ public class HomeFragment extends Fragment {
                     Intent intent = new Intent(view.getContext(), CreateScheduleActivity.class);
                     intent.putExtra("USER_GUID", guid);
                     intent.putExtra("SCHEDULE", new Schedule());
-                    getActivity().finish();
+                    //getActivity().finish();
                     startActivity(intent);
                 }
                 else{
@@ -133,7 +138,7 @@ public class HomeFragment extends Fragment {
                     /* TODO: remove this after change api response */
                     intent.putExtra("SCHEDULE_TITLE", result.getJSONObject(i).getString("title"));
                     intent.putExtra("SCHEDULE_DESCRIPTION", result.getJSONObject(i).getString("description"));
-                    getActivity().finish();
+                    //getActivity().finish();
                     getContext().startActivity(intent);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -146,11 +151,13 @@ public class HomeFragment extends Fragment {
 
     private void getUserSchedules(Context context, View root, String url, JSONObject jsonObject) {
         RequestQueue queue = Volley.newRequestQueue(context);
+        progressBar.setVisibility(View.VISIBLE);
 
         /* onSuccessListener */
         Response.Listener<String> onSuccessListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                progressBar.setVisibility(View.GONE);
                 connectionAvailable = true;
                 JSONObject jsonResponse = null;
                 try {
@@ -177,6 +184,7 @@ public class HomeFragment extends Fragment {
         Response.ErrorListener onErrorListener = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                progressBar.setVisibility(View.GONE);
                 connectionAvailable = false;
                 Log.d("APP_DEBUG", "Fail: " + error.toString());
                 errorTextView.setVisibility(View.VISIBLE);

@@ -121,12 +121,8 @@ public class CustomAdapter extends BaseAdapter {
                         equipment.setBackground(this.context.getDrawable(R.drawable.dumbell));
                         //equipment.setBackground(this.context.getResources().getDrawable(R.drawable.dumbell));
                         break;
-                    case "false":
-                    case "FALSE":
-                        equipment.setBackground(this.context.getDrawable(R.drawable.emoji_emotions));
-                        break;
                     default:
-                        equipment.setBackground(this.context.getDrawable(R.drawable.dumbell));
+                        equipment.setBackground(null);
                     break;
                 }
             }

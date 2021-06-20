@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
         android:fontFamily="@font/seguisb"
-        android:text="Add exercises to your schedule!"
+        android:text="Create your schedule!"
         android:textColor="#EFEFEF"
         android:textSize="24sp"
         android:textStyle="bold"

@@ -92,8 +92,8 @@ public class ViewSchedule extends AppCompatActivity {
                 Intent intent = new Intent(ViewSchedule.this, RunningWorkoutActivity.class);
                 intent.putExtra("SCHEDULE", schedule);
                 intent.putExtra("USER_GUID", guid);
+                intent.putExtra("SCHEDULE_ID", scheduleId);
                 ViewSchedule.this.startActivity(intent);
-                ViewSchedule.this.finish();
             }
         });
 
