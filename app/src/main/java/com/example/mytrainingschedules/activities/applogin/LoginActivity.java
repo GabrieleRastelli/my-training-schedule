@@ -52,17 +52,14 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_layout);
 
-        /* Create this function to make code more readable. */
         initGUI();
 
-        /* Login Button listener. */
         buttonLogin.setOnTouchListener(new View.OnTouchListener() {
-
             @Override
             public boolean onTouch(View v, MotionEvent motionEvent) {
                 if(motionEvent.getAction() == MotionEvent.ACTION_DOWN){
                     buttonLogin.startAnimation(scaleDown);
-                }else if(motionEvent.getAction() == MotionEvent.ACTION_UP){
+                } else if(motionEvent.getAction() == MotionEvent.ACTION_UP){
                     buttonLogin.startAnimation(scaleUp);
                     email.clearFocus();
                     password.clearFocus();
@@ -70,7 +67,6 @@ public class LoginActivity extends AppCompatActivity {
 
                     if(allFieldsCompiled()) {
 
-                        /* This is the POST request. */
                         String url = getResources().getString(R.string.base_url) + "/login";
                         JSONObject jsonObject = new JSONObject();
                         try {
@@ -79,10 +75,9 @@ public class LoginActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        /* postLogin() function. */
                         postLogin(getApplicationContext(), url, jsonObject);
 
-                    }else{
+                    } else{
                         Toast.makeText(getApplicationContext(), "Compile all fields to proceed with login!", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -90,13 +85,12 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        /* Register Button listener. */
         buttonRegister.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent motionEvent) {
-                if(motionEvent.getAction()==MotionEvent.ACTION_DOWN){
+                if(motionEvent.getAction() == MotionEvent.ACTION_DOWN){
                     buttonRegister.startAnimation(scaleDown);
-                }else if(motionEvent.getAction()==MotionEvent.ACTION_UP){
+                } else if(motionEvent.getAction() == MotionEvent.ACTION_UP){
                     buttonRegister.startAnimation(scaleUp);
                     Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                     startActivity(intent);

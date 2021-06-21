@@ -4,7 +4,6 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -24,10 +23,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.mytrainingschedules.R;
+import com.example.mytrainingschedules.activities.CustomAlertDialog;
 import com.example.mytrainingschedules.activities.Exercise;
 import com.example.mytrainingschedules.activities.Schedule;
 import com.example.mytrainingschedules.activities.mainactivity.MainActivity;
-import com.example.mytrainingschedules.activities.mainactivity.home.ViewSchedule;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Random;
@@ -343,29 +342,14 @@ public class RunningWorkoutActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        /* alert dialog */
-        runOnUiThread(new Runnable() {
+        CustomAlertDialog alertDialog = new CustomAlertDialog(RunningWorkoutActivity.this, "Terminate workout", "All progress will be lost");
+        alertDialog.setListenerPositive(new DialogInterface.OnClickListener() {
             @Override
-            public void run() {
-                if (!isFinishing()){
-                    new AlertDialog.Builder(RunningWorkoutActivity.this)
-                            .setTitle("Terminate workout")
-                            .setMessage("Do you want to end this workout?")
-                            .setCancelable(true)
-                            .setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    RunningWorkoutActivity.this.finish();
-                                }
-                            })
-                            .setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    // nothing
-                                }
-                            }).show();
-                }
+            public void onClick(DialogInterface dialog, int which) {
+                RunningWorkoutActivity.this.finish();
             }
         });
+
+        runOnUiThread(alertDialog);
     }
 }

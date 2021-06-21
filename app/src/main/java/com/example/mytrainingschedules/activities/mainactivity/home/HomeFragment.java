@@ -33,20 +33,16 @@ import com.example.mytrainingschedules.activities.mainactivity.user.UserPageActi
 import com.example.mytrainingschedules.activities.schedules.CreateScheduleActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import com.example.mytrainingschedules.activities.schedules.CreateScheduleActivityOld;
-
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 
 public class HomeFragment extends Fragment {
 
     private String guid;
-    private ArrayList<Schedule> schedules;
     private GridView gridView;
     private CustomAdapter adapter;
     private FloatingActionButton floatingActionButton;
@@ -57,6 +53,7 @@ public class HomeFragment extends Fragment {
     private String imageB64;
     private ImageView immagineProfilo;
     private ProgressBar progressBar;
+
     /*
      * getActivity() --> MainActivity
      * root          --> HomeFragment
@@ -97,7 +94,6 @@ public class HomeFragment extends Fragment {
                     Intent intent = new Intent(view.getContext(), CreateScheduleActivity.class);
                     intent.putExtra("USER_GUID", guid);
                     intent.putExtra("SCHEDULE", new Schedule());
-                    //getActivity().finish();
                     startActivity(intent);
                 }
                 else{
@@ -106,12 +102,10 @@ public class HomeFragment extends Fragment {
             }
         });
 
-
-
         /* Get schedules of the user with getUserSchedules() function. */
         getUserSchedules(getContext(), root, getResources().getString(R.string.base_url) + "/homeinfo", jsonObject);
 
-        /* Get user image */
+        /* Get user image with getUserImage() function */
         getUserImage(getContext(), root, getResources().getString(R.string.base_url) + "/userinfo", jsonObject);
 
         /* User account page. */
@@ -132,7 +126,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 try {
-                    Intent intent = new Intent(getContext(), ViewSchedule.class);
+                    Intent intent = new Intent(getContext(), ViewScheduleActivity.class);
                     intent.putExtra("USER_GUID", guid);
                     intent.putExtra("SCHEDULE_ID", result.getJSONObject(i).getInt("scheduleId"));
                     /* TODO: remove this after change api response */

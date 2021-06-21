@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.example.mytrainingschedules.R;
+import com.example.mytrainingschedules.activities.CustomAlertDialog;
 import com.example.mytrainingschedules.activities.CustomStringRequest;
 import com.example.mytrainingschedules.activities.Schedule;
 import com.example.mytrainingschedules.activities.mainactivity.MainActivity;
@@ -32,7 +32,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ViewSchedule extends AppCompatActivity {
+public class ViewScheduleActivity extends AppCompatActivity {
 
     String guid, scheduleTitle, scheduleDescription;
     int scheduleId;
@@ -59,9 +59,7 @@ public class ViewSchedule extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        /* get schedule info */
         getSchedule(getApplicationContext(), getResources().getString(R.string.base_url) + "/scheduleinfo", jsonObject);
-
 
     }
 
@@ -89,11 +87,11 @@ public class ViewSchedule extends AppCompatActivity {
         playWorkout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ViewSchedule.this, RunningWorkoutActivity.class);
+                Intent intent = new Intent(ViewScheduleActivity.this, RunningWorkoutActivity.class);
                 intent.putExtra("SCHEDULE", schedule);
                 intent.putExtra("USER_GUID", guid);
                 intent.putExtra("SCHEDULE_ID", scheduleId);
-                ViewSchedule.this.startActivity(intent);
+                ViewScheduleActivity.this.startActivity(intent);
             }
         });
 
@@ -102,11 +100,11 @@ public class ViewSchedule extends AppCompatActivity {
         editSchedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ViewSchedule.this, EditScheduleActivity.class);
+                Intent intent = new Intent(ViewScheduleActivity.this, EditScheduleActivity.class);
                 intent.putExtra("SCHEDULE", schedule);
                 intent.putExtra("SCHEDULE_ID", scheduleId);
                 intent.putExtra("USER_GUID", guid);
-                ViewSchedule.this.startActivity(intent);
+                ViewScheduleActivity.this.startActivity(intent);
             }
         });
 
@@ -123,34 +121,19 @@ public class ViewSchedule extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                /* alert dialog */
-                runOnUiThread(new Runnable() {
+                CustomAlertDialog alertDialog = new CustomAlertDialog(ViewScheduleActivity.this, "Delete schedule", "Are you sure you want to delete this schedule?");
+                alertDialog.setListenerPositive(new DialogInterface.OnClickListener() {
                     @Override
-                    public void run() {
-                        if (!isFinishing()){
-                            new AlertDialog.Builder(ViewSchedule.this)
-                                    .setTitle("Delete schedule")
-                                    .setMessage("Are you sure you want to delete this schedule?")
-                                    .setCancelable(true)
-                                    .setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            deleteSchedule(getApplicationContext(), getResources().getString(R.string.base_url) + "/deleteschedule", deleteJsonObject);
-                                            Intent intent = new Intent(ViewSchedule.this, MainActivity.class);
-                                            intent.putExtra("USER_GUID", guid);
-                                            ViewSchedule.this.startActivity(intent);
-                                            ViewSchedule.this.finish();
-                                        }
-                                    })
-                                    .setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            // nothing
-                                        }
-                                    }).show();
-                        }
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        deleteSchedule(getApplicationContext(), getResources().getString(R.string.base_url) + "/deleteschedule", deleteJsonObject);
+                        Intent intent = new Intent(ViewScheduleActivity.this, MainActivity.class);
+                        intent.putExtra("USER_GUID", guid);
+                        ViewScheduleActivity.this.startActivity(intent);
+                        ViewScheduleActivity.this.finish();
                     }
                 });
+
+                runOnUiThread(alertDialog);
             }
         });
     }

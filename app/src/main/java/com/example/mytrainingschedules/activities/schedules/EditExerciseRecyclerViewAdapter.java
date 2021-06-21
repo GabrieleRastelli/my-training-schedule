@@ -9,12 +9,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mytrainingschedules.R;
-import com.example.mytrainingschedules.activities.Exercise;
 import com.example.mytrainingschedules.activities.Set;
 
 import java.util.ArrayList;
 
-public class SetsRecyclerViewAdapter extends RecyclerView.Adapter<SetsRecyclerViewAdapter.CustomViewHolder> {
+public class EditExerciseRecyclerViewAdapter extends RecyclerView.Adapter<EditExerciseRecyclerViewAdapter.CustomViewHolder> {
+
+    /*
+     * RecyclerViewAdapter used for: EditExerciseActivity
+     */
 
     private ArrayList<Set> sets;
     private static RecyclerViewClickListener itemListener;
@@ -43,9 +46,9 @@ public class SetsRecyclerViewAdapter extends RecyclerView.Adapter<SetsRecyclerVi
 
     }
 
-    public SetsRecyclerViewAdapter(ArrayList<Set> sets, RecyclerViewClickListener itemListener){
+    public EditExerciseRecyclerViewAdapter(ArrayList<Set> sets, RecyclerViewClickListener itemListener){
         this.sets = sets;
-        SetsRecyclerViewAdapter.itemListener = itemListener;
+        EditExerciseRecyclerViewAdapter.itemListener = itemListener;
     }
 
     /* compulsory override methods */

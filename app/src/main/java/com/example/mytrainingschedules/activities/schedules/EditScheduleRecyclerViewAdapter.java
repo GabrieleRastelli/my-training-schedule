@@ -15,6 +15,10 @@ import java.util.ArrayList;
 
 public class EditScheduleRecyclerViewAdapter extends RecyclerView.Adapter<EditScheduleRecyclerViewAdapter.CustomViewHolder> {
 
+    /*
+     * RecyclerViewAdapter used for: EditScheduleActivity
+     */
+
     private ArrayList<Exercise> exerciseList;
     private static RecyclerViewClickListener itemListener;
 

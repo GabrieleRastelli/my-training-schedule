@@ -53,16 +53,14 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_layout);
 
-        /* Create this function to make code more readable. */
         initGUI();
 
-        /* Register Button listener */
         buttonRegister.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent motionEvent) {
-                if(motionEvent.getAction()==MotionEvent.ACTION_DOWN){
+                if(motionEvent.getAction() == MotionEvent.ACTION_DOWN){
                     buttonRegister.startAnimation(scaleDown);
-                }else if(motionEvent.getAction()==MotionEvent.ACTION_UP){
+                } else if(motionEvent.getAction() == MotionEvent.ACTION_UP){
                     buttonRegister.startAnimation(scaleUp);
 
                     nickname.clearFocus();
@@ -78,14 +76,11 @@ public class RegisterActivity extends AppCompatActivity {
                     errorTextView.setText("");
 
                     if(allFieldCompiled()){
-
-                        /* Check if passwords are equals. */
                         if(!password.getText().toString().equals(confirmPassword.getText().toString())){
                             passwordError.setText("*");
                             confirmPasswordError.setText("*");
                             Toast.makeText(getApplicationContext(), "Passwords are different", Toast.LENGTH_SHORT).show();
-                        }else{
-
+                        } else{
                             boolean nicknameValid = true;
                             String nick = nickname.getText().toString().trim();
                             for(int i = 0; i < nick.length(); i++){
@@ -97,7 +92,6 @@ public class RegisterActivity extends AppCompatActivity {
                             }
 
                             if(nicknameValid){
-                                /* This is the POST request. */
                                 String url = getResources().getString(R.string.base_url) + "/register";
                                 JSONObject jsonObject = new JSONObject();
                                 try {
@@ -108,14 +102,12 @@ public class RegisterActivity extends AppCompatActivity {
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
-
-                                /* postRegister() function. */
                                 postRegister(getApplicationContext(), url, jsonObject);
                             }
 
                         }
 
-                    }else{
+                    } else{
                         Toast.makeText(getApplicationContext(), "Compile all fields to proceed with registration!", Toast.LENGTH_SHORT).show();
                     }
 

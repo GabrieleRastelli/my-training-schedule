@@ -22,6 +22,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.example.mytrainingschedules.R;
+import com.example.mytrainingschedules.activities.CustomAlertDialog;
 import com.example.mytrainingschedules.activities.CustomStringRequest;
 import com.example.mytrainingschedules.activities.Exercise;
 import com.example.mytrainingschedules.activities.Schedule;
@@ -36,6 +37,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class CreateScheduleActivity extends AppCompatActivity implements RecyclerViewClickListener {
+
+    /*
+     * CreateScheduleActivity: used to create a new schedule
+     * Called by: HomeFragment
+     * Layout: create_schedule_layout
+     */
 
     private RecyclerView listOfExercises;
     private EditScheduleRecyclerViewAdapter recyclerViewAdapter;
@@ -136,28 +143,11 @@ public class CreateScheduleActivity extends AppCompatActivity implements Recycle
 
     @Override
     public void onBackPressed() {
-        /* alert dialog */
-        runOnUiThread(new Runnable() {
+        CustomAlertDialog alertDialog = new CustomAlertDialog(CreateScheduleActivity.this, "Exit", "Attention: all progress will be lost");
+        alertDialog.setListenerPositive(new DialogInterface.OnClickListener() {
             @Override
-            public void run() {
-                if (!isFinishing()){
-                    new AlertDialog.Builder(CreateScheduleActivity.this)
-                            .setTitle("Do you want to exit?")
-                            .setMessage("All progress will be lost")
-                            .setCancelable(true)
-                            .setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    CreateScheduleActivity.this.finish();
-                                }
-                            })
-                            .setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    // nothing
-                                }
-                            }).show();
-                }
+            public void onClick(DialogInterface dialog, int which) {
+                CreateScheduleActivity.this.finish();
             }
         });
     }

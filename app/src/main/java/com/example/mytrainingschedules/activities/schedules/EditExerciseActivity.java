@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.NumberPicker;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.mytrainingschedules.R;
@@ -25,8 +24,14 @@ import java.util.Collections;
 
 public class EditExerciseActivity extends AppCompatActivity implements RecyclerViewClickListener {
 
+    /*
+     * EditExerciseActivity: used to edit an exercise (sets and rest)
+     * Called by: EditScheduleActivity
+     * Layout: edit_exercise_layout
+     */
+
     private RecyclerView setsRecyclerView;
-    private SetsRecyclerViewAdapter recyclerViewAdapter;
+    private EditExerciseRecyclerViewAdapter recyclerViewAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private String title, category, guid;
     private int rest;
@@ -43,7 +48,7 @@ public class EditExerciseActivity extends AppCompatActivity implements RecyclerV
     protected void onCreate(Bundle savedInstanceState) {
         /* TODO: far si che questa activity sia un PopUp */
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.set_exercise_data_layout);
+        setContentView(R.layout.edit_exercise_layout);
 
         titleTextView = findViewById(R.id.activityTitle);
         titleTextView = findViewById(R.id.activityTitle);
@@ -70,7 +75,7 @@ public class EditExerciseActivity extends AppCompatActivity implements RecyclerV
         setsRecyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         setsRecyclerView.setLayoutManager(layoutManager);
-        recyclerViewAdapter = new SetsRecyclerViewAdapter(sets, this);
+        recyclerViewAdapter = new EditExerciseRecyclerViewAdapter(sets, this);
         setsRecyclerView.setAdapter(recyclerViewAdapter);
 
         addset = findViewById(R.id.add);

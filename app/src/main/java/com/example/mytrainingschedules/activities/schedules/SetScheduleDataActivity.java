@@ -26,6 +26,12 @@ import org.json.JSONObject;
 
 public class SetScheduleDataActivity extends AppCompatActivity {
 
+    /*
+     * SetScheduleDataActivity: used to give the schedule a title and a description
+     * Called by: CreateScheduleActivity
+     * Layout: set_schedule_data_layout
+     */
+
     private Schedule schedule;
     private String guid;
     private EditText titleEditText, descriptionEditText;

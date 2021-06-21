@@ -18,12 +18,15 @@ import java.util.List;
 
 public class AddExerciseRecyclerViewAdapter extends RecyclerView.Adapter<AddExerciseRecyclerViewAdapter.CustomViewHolder> implements Filterable {
 
+    /*
+    * RecyclerViewAdapter used for: AddExerciseActivity
+    */
+
     private ArrayList<Exercise> exerciseList;
     private ArrayList<Exercise> exerciseListFull;
     private static RecyclerViewClickListener itemListener;
     private String selectedTitle = null;
     private String selectedCategory = null;
-
 
     private Filter filter = new Filter() {
         @Override

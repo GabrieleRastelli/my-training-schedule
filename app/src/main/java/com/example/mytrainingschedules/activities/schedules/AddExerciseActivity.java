@@ -35,6 +35,12 @@ import java.util.ArrayList;
 
 public class AddExerciseActivity extends AppCompatActivity implements RecyclerViewClickListener {
 
+    /*
+    * AddExerciseActivity: used to add exercise to the schedule
+    * Called by: EditScheduleActivity, CreateScheduleActivity
+    * Layout: add_exercise_layout
+    */
+
     private ArrayList<Exercise> exerciseList;
     private RecyclerView allExercises;
     private AddExerciseRecyclerViewAdapter recyclerViewAdapter;
@@ -49,7 +55,7 @@ public class AddExerciseActivity extends AppCompatActivity implements RecyclerVi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.popup_exercise2);
+        setContentView(R.layout.add_exercise_layout);
 
         selectedExerciseTitle = null;
         selectedExerciseCategory = null;
