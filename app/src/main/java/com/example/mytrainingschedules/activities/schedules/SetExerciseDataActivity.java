@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.NumberPicker;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -30,6 +31,7 @@ public class SetExerciseDataActivity extends AppCompatActivity implements Recycl
     private TextView startingMessage, titleTextView, restTextView;
     private SeekBar seekBar;
     private FloatingActionButton save;
+    private NumberPicker numberPicker;
     private Button addset;
     private Schedule schedule;
     private int scheduleId;
@@ -88,11 +90,30 @@ public class SetExerciseDataActivity extends AppCompatActivity implements Recycl
     }
 
     private void initUI(){
-        restTextView = findViewById(R.id.rest);
+
         rest = 60;
-        restTextView.setText("Rest: " + rest + "s");
+        numberPicker = findViewById(R.id.numberPicker);
+        String[] seconds = new String[600/5];
+        for(int i = 0; i < seconds.length; i++){
+            seconds[i] = Integer.toString(i * 5 + 5);
+        }
+        numberPicker.setDisplayedValues(seconds);
+        numberPicker.setMinValue(0);
+        numberPicker.setMaxValue(seconds.length - 1);
+        numberPicker.setWrapSelectorWheel(false);
+        numberPicker.setValue(rest);
+        numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int oldV, int newV) {
+                rest = newV * 5 + 5;
+            }
+        });
+
+        restTextView = findViewById(R.id.rest);
+        //rest = 60;
+        //restTextView.setText("Rest: " + rest + "s");
         
-        seekBar = findViewById(R.id.seekBar);
+       /* seekBar = findViewById(R.id.seekBar);
         seekBar.setProgress(12);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -110,7 +131,7 @@ public class SetExerciseDataActivity extends AppCompatActivity implements Recycl
             public void onStopTrackingTouch(SeekBar seekBar) {
 
             }
-        });
+        }); */
     }
 
     @Override
