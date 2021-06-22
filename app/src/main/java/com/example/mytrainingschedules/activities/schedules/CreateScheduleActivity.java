@@ -26,6 +26,7 @@ import com.example.mytrainingschedules.activities.CustomAlertDialog;
 import com.example.mytrainingschedules.activities.CustomStringRequest;
 import com.example.mytrainingschedules.activities.Exercise;
 import com.example.mytrainingschedules.activities.Schedule;
+import com.example.mytrainingschedules.activities.Set;
 import com.example.mytrainingschedules.activities.mainactivity.MainActivity;
 import com.example.mytrainingschedules.activities.workout.RunningWorkoutActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -118,10 +119,26 @@ public class CreateScheduleActivity extends AppCompatActivity implements Recycle
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), SetScheduleDataActivity.class);
-                intent.putExtra("SCHEDULE", schedule);
-                intent.putExtra("USER_GUID", guid);
-                startActivityForResult(intent, 0);
+                if(exercises.size() == 0){
+                    Toast.makeText(getApplicationContext(), "Add at least one exercise", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    boolean setnull = false;
+                    for (Exercise exercise: exercises) {
+                        if(exercise.getSetsNumber() == 0){
+                            setnull = true;
+                        }
+                    }
+                    if(setnull){
+                        Toast.makeText(getApplicationContext(), "There is an exercise with 0 sets!", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        Intent intent = new Intent(getApplicationContext(), SetScheduleDataActivity.class);
+                        intent.putExtra("SCHEDULE", schedule);
+                        intent.putExtra("USER_GUID", guid);
+                        startActivityForResult(intent, 0);
+                    }
+                }
             }
         });
 
@@ -143,13 +160,19 @@ public class CreateScheduleActivity extends AppCompatActivity implements Recycle
 
     @Override
     public void onBackPressed() {
-        CustomAlertDialog alertDialog = new CustomAlertDialog(CreateScheduleActivity.this, "Exit", "Attention: all progress will be lost");
-        alertDialog.setListenerPositive(new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                CreateScheduleActivity.this.finish();
-            }
-        });
+        if(exercises.size() == 0){
+            CreateScheduleActivity.this.finish();
+        }
+        else{
+            CustomAlertDialog alertDialog = new CustomAlertDialog(CreateScheduleActivity.this, "Exit", "Attention: all progress will be lost");
+            alertDialog.setListenerPositive(new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    CreateScheduleActivity.this.finish();
+                }
+            });
+            runOnUiThread(alertDialog);
+        }
     }
 
 }

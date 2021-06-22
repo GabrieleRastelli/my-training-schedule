@@ -53,7 +53,7 @@ public class EditScheduleRecyclerViewAdapter extends RecyclerView.Adapter<EditSc
     @NonNull
     @Override
     public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.edit_exercise_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.exercise_item, parent, false);
         CustomViewHolder viewHolder = new CustomViewHolder(view);
         return viewHolder;
     }

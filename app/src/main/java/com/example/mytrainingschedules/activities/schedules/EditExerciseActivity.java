@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.mytrainingschedules.R;
 import com.example.mytrainingschedules.activities.Exercise;
@@ -50,10 +51,7 @@ public class EditExerciseActivity extends AppCompatActivity implements RecyclerV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_exercise_layout);
 
-        titleTextView = findViewById(R.id.activityTitle);
-        titleTextView = findViewById(R.id.activityTitle);
         title = getIntent().getStringExtra("EXERCISE_TITLE");
-        titleTextView.setText(title);
         scheduleId = getIntent().getIntExtra("SCHEDULE_ID", -1);
         guid = getIntent().getStringExtra("USER_GUID");
         schedule = (Schedule) getIntent().getSerializableExtra("SCHEDULE");
@@ -63,50 +61,12 @@ public class EditExerciseActivity extends AppCompatActivity implements RecyclerV
         exercise = exercises.get(index);
         sets = exercise.getSets();
 
-        startingMessage = findViewById(R.id.msg);
-        if(sets.size() == 0){
-            startingMessage.setVisibility(View.VISIBLE);
-        }
-        else{
-            startingMessage.setVisibility(View.GONE);
-        }
-
         setsRecyclerView = findViewById(R.id.setsRecyclerView);
         setsRecyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         setsRecyclerView.setLayoutManager(layoutManager);
         recyclerViewAdapter = new EditExerciseRecyclerViewAdapter(sets, this);
         setsRecyclerView.setAdapter(recyclerViewAdapter);
-
-        addset = findViewById(R.id.add);
-        addset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startingMessage.setVisibility(View.GONE);
-                sets.add(new Set(recyclerViewAdapter.getLastRepCount(), recyclerViewAdapter.getLastWeightCount()));
-                recyclerViewAdapter.notifyDataSetChanged();
-            }
-        });
-
-        save = findViewById(R.id.save);
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                exercise.setSets(sets);
-                exercise.setRest(rest);
-                Intent intent;
-                if(scheduleId == 0){
-                    intent = new Intent(getApplicationContext(), CreateScheduleActivity.class);
-                }
-                else{
-                    intent = new Intent(getApplicationContext(), EditScheduleActivity.class);
-                }
-                intent.putExtra("SCHEDULE", schedule);
-                intent.putExtra("USER_GUID", guid);
-                intent.putExtra("SCHEDULE_ID", scheduleId);
-                startActivity(intent);
-            }
-        });
 
         /* drag and drop items in recycler view */
         ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT ) {
@@ -133,6 +93,17 @@ public class EditExerciseActivity extends AppCompatActivity implements RecyclerV
     }
 
     private void initUI(){
+        titleTextView = findViewById(R.id.activityTitle);
+        titleTextView = findViewById(R.id.activityTitle);
+        titleTextView.setText(title);
+
+        startingMessage = findViewById(R.id.msg);
+        if(sets.size() == 0){
+            startingMessage.setVisibility(View.VISIBLE);
+        }
+        else{
+            startingMessage.setVisibility(View.GONE);
+        }
 
         rest = exercise.getRest();
         numberPicker = findViewById(R.id.numberPicker);
@@ -144,11 +115,57 @@ public class EditExerciseActivity extends AppCompatActivity implements RecyclerV
         numberPicker.setMinValue(0);
         numberPicker.setMaxValue(seconds.length - 1);
         numberPicker.setWrapSelectorWheel(false);
-        numberPicker.setValue(rest/5 - 5);
+        numberPicker.setValue(rest/5);
         numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker numberPicker, int oldV, int newV) {
                 rest = newV * 5 + 5;
+            }
+        });
+
+        addset = findViewById(R.id.add);
+        addset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startingMessage.setVisibility(View.GONE);
+                sets.add(new Set(recyclerViewAdapter.getLastRepCount(), recyclerViewAdapter.getLastWeightCount()));
+                recyclerViewAdapter.notifyDataSetChanged();
+            }
+        });
+
+        save = findViewById(R.id.save);
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(sets.size() == 0){
+                    Toast.makeText(getApplicationContext(), "Add at least one set", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    boolean repsnull = false;
+                    for (Set set: sets) {
+                        if(set.getReps() == 0){
+                            repsnull = true;
+                        }
+                    }
+                    if(repsnull){
+                        Toast.makeText(getApplicationContext(), "There is a set with 0 reps!", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        exercise.setSets(sets);
+                        exercise.setRest(rest);
+                        Intent intent;
+                        if(scheduleId == 0){
+                            intent = new Intent(getApplicationContext(), CreateScheduleActivity.class);
+                        }
+                        else{
+                            intent = new Intent(getApplicationContext(), EditScheduleActivity.class);
+                        }
+                        intent.putExtra("SCHEDULE", schedule);
+                        intent.putExtra("USER_GUID", guid);
+                        intent.putExtra("SCHEDULE_ID", scheduleId);
+                        startActivity(intent);
+                    }
+                }
             }
         });
 

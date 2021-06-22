@@ -18,6 +18,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.mytrainingschedules.R;
 import com.example.mytrainingschedules.activities.CustomStringRequest;
 import com.example.mytrainingschedules.activities.Schedule;
+import com.example.mytrainingschedules.activities.VolleyPostClient;
 import com.example.mytrainingschedules.activities.mainactivity.MainActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -52,24 +53,29 @@ public class SetScheduleDataActivity extends AppCompatActivity {
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String url = getResources().getString(R.string.base_url) + "/createschedule";
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.put("guid", guid);
-                    jsonObject.put("title", titleEditText.getText());
-                    jsonObject.put("description", descriptionEditText.getText());
-                    jsonObject.put("dataJson", schedule.getJsonExercises());
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                if(titleEditText.getText().equals("") || titleEditText.getText() == null){
+                    Toast.makeText(getApplicationContext(), "Please insert schedule title!", Toast.LENGTH_SHORT).show();
                 }
-                createSchedule(getApplicationContext(), url, jsonObject);
+                else{
+                    JSONObject jsonObject = new JSONObject();
+                    try {
+                        jsonObject.put("guid", guid);
+                        jsonObject.put("title", titleEditText.getText());
+                        jsonObject.put("description", descriptionEditText.getText());
+                        jsonObject.put("dataJson", schedule.getJsonExercises());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    createSchedule(getApplicationContext(), jsonObject);
+                }
             }
         });
 
     }
 
-    private void createSchedule(Context context, String url, JSONObject jsonObject) {
-        RequestQueue queue = Volley.newRequestQueue(context);
+    private void createSchedule(Context context, JSONObject jsonObject) {
+        VolleyPostClient client = new VolleyPostClient(context, "/createschedule", jsonObject);
+        client.setDefaultErrorListener();
 
         /* onSuccessListener */
         Response.Listener<String> onSuccessListener = new Response.Listener<String>() {
@@ -82,18 +88,10 @@ public class SetScheduleDataActivity extends AppCompatActivity {
                 finish();
             }
         };
+        client.setOnSuccessListener(onSuccessListener);
 
-        /* onErrorListener */
-        Response.ErrorListener onErrorListener = new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("APP_DEBUG", "Fail: " + error.toString());
-            }
-        };
-
-        CustomStringRequest stringRequest = new CustomStringRequest(Request.Method.POST, url, jsonObject, onSuccessListener, onErrorListener);
-
-        queue.add(stringRequest);
+        RequestQueue queue = Volley.newRequestQueue(context);
+        queue.add(client.getStringRequest());
     }
 
 }

@@ -12,6 +12,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +26,7 @@ import com.example.mytrainingschedules.activities.CustomStringRequest;
 import com.example.mytrainingschedules.activities.Exercise;
 import com.example.mytrainingschedules.activities.Schedule;
 import com.example.mytrainingschedules.activities.Set;
+import com.example.mytrainingschedules.activities.VolleyPostClient;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
@@ -48,6 +50,7 @@ public class AddExerciseActivity extends AppCompatActivity implements RecyclerVi
     private EditText searchbar;
     private String selectedExerciseTitle, selectedExerciseCategory;
     private FloatingActionButton next;
+    private ProgressBar progressBar;
     private Schedule schedule;
     private int scheduleId;
     private String guid;
@@ -59,6 +62,9 @@ public class AddExerciseActivity extends AppCompatActivity implements RecyclerVi
 
         selectedExerciseTitle = null;
         selectedExerciseCategory = null;
+
+        progressBar = findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.GONE);
 
         guid = getIntent().getStringExtra("USER_GUID");
         schedule = (Schedule) getIntent().getSerializableExtra("SCHEDULE");
@@ -72,7 +78,6 @@ public class AddExerciseActivity extends AppCompatActivity implements RecyclerVi
         recyclerViewAdapter = new AddExerciseRecyclerViewAdapter(exerciseList, this);
 
         String guid = getIntent().getStringExtra("USER_GUID");
-        String url = getResources().getString(R.string.base_url) + "/exercise";
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("guid", guid);
@@ -80,8 +85,8 @@ public class AddExerciseActivity extends AppCompatActivity implements RecyclerVi
             e.printStackTrace();
         }
 
-        /* getExercises() function. */
-        getExercises(getApplicationContext(), url, jsonObject);
+        /* getExercises() */
+        getExercises(getApplicationContext(), jsonObject);
 
         /* searchbar filter */
         searchbar = findViewById(R.id.searchbar);
@@ -129,13 +134,18 @@ public class AddExerciseActivity extends AppCompatActivity implements RecyclerVi
 
     }
 
-    private void getExercises(Context context, String url, JSONObject jsonObject) {
-        RequestQueue queue = Volley.newRequestQueue(context);
+    private void getExercises(Context context, JSONObject jsonObject) {
+        progressBar.setVisibility(View.VISIBLE);
+
+        VolleyPostClient client = new VolleyPostClient(context, "/exercise", jsonObject);
+        client.setProgressBar(progressBar);
+        client.setDefaultErrorListener();
 
         /* onSuccessListener */
         Response.Listener<String> onSuccessListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                progressBar.setVisibility(View.GONE);
                 try {
                     JSONObject jsonResponse = new JSONObject(response.toString());
                     JSONArray result = jsonResponse.getJSONArray("result");
@@ -153,18 +163,10 @@ public class AddExerciseActivity extends AppCompatActivity implements RecyclerVi
                 allExercises.setAdapter(recyclerViewAdapter);
             }
         };
+        client.setOnSuccessListener(onSuccessListener);
 
-        /* onErrorListener */
-        Response.ErrorListener onErrorListener = new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("APP_DEBUG", "Fail: " + error.toString());
-            }
-        };
-
-        CustomStringRequest stringRequest = new CustomStringRequest(Request.Method.POST, url, jsonObject, onSuccessListener, onErrorListener);
-
-        queue.add(stringRequest);
+        RequestQueue queue = Volley.newRequestQueue(context);
+        queue.add(client.getStringRequest());
     }
 
     @Override

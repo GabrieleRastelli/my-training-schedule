@@ -18,6 +18,10 @@ import org.json.JSONObject;
 
 public class CustomAdapter extends BaseAdapter {
 
+    /*
+     * BaseAdapter used for: HomeFragment
+     */
+
     private Context context;
     private JSONArray data;
     private LayoutInflater inflater;
@@ -48,6 +52,7 @@ public class CustomAdapter extends BaseAdapter {
     public long getItemId(int i) {
         return 0;
     }
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
@@ -119,7 +124,6 @@ public class CustomAdapter extends BaseAdapter {
                     case "true":
                     case "TRUE":
                         equipment.setBackground(this.context.getDrawable(R.drawable.dumbell));
-                        //equipment.setBackground(this.context.getResources().getDrawable(R.drawable.dumbell));
                         break;
                     default:
                         equipment.setBackground(null);

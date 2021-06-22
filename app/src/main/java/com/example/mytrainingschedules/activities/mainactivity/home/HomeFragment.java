@@ -29,6 +29,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.mytrainingschedules.R;
 import com.example.mytrainingschedules.activities.CustomStringRequest;
 import com.example.mytrainingschedules.activities.Schedule;
+import com.example.mytrainingschedules.activities.VolleyPostClient;
 import com.example.mytrainingschedules.activities.mainactivity.user.UserPageActivity;
 import com.example.mytrainingschedules.activities.schedules.CreateScheduleActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -41,6 +42,12 @@ import org.json.JSONObject;
 import java.util.Iterator;
 
 public class HomeFragment extends Fragment {
+
+    /*
+     * HomeFragment: home page of the app
+     * Called by: SplashActivity, LoginActivity, RegisterActivity
+     * Layout: home_fragment
+     */
 
     private String guid;
     private GridView gridView;
@@ -103,10 +110,10 @@ public class HomeFragment extends Fragment {
         });
 
         /* Get schedules of the user with getUserSchedules() function. */
-        getUserSchedules(getContext(), root, getResources().getString(R.string.base_url) + "/homeinfo", jsonObject);
+        getUserSchedules(getContext(), jsonObject);
 
         /* Get user image with getUserImage() function */
-        getUserImage(getContext(), root, getResources().getString(R.string.base_url) + "/userinfo", jsonObject);
+        getUserImage(getContext(), jsonObject);
 
         /* User account page. */
         immagineProfilo = root.findViewById(R.id.user_home_image);
@@ -143,9 +150,14 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
-    private void getUserSchedules(Context context, View root, String url, JSONObject jsonObject) {
-        RequestQueue queue = Volley.newRequestQueue(context);
+    private void getUserSchedules(Context context, JSONObject jsonObject) {
         progressBar.setVisibility(View.VISIBLE);
+
+        VolleyPostClient client = new VolleyPostClient(context, "/homeinfo", jsonObject);
+        client.setProgressBar(progressBar);
+        client.setErrorTextView(errorTextView);
+        client.setErrorImageView(errorImageView);
+        client.setDefaultErrorListener();
 
         /* onSuccessListener */
         Response.Listener<String> onSuccessListener = new Response.Listener<String>() {
@@ -173,33 +185,17 @@ public class HomeFragment extends Fragment {
                 gridView.setAdapter(adapter);
             }
         };
+        client.setOnSuccessListener(onSuccessListener);
 
-        /* onErrorListener */
-        Response.ErrorListener onErrorListener = new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                progressBar.setVisibility(View.GONE);
-                connectionAvailable = false;
-                Log.d("APP_DEBUG", "Fail: " + error.toString());
-                errorTextView.setVisibility(View.VISIBLE);
-                if (error.toString().equals("com.android.volley.TimeoutError")) {
-                    errorTextView.setText("Can't connect to the server");
-                } else if (error.toString().equals("com.android.volley.AuthFailureError")) {
-                    errorTextView.setText("Invalid credentials");
-                } else {
-                    errorTextView.setText("No Internet connection");
-                    errorImageView.setVisibility(View.VISIBLE);
-                }
-            }
-        };
-
-        CustomStringRequest stringRequest = new CustomStringRequest(Request.Method.POST, url, jsonObject, onSuccessListener, onErrorListener);
-
-        queue.add(stringRequest);
+        RequestQueue queue = Volley.newRequestQueue(context);
+        queue.add(client.getStringRequest());
     }
 
-    private void getUserImage(Context context, View root, String url, JSONObject jsonObject) {
-        RequestQueue queue = Volley.newRequestQueue(context);
+    private void getUserImage(Context context, JSONObject jsonObject) {
+        VolleyPostClient client = new VolleyPostClient(context, "/userinfo", jsonObject);
+        client.setErrorTextView(errorTextView);
+        client.setErrorImageView(errorImageView);
+        client.setDefaultErrorListener();
 
         /* onSuccessListener */
         Response.Listener<String> onSuccessListener = new Response.Listener<String>() {
@@ -232,27 +228,10 @@ public class HomeFragment extends Fragment {
                 }
             }
         };
+        client.setOnSuccessListener(onSuccessListener);
 
-        /* onErrorListener */
-        Response.ErrorListener onErrorListener = new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("APP_DEBUG", "Fail: " + error.toString());
-                errorTextView.setVisibility(View.VISIBLE);
-                if (error.toString().equals("com.android.volley.TimeoutError")) {
-                    errorTextView.setText("Can't connect to the server");
-                } else if (error.toString().equals("com.android.volley.AuthFailureError")) {
-                    errorTextView.setText("Invalid credentials");
-                } else {
-                    errorTextView.setText("No Internet connection");
-                    errorImageView.setVisibility(View.VISIBLE);
-                }
-            }
-        };
-
-        CustomStringRequest stringRequest = new CustomStringRequest(Request.Method.POST, url, jsonObject, onSuccessListener, onErrorListener);
-
-        queue.add(stringRequest);
+        RequestQueue queue = Volley.newRequestQueue(context);
+        queue.add(client.getStringRequest());
     }
 
 }

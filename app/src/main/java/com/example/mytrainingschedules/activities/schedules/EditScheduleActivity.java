@@ -25,6 +25,7 @@ import com.example.mytrainingschedules.activities.CustomAlertDialog;
 import com.example.mytrainingschedules.activities.CustomStringRequest;
 import com.example.mytrainingschedules.activities.Exercise;
 import com.example.mytrainingschedules.activities.Schedule;
+import com.example.mytrainingschedules.activities.VolleyPostClient;
 import com.example.mytrainingschedules.activities.mainactivity.MainActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -49,7 +50,7 @@ public class EditScheduleActivity extends AppCompatActivity implements RecyclerV
     private int scheduleId;
     private String guid, title, description;
     private ArrayList<Exercise> exercises;
-    FloatingActionButton add, done;
+    private FloatingActionButton add, done;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +109,6 @@ public class EditScheduleActivity extends AppCompatActivity implements RecyclerV
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String url = getResources().getString(R.string.base_url) + "/updateschedule";
                 JSONObject jsonObject = new JSONObject();
                 try {
                     jsonObject.put("guid", guid);
@@ -119,7 +119,7 @@ public class EditScheduleActivity extends AppCompatActivity implements RecyclerV
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                editSchedule(getApplicationContext(), url, jsonObject);
+                editSchedule(getApplicationContext(), jsonObject);
             }
         });
 
@@ -138,8 +138,9 @@ public class EditScheduleActivity extends AppCompatActivity implements RecyclerV
         recyclerViewAdapter.notifyDataSetChanged();
     }
 
-    private void editSchedule(Context context, String url, JSONObject jsonObject) {
-        RequestQueue queue = Volley.newRequestQueue(context);
+    private void editSchedule(Context context, JSONObject jsonObject) {
+        VolleyPostClient client = new VolleyPostClient(context, "/updateschedule", jsonObject);
+        client.setDefaultErrorListener();
 
         /* onSuccessListener */
         Response.Listener<String> onSuccessListener = new Response.Listener<String>() {
@@ -152,18 +153,10 @@ public class EditScheduleActivity extends AppCompatActivity implements RecyclerV
                 finish();
             }
         };
+        client.setOnSuccessListener(onSuccessListener);
 
-        /* onErrorListener */
-        Response.ErrorListener onErrorListener = new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("APP_DEBUG", "Fail: " + error.toString());
-            }
-        };
-
-        CustomStringRequest stringRequest = new CustomStringRequest(Request.Method.POST, url, jsonObject, onSuccessListener, onErrorListener);
-
-        queue.add(stringRequest);
+        RequestQueue queue = Volley.newRequestQueue(context);
+        queue.add(client.getStringRequest());
     }
 
     @Override

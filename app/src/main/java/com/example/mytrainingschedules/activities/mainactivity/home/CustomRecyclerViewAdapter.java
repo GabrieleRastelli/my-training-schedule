@@ -15,6 +15,10 @@ import java.util.ArrayList;
 
 public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecyclerViewAdapter.CustomViewHolder> {
 
+    /*
+     * RecyclerViewAdapter used for: ViewScheduleActivity
+     */
+
     private ArrayList<Exercise> exerciseList;
 
     public static class CustomViewHolder extends RecyclerView.ViewHolder {
@@ -41,7 +45,7 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
     @NonNull
     @Override
     public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.edit_exercise_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.exercise_item, parent, false);
         CustomViewHolder viewHolder = new CustomViewHolder(view);
         return viewHolder;
     }

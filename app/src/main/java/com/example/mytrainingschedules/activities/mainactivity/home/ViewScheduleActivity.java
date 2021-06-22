@@ -23,6 +23,7 @@ import com.example.mytrainingschedules.R;
 import com.example.mytrainingschedules.activities.CustomAlertDialog;
 import com.example.mytrainingschedules.activities.CustomStringRequest;
 import com.example.mytrainingschedules.activities.Schedule;
+import com.example.mytrainingschedules.activities.VolleyPostClient;
 import com.example.mytrainingschedules.activities.mainactivity.MainActivity;
 import com.example.mytrainingschedules.activities.schedules.EditScheduleActivity;
 import com.example.mytrainingschedules.activities.workout.RunningWorkoutActivity;
@@ -34,15 +35,21 @@ import org.json.JSONObject;
 
 public class ViewScheduleActivity extends AppCompatActivity {
 
-    String guid, scheduleTitle, scheduleDescription;
-    int scheduleId;
-    Schedule schedule;
-    TextView title, creator;
-    ProgressBar progressBar;
+    /*
+     * ViewScheduleActivity: view exercises of a schedule
+     * Called by: HomeFragment
+     * Layout: view_schedule_layout
+     */
+
+    private String guid, scheduleTitle, scheduleDescription;
+    private int scheduleId;
+    private Schedule schedule;
+    private TextView title, creator;
+    private ProgressBar progressBar;
     private RecyclerView listOfExercises;
     private RecyclerView.Adapter recyclerViewAdapter;
     private RecyclerView.LayoutManager layoutManager;
-    FloatingActionButton deleteSchedule, playWorkout, editSchedule;
+    private FloatingActionButton deleteSchedule, playWorkout, editSchedule;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +66,7 @@ public class ViewScheduleActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        getSchedule(getApplicationContext(), getResources().getString(R.string.base_url) + "/scheduleinfo", jsonObject);
+        getSchedule(getApplicationContext(), jsonObject);
 
     }
 
@@ -125,7 +132,8 @@ public class ViewScheduleActivity extends AppCompatActivity {
                 alertDialog.setListenerPositive(new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        deleteSchedule(getApplicationContext(), getResources().getString(R.string.base_url) + "/deleteschedule", deleteJsonObject);
+                        deleteSchedule(getApplicationContext(), deleteJsonObject);
+
                         Intent intent = new Intent(ViewScheduleActivity.this, MainActivity.class);
                         intent.putExtra("USER_GUID", guid);
                         ViewScheduleActivity.this.startActivity(intent);
@@ -138,9 +146,12 @@ public class ViewScheduleActivity extends AppCompatActivity {
         });
     }
 
-    private void getSchedule(Context context, String url, JSONObject jsonObject) {
-        RequestQueue queue = Volley.newRequestQueue(context);
+    private void getSchedule(Context context, JSONObject jsonObject) {
         progressBar.setVisibility(View.VISIBLE);
+
+        VolleyPostClient client = new VolleyPostClient(context, "/scheduleinfo", jsonObject);
+        client.setProgressBar(progressBar);
+        client.setDefaultErrorListener();
 
         /* onSuccessListener */
         Response.Listener<String> onSuccessListener = new Response.Listener<String>() {
@@ -171,31 +182,15 @@ public class ViewScheduleActivity extends AppCompatActivity {
                 listOfExercises.setAdapter(recyclerViewAdapter);
             }
         };
+        client.setOnSuccessListener(onSuccessListener);
 
-        /* onErrorListener */
-        Response.ErrorListener onErrorListener = new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                progressBar.setVisibility(View.GONE);
-                Log.d("APP_DEBUG", "Fail: " + error.toString());
-                /*errorTextView.setVisibility(View.VISIBLE);
-                if (error.toString().equals("com.android.volley.TimeoutError")) {
-                    errorTextView.setText("Can't connect to the server");
-                } else if (error.toString().equals("com.android.volley.AuthFailureError")) {
-                    errorTextView.setText("Invalid credentials");
-                } else {
-                    errorTextView.setText("No Internet connection");
-                } */
-            }
-        };
-
-        CustomStringRequest stringRequest = new CustomStringRequest(Request.Method.POST, url, jsonObject, onSuccessListener, onErrorListener);
-
-        queue.add(stringRequest);
+        RequestQueue queue = Volley.newRequestQueue(context);
+        queue.add(client.getStringRequest());
     }
 
-    private void deleteSchedule(Context context, String url, JSONObject jsonObject) {
-        RequestQueue queue = Volley.newRequestQueue(context);
+    private void deleteSchedule(Context context, JSONObject jsonObject) {
+        VolleyPostClient client = new VolleyPostClient(context, "/deleteschedule", jsonObject);
+        client.setDefaultErrorListener();
 
         /* onSuccessListener */
         Response.Listener<String> onSuccessListener = new Response.Listener<String>() {
@@ -212,17 +207,9 @@ public class ViewScheduleActivity extends AppCompatActivity {
                 }
             }
         };
+        client.setOnSuccessListener(onSuccessListener);
 
-        /* onErrorListener */
-        Response.ErrorListener onErrorListener = new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("APP_DEBUG", "Fail: " + error.toString());
-            }
-        };
-
-        CustomStringRequest stringRequest = new CustomStringRequest(Request.Method.POST, url, jsonObject, onSuccessListener, onErrorListener);
-
-        queue.add(stringRequest);
+        RequestQueue queue = Volley.newRequestQueue(context);
+        queue.add(client.getStringRequest());
     }
 }
