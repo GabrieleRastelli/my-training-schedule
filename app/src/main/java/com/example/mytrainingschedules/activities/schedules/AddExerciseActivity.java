@@ -48,6 +48,7 @@ public class AddExerciseActivity extends AppCompatActivity implements RecyclerVi
     private AddExerciseRecyclerViewAdapter recyclerViewAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private EditText searchbar;
+    private TextView newExercise;
     private String selectedExerciseTitle, selectedExerciseCategory;
     private FloatingActionButton next;
     private ProgressBar progressBar;
@@ -129,6 +130,18 @@ public class AddExerciseActivity extends AppCompatActivity implements RecyclerVi
                     intent.putExtra("SCHEDULE_ID", scheduleId);
                     startActivity(intent);
                 }
+            }
+        });
+
+        newExercise = findViewById(R.id.newExercise);
+        newExercise.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), CreateExerciseActivity.class);
+                intent.putExtra("SCHEDULE", schedule);
+                intent.putExtra("USER_GUID", guid);
+                intent.putExtra("SCHEDULE_ID", scheduleId);
+                startActivity(intent);
             }
         });
 

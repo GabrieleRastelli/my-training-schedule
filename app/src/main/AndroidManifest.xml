@@ -12,8 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyTrainingSchedules"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activities.schedules.SetScheduleDataActivity"
-            android:theme="@style/Theme.MyTrainingSchedules.NoActionBar"  />
+        <activity
+            android:name=".activities.schedules.CreateExerciseActivity"
+            android:theme="@style/Theme.MyTrainingSchedules.NoActionBar" />
+        <activity
+            android:name=".activities.schedules.SetScheduleDataActivity"
+            android:theme="@style/Theme.MyTrainingSchedules.NoActionBar" />
         <activity
             android:name=".activities.schedules.CreateScheduleActivity"
             android:theme="@style/Theme.MyTrainingSchedules.NoActionBar" />
