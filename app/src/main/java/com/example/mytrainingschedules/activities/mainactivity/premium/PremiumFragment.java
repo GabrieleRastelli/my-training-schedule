@@ -20,6 +20,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import com.example.mytrainingschedules.R;
 import com.example.mytrainingschedules.activities.mainactivity.settings.Schedule;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
 
@@ -30,7 +31,7 @@ import java.util.Map;
 
 public class PremiumFragment extends Fragment {
 
-
+    private FloatingActionButton fab;
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private MainAdapter mainAdapter;
@@ -46,6 +47,9 @@ public class PremiumFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.premium_fragment, container, false);
+
+        fab = getActivity().findViewById(R.id.fab);
+        fab.setVisibility(View.GONE);
 
         clickedFilter=new HashMap<>();
         exerciseToDisplay=new ArrayList<>();
