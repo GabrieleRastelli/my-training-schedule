@@ -161,19 +161,34 @@ public class UserPageActivity extends AppCompatActivity {
                 username.setText(nickname);
                 username.setVisibility(View.VISIBLE);
                 editNickname.setVisibility(View.VISIBLE);
-                /* update user profile */
-                JSONObject jsonObject= new JSONObject();
-                try {
-                    jsonObject.put("guid",guid);
-                    jsonObject.put("name",name);
-                    jsonObject.put("email",email);
-                    jsonObject.put("nickname",nickname);
-                    jsonObject.put("image",encodedImage);
-                }catch(JSONException e){
-                    e.printStackTrace();
+
+                boolean nicknameValid = true;
+                String nick = nickname.trim();
+                for(int i = 0; i < nick.length(); i++){
+                    if((nick.charAt(i) >= 58 && nick.charAt(i) <= 94) || (nick.charAt(i) >= 33 && nick.charAt(i) <= 47) || nick.charAt(i) >= 123){
+                        nicknameValid = false;
+                    }
                 }
 
-                updateUser(getApplicationContext(), getResources().getString(R.string.base_url) + "/updateuser", jsonObject);
+                if(nicknameValid){
+                    /* update user profile */
+                    JSONObject jsonObject= new JSONObject();
+                    try {
+                        jsonObject.put("guid",guid);
+                        jsonObject.put("name",name);
+                        jsonObject.put("email",email);
+                        jsonObject.put("nickname",nickname);
+                        jsonObject.put("image",encodedImage);
+                    }catch(JSONException e){
+                        e.printStackTrace();
+                    }
+
+                    updateUser(getApplicationContext(), getResources().getString(R.string.base_url) + "/updateuser", jsonObject);
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "Username can't contain special characters and needs to be lower", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 

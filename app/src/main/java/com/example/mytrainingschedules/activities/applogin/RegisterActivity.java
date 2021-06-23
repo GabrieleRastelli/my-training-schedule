@@ -86,7 +86,7 @@ public class RegisterActivity extends AppCompatActivity {
                             for(int i = 0; i < nick.length(); i++){
                                 if((nick.charAt(i) >= 58 && nick.charAt(i) <= 94) || (nick.charAt(i) >= 33 && nick.charAt(i) <= 47) || nick.charAt(i) >= 123){
                                     nicknameError.setText("*");
-                                    Toast.makeText(getApplicationContext(), "Username can't contain special characters and needs to be lower", Toast.LENGTH_SHORT).show();
+
                                     nicknameValid = false;
                                 }
                             }
@@ -103,6 +103,9 @@ public class RegisterActivity extends AppCompatActivity {
                                     e.printStackTrace();
                                 }
                                 postRegister(getApplicationContext(), url, jsonObject);
+                            }
+                            else{
+                                Toast.makeText(getApplicationContext(), "Username can't contain special characters and needs to be lower", Toast.LENGTH_SHORT).show();
                             }
 
                         }
