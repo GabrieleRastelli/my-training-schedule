@@ -53,7 +53,7 @@ public class CreateExerciseActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Please insert exercise name!", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    String category = categorySpinner.getSelectedItem().toString();
+                    String category = categorySpinner.getSelectedItem().toString().toUpperCase();
                     Exercise exercise = new Exercise(name, new ArrayList<Set>(), 0, 0, category);
                     schedule.addExercise(exercise);
                     Intent intent;
