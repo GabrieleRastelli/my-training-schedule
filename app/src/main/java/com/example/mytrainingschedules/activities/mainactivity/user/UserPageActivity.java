@@ -44,11 +44,13 @@ public class UserPageActivity extends AppCompatActivity {
     private String name = null;
     private String guid = null;
     private String nickname = null;
+    private String created = null;
+    private String download = null;
     public static final int PICK_IMAGE = 1;
     private String encodedImage = null;
     private ImageView editName, editNickname, userImage;
     private EditText changeName, changeNickname;
-    private TextView errorTextView, numberOfSchedules, username;
+    private TextView errorTextView, createdSchedules, downloaded, username;
     private TextView nameView,emailView;
     private FloatingActionButton saveName, saveNickname;
 
@@ -71,8 +73,6 @@ public class UserPageActivity extends AppCompatActivity {
         }
 
         getUserInfo(getApplicationContext(), findViewById(android.R.id.content).getRootView(), getResources().getString(R.string.base_url) + "/userinfo", jsonObject);
-
-        numberOfSchedules.setText(getIntent().getStringExtra("N_SCHEDULES"));
     }
 
     private void initGUI(){
@@ -192,7 +192,8 @@ public class UserPageActivity extends AppCompatActivity {
             }
         });
 
-        numberOfSchedules=findViewById(R.id.schede_create_numero);
+        createdSchedules=findViewById(R.id.schede_create_numero);
+        downloaded=findViewById(R.id.schede_scaricate_numero);
     }
 
     @Override
@@ -295,6 +296,12 @@ public class UserPageActivity extends AppCompatActivity {
                             case "nickname":
                                 nickname = result.get(key).toString();
                                 break;
+                            case "created":
+                                created = result.get(key).toString();
+                                break;
+                            case "download":
+                                download = result.get(key).toString();
+                                break;
                         }
                     }
                 } catch (JSONException e) {
@@ -308,6 +315,9 @@ public class UserPageActivity extends AppCompatActivity {
                 TextView nicknameView = findViewById(R.id.nickname);
                 nicknameView.setText(nickname);
                 username.setText(nickname);
+                createdSchedules.setText(created);
+                downloaded.setText(download);
+
                 if (encodedImage != null && !encodedImage.isEmpty() && !encodedImage.equals("null")) {
                     byte[] decodedString = Base64.decode(encodedImage, Base64.DEFAULT);
                     Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);

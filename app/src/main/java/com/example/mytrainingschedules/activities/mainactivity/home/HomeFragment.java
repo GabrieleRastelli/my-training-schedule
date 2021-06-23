@@ -80,7 +80,7 @@ public class HomeFragment extends Fragment {
         progressBar.setVisibility(View.GONE);
 
         numberOfSchedules = root.findViewById(R.id.number_of_schedules);
-        numberOfSchedules.setText("0");
+        numberOfSchedules.setText("0 Schedules");
 
         /* Parse GUID into JSONObject. */
         guid = getActivity().getIntent().getStringExtra("USER_GUID");
@@ -180,7 +180,7 @@ public class HomeFragment extends Fragment {
                     numberOfSchedules.setText("" + 0);
                 }
 
-                numberOfSchedules.setText("" + result.length());
+                numberOfSchedules.setText(result.length()+" Schedules");
                 adapter = new CustomAdapter(context, result);
                 gridView.setAdapter(adapter);
             }
