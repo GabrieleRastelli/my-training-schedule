@@ -117,7 +117,7 @@ public class SettingsFragment extends Fragment implements RecyclerViewAdapter.On
     }
 
     private void filter(String restriction){
-        ArrayList<Schedule> filteredList=new ArrayList<>();
+        filteredList=new ArrayList<>();
 
         for(Schedule schedule : schede){
             if(schedule.getTitle().toLowerCase().contains(restriction.toLowerCase()) || schedule.getCreator().toLowerCase().contains(restriction.toLowerCase())){
