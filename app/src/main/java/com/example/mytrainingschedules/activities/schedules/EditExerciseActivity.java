@@ -69,13 +69,13 @@ public class EditExerciseActivity extends AppCompatActivity implements RecyclerV
         setsRecyclerView.setAdapter(recyclerViewAdapter);
 
         /* drag and drop items in recycler view */
-        ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT ) {
+        ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT ) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder dragged, @NonNull RecyclerView.ViewHolder target) {
-                int positionDragged = dragged.getAdapterPosition();
+                /*int positionDragged = dragged.getAdapterPosition();
                 int positionTarget = target.getAdapterPosition();
                 Collections.swap(sets, positionDragged, positionTarget);
-                recyclerViewAdapter.notifyItemMoved(positionDragged, positionTarget);
+                recyclerViewAdapter.notifyItemMoved(positionDragged, positionTarget);*/
                 return false;
             }
 
@@ -107,15 +107,20 @@ public class EditExerciseActivity extends AppCompatActivity implements RecyclerV
 
         rest = exercise.getRest();
         numberPicker = findViewById(R.id.numberPicker);
-        String[] seconds = new String[600/5];
+        String[] seconds = new String[600/5 + 1];
         for(int i = 0; i < seconds.length; i++){
-            seconds[i] = Integer.toString(i * 5 + 5);
+            if(i == 0){
+                seconds[i] = Integer.toString(i);
+            }
+            else{
+                seconds[i] = Integer.toString(i * 5 + 5);
+            }
         }
         numberPicker.setDisplayedValues(seconds);
         numberPicker.setMinValue(0);
         numberPicker.setMaxValue(seconds.length - 1);
         numberPicker.setWrapSelectorWheel(false);
-        numberPicker.setValue(rest/5);
+        numberPicker.setValue(rest/5 - 1);
         numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker numberPicker, int oldV, int newV) {

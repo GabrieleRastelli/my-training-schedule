@@ -119,9 +119,9 @@ public class RunningWorkoutActivity extends AppCompatActivity {
         middleRest=(TextView)findViewById(R.id.rest_middle);
         exerciseName = findViewById(R.id.exerciseName);
         exerciseName.setVisibility(View.GONE);
-        reps = findViewById(R.id.reps);
+        reps = findViewById(R.id.repsTextView);
         reps.setVisibility(View.GONE);
-        weight = findViewById(R.id.weight);
+        weight = findViewById(R.id.weightTextView);
         weight.setVisibility(View.GONE);
         sets = findViewById(R.id.index);
         sets.setVisibility(View.GONE);

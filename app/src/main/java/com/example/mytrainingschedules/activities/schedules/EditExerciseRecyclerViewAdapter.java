@@ -3,6 +3,7 @@ package com.example.mytrainingschedules.activities.schedules;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,18 +25,14 @@ public class EditExerciseRecyclerViewAdapter extends RecyclerView.Adapter<EditEx
 
     public static class CustomViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public TextView index, reps, weight;
-        public TextView repAdd, repSub, weightAdd, weightSub;
+        public TextView index;
+        public NumberPicker repsPicker, weightPicker;
 
         public CustomViewHolder(@NonNull View itemView) {
             super(itemView);
             index = itemView.findViewById(R.id.index);
-            reps = itemView.findViewById(R.id.reps);
-            weight = itemView.findViewById(R.id.weight);
-            repAdd = itemView.findViewById(R.id.rep_add);
-            repSub = itemView.findViewById(R.id.rep_sub);
-            weightAdd = itemView.findViewById(R.id.weight_add);
-            weightSub = itemView.findViewById(R.id.weight_sub);
+            repsPicker = itemView.findViewById(R.id.repsPicker);
+            weightPicker = itemView.findViewById(R.id.weightPicker);
             itemView.setOnClickListener(this);
         }
 
@@ -64,38 +61,34 @@ public class EditExerciseRecyclerViewAdapter extends RecyclerView.Adapter<EditEx
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
         Set currentSet = sets.get(position);
         holder.index.setText(position + 1 + "");
-        holder.reps.setText("Reps: " + currentSet.getReps());
-        holder.weight.setText("Weight: " + currentSet.getWeight() + " kg");
-        holder.repAdd.setOnClickListener(new View.OnClickListener() {
+        String[] reps = new String[100];
+        for(int i = 0; i < reps.length; i++){
+            reps[i] = Integer.toString(i);
+        }
+        holder.repsPicker.setDisplayedValues(reps);
+        holder.repsPicker.setMinValue(0);
+        holder.repsPicker.setMaxValue(reps.length - 1);
+        holder.repsPicker.setWrapSelectorWheel(false);
+        holder.repsPicker.setValue(currentSet.getReps());
+        holder.repsPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
-            public void onClick(View view) {
-                currentSet.setReps(currentSet.getReps() + 1);
-                notifyDataSetChanged();
+            public void onValueChange(NumberPicker numberPicker, int oldV, int newV) {
+                currentSet.setReps(newV);
             }
         });
-        holder.repSub.setOnClickListener(new View.OnClickListener() {
+        String[] weight = new String[200];
+        for(int i = 0; i < weight.length; i++){
+            weight[i] = Integer.toString(i);
+        }
+        holder.weightPicker.setDisplayedValues(weight);
+        holder.weightPicker.setMinValue(0);
+        holder.weightPicker.setMaxValue(weight.length - 1);
+        holder.weightPicker.setWrapSelectorWheel(false);
+        holder.weightPicker.setValue(currentSet.getWeight());
+        holder.weightPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
-            public void onClick(View view) {
-                if(currentSet.getReps() > 0){
-                    currentSet.setReps(currentSet.getReps() - 1);
-                    notifyDataSetChanged();
-                }
-            }
-        });
-        holder.weightAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                currentSet.setWeight(currentSet.getWeight() + 1);
-                notifyDataSetChanged();
-            }
-        });
-        holder.weightSub.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(currentSet.getWeight() > 0){
-                    currentSet.setWeight(currentSet.getWeight() - 1);
-                    notifyDataSetChanged();
-                }
+            public void onValueChange(NumberPicker numberPicker, int oldV, int newV) {
+                currentSet.setWeight(newV);
             }
         });
     }

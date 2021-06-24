@@ -9,14 +9,14 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="170dp"
+        android:layout_gravity="center"
+        android:layout_margin="18dp"
         android:textAlignment="center"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="20dp"
         app:cardElevation="12dp"
-        app:contentPadding="14dp"
-        android:layout_margin="18dp"
-        android:layout_gravity="center" >
+        app:contentPadding="14dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/content"
@@ -62,8 +62,8 @@
                 android:id="@+id/workoutCategory2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="4dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="2dp"
                 android:ellipsize="end"
                 android:fontFamily="@font/seguisb"
                 android:maxLines="1"

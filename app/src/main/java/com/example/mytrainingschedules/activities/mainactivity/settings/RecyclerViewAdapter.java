@@ -117,14 +117,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 case "true":
                 case "TRUE":
                     holder.equipment.setBackground(this.context.getDrawable(R.drawable.dumbell));
-                    //equipment.setBackground(this.context.getResources().getDrawable(R.drawable.dumbell));
                     break;
                 case "false":
                 case "FALSE":
-                    holder.equipment.setBackground(this.context.getDrawable(R.drawable.emoji_emotions));
+                    holder.equipment.setBackground(null);
                     break;
                 default:
-                    holder.equipment.setBackground(this.context.getDrawable(R.drawable.dumbell));
+                    holder.equipment.setBackground(null);
                     break;
             }
         }

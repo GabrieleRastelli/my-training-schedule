@@ -30,9 +30,9 @@ public class EditScheduleRecyclerViewAdapter extends RecyclerView.Adapter<EditSc
             super(itemView);
             exerciseTitle = itemView.findViewById(R.id.activityTitle);
             exerciseCategory = itemView.findViewById(R.id.exerciseCategory);
-            reps = itemView.findViewById(R.id.reps);
+            reps = itemView.findViewById(R.id.repsTextView);
             sets = itemView.findViewById(R.id.index);
-            weight = itemView.findViewById(R.id.weight);
+            weight = itemView.findViewById(R.id.weightTextView);
             rest = itemView.findViewById(R.id.rest);
             itemView.setOnClickListener(this);
         }
