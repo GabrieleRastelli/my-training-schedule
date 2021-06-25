@@ -72,7 +72,7 @@ public class PopularFragment extends Fragment implements SuggestedAdapter.OnItem
     }
 
     private void filter(){
-        ArrayList<Schedule> filteredList=new ArrayList<>();
+        filteredList=new ArrayList<>();
 
         for(Schedule schedule : schede){
             if(categoriesToDisplay.size()==0 || categoriesToDisplay.contains(schedule.getCategoria1().toUpperCase()) || categoriesToDisplay.contains(schedule.getCategoria2().toUpperCase())){

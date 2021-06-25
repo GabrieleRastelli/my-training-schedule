@@ -60,11 +60,13 @@ public class UserPageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_page_layout);
 
+        guid = this.getIntent().getStringExtra("USER_GUID");
+
+
         initGUI();
 
 
         /* transform GUID into JSONObject*/
-        guid = this.getIntent().getStringExtra("USER_GUID");
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("guid", guid);
@@ -226,6 +228,7 @@ public class UserPageActivity extends AppCompatActivity {
                 }catch(JSONException e){
                     e.printStackTrace();
                 }
+
 
                 updateUser(getApplicationContext(), getResources().getString(R.string.base_url) + "/updateuser", jsonObject);
             } catch (IOException e) {
