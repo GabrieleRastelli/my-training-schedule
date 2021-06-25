@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+// TODO: delete this class, and replace with VolleyPostClient
+
 public class CustomStringRequest extends StringRequest {
 
     JSONObject jsonObject;
