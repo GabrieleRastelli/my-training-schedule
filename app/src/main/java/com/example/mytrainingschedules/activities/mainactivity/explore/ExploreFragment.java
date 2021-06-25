@@ -1,15 +1,13 @@
-package com.example.mytrainingschedules.activities.mainactivity.premium;
+package com.example.mytrainingschedules.activities.mainactivity.explore;
 
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,7 +17,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import com.example.mytrainingschedules.R;
-import com.example.mytrainingschedules.activities.mainactivity.settings.Schedule;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
@@ -29,7 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PremiumFragment extends Fragment {
+public class ExploreFragment extends Fragment {
 
     private FloatingActionButton fab;
     private TabLayout tabLayout;

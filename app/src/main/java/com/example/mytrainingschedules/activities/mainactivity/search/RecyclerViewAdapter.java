@@ -1,24 +1,17 @@
-package com.example.mytrainingschedules.activities.mainactivity.settings;
+package com.example.mytrainingschedules.activities.mainactivity.search;
 
 import android.content.Context;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mytrainingschedules.R;
-import com.example.mytrainingschedules.activities.Exercise;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;

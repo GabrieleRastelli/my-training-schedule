@@ -13,13 +13,13 @@
 
     <fragment
         android:id="@+id/navigation_settings"
-        android:name="com.example.mytrainingschedules.activities.mainactivity.settings.SettingsFragment"
+        android:name="com.example.mytrainingschedules.activities.mainactivity.search.SearchFragment"
         android:label="@string/title_settings"
         tools:layout="@layout/settings_fragment" />
 
     <fragment
         android:id="@+id/navigation_premium"
-        android:name="com.example.mytrainingschedules.activities.mainactivity.premium.PremiumFragment"
+        android:name="com.example.mytrainingschedules.activities.mainactivity.explore.ExploreFragment"
         android:label="@string/title_premium"
         tools:layout="@layout/premium_fragment" />
 </navigation>

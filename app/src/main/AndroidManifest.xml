@@ -61,7 +61,7 @@
             android:label="@string/app_name"
             android:theme="@style/Theme.MyTrainingSchedules.NoActionBar" />
         <activity
-            android:name=".activities.mainactivity.settings.DownloadScheduleActivity"
+            android:name=".activities.mainactivity.search.DownloadScheduleActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.MyTrainingSchedules.NoActionBar" />
         <activity

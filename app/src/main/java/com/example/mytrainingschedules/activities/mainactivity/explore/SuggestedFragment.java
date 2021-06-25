@@ -1,8 +1,7 @@
-package com.example.mytrainingschedules.activities.mainactivity.premium;
+package com.example.mytrainingschedules.activities.mainactivity.explore;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -23,10 +21,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.example.mytrainingschedules.R;
 import com.example.mytrainingschedules.activities.CustomStringRequest;
-import com.example.mytrainingschedules.activities.mainactivity.settings.DownloadScheduleActivity;
-import com.example.mytrainingschedules.activities.mainactivity.settings.RecyclerViewAdapter;
-import com.example.mytrainingschedules.activities.mainactivity.settings.Schedule;
-import com.example.mytrainingschedules.activities.mainactivity.settings.SettingsFragment;
+import com.example.mytrainingschedules.activities.mainactivity.search.DownloadScheduleActivity;
+import com.example.mytrainingschedules.activities.mainactivity.search.Schedule;
 
 import org.json.JSONArray;
 import org.json.JSONException;

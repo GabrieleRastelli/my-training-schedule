@@ -1,15 +1,11 @@
-package com.example.mytrainingschedules.activities.mainactivity.premium;
+package com.example.mytrainingschedules.activities.mainactivity.explore;
 
 import android.content.Context;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.Filter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -17,13 +13,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mytrainingschedules.R;
-import com.example.mytrainingschedules.activities.Exercise;
-import com.example.mytrainingschedules.activities.mainactivity.settings.RecyclerViewAdapter;
-import com.example.mytrainingschedules.activities.mainactivity.settings.Schedule;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.example.mytrainingschedules.activities.mainactivity.search.Schedule;
 
 import java.util.ArrayList;
 import java.util.List;

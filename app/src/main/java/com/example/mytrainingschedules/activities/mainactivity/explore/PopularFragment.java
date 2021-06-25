@@ -1,4 +1,4 @@
-package com.example.mytrainingschedules.activities.mainactivity.premium;
+package com.example.mytrainingschedules.activities.mainactivity.explore;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,9 +21,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.example.mytrainingschedules.R;
 import com.example.mytrainingschedules.activities.CustomStringRequest;
-import com.example.mytrainingschedules.activities.mainactivity.settings.DownloadScheduleActivity;
-import com.example.mytrainingschedules.activities.mainactivity.settings.RecyclerViewAdapter;
-import com.example.mytrainingschedules.activities.mainactivity.settings.Schedule;
+import com.example.mytrainingschedules.activities.mainactivity.search.DownloadScheduleActivity;
+import com.example.mytrainingschedules.activities.mainactivity.search.Schedule;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,7 +32,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PopularFragment extends Fragment implements SuggestedAdapter.OnItemClickListener{
-
 
     private RecyclerView recyclerView;
     private String guid;

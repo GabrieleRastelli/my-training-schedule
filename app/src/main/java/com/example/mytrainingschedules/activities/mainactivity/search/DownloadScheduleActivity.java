@@ -1,4 +1,4 @@
-package com.example.mytrainingschedules.activities.mainactivity.settings;
+package com.example.mytrainingschedules.activities.mainactivity.search;
 
 import android.content.Context;
 import android.os.Bundle;

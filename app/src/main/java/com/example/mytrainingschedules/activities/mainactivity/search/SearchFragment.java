@@ -1,4 +1,4 @@
-package com.example.mytrainingschedules.activities.mainactivity.settings;
+package com.example.mytrainingschedules.activities.mainactivity.search;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,9 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,7 +28,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.example.mytrainingschedules.R;
 import com.example.mytrainingschedules.activities.CustomStringRequest;
-import com.example.mytrainingschedules.activities.mainactivity.home.CustomAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
@@ -40,9 +37,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SettingsFragment extends Fragment implements RecyclerViewAdapter.OnItemClickListener {
+public class SearchFragment extends Fragment implements RecyclerViewAdapter.OnItemClickListener {
 
-    private SettingsViewModel settingsViewModel;
     List<Schedule> schede=new ArrayList<Schedule>();
     Context context;
     FloatingActionButton floatingActionButton;
@@ -57,7 +53,6 @@ public class SettingsFragment extends Fragment implements RecyclerViewAdapter.On
     private ArrayList<Schedule> filteredList;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        settingsViewModel = new ViewModelProvider(this).get(SettingsViewModel.class);
         View root = inflater.inflate(R.layout.settings_fragment, container, false);
         context=getActivity();
 
@@ -164,7 +159,7 @@ public class SettingsFragment extends Fragment implements RecyclerViewAdapter.On
 
                     filteredList=new ArrayList<Schedule>(schede);
                     recyclerView.setLayoutManager(new LinearLayoutManager(context));
-                    adapter=new RecyclerViewAdapter(context, schede, SettingsFragment.this);
+                    adapter=new RecyclerViewAdapter(context, schede, SearchFragment.this);
                     recyclerView.setAdapter(adapter);
                     recyclerView.scheduleLayoutAnimation();
 
