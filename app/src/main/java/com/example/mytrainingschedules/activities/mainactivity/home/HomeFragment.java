@@ -31,6 +31,7 @@ import com.example.mytrainingschedules.activities.CustomStringRequest;
 import com.example.mytrainingschedules.activities.Schedule;
 import com.example.mytrainingschedules.activities.VolleyPostClient;
 import com.example.mytrainingschedules.activities.mainactivity.user.UserPageActivity;
+import com.example.mytrainingschedules.activities.mainactivity.user.UserPageActivity2;
 import com.example.mytrainingschedules.activities.schedules.CreateScheduleActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -120,7 +121,8 @@ public class HomeFragment extends Fragment {
         immagineProfilo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), UserPageActivity.class);
+                //Intent intent = new Intent(getActivity(), UserPageActivity.class);
+                Intent intent = new Intent(getActivity(), UserPageActivity2.class);
                 intent.putExtra("USER_GUID", guid);
                 intent.putExtra("N_SCHEDULES", numberOfSchedules.getText().toString());
                 startActivity(intent);
