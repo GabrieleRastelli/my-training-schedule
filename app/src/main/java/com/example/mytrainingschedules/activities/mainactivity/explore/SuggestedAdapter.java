@@ -95,6 +95,11 @@ public class SuggestedAdapter extends RecyclerView.Adapter<SuggestedAdapter.View
                     holder.image.setBackgroundResource(R.drawable.man_doing_shoulders);
                     holder.cardView.setBackgroundResource(R.drawable.gradient_yellow);
                     break;
+                case "ABS":
+                    holder.categoria1.setBackground(this.context.getResources().getDrawable(R.drawable.default_tag));
+                    holder.image.setBackgroundResource(R.drawable.woman_doing_core);
+                    holder.cardView.setBackgroundResource(R.drawable.gradient_default);
+                    break;
                 default:
                     holder.categoria1.setBackground(this.context.getResources().getDrawable(R.drawable.default_tag));
                     break;

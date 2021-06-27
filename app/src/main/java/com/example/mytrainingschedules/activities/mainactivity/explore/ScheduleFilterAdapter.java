@@ -93,7 +93,7 @@ public class ScheduleFilterAdapter extends BaseAdapter {
                 exImage.setBackgroundResource(R.drawable.man_doing_shoulders);
                 break;
             case 5:
-                exType.setText("Free");
+                exType.setText("Abs");
                 exBg.setBackgroundResource(R.drawable.gradient_default);
                 exImage.setBackgroundResource(R.drawable.woman_doing_core);
                 break;

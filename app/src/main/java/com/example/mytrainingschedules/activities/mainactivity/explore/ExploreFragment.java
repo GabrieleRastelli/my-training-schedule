@@ -44,7 +44,7 @@ public class ExploreFragment extends Fragment implements AdapterView.OnItemClick
     private ScheduleFilterAdapter scheduleFilterAdapter;
     private Map<Integer, Boolean> clickedFilter; /* keeps track of which are the filtering buttons clicked */
     private List<String> exerciseToDisplay; /* keeps track of which are exercises categories to display */
-    private static String[] EXERCISE_LABELS={"CHEST", "ARMS", "BACK", "LEGS", "SHOULDERS","FREE"};
+    private static String[] EXERCISE_LABELS={"CHEST", "ARMS", "BACK", "LEGS", "SHOULDERS","ABS"};
     private static int[] EXERCISE_DRAWABLE={R.drawable.man_doing_chest, R.drawable.man_doing_biceps, R.drawable.man_doing_back, R.drawable.man_doing_squats, R.drawable.man_doing_shoulders, R.drawable.woman_doing_core};
     /*
      * getActivity() --> MainActivity
