@@ -1,5 +1,6 @@
 package com.example.mytrainingschedules.activities.mainactivity.user;
 
+import android.util.Log;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -7,7 +8,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -35,10 +35,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
 
+/**
+ * This activity is the one that handles user page. It's invoked from HomeFragment
+ *
+ * @author Gabriele Rastelli
+ * @author Mattia Gualtieri
+ */
 public class UserPageActivity extends AppCompatActivity {
 
-    JSONObject result = null;
+    private JSONObject result = null;
 
+    private String TAG="UserPageActivity";
+    public static final int PICK_IMAGE = 1;
     private Animation scaleDown, scaleUp;
     private String email = null;
     private String name = null;
@@ -46,7 +54,6 @@ public class UserPageActivity extends AppCompatActivity {
     private String nickname = null;
     private String created = null;
     private String download = null;
-    public static final int PICK_IMAGE = 1;
     private String encodedImage = null;
     private ImageView editName, editNickname, userImage;
     private EditText changeName, changeNickname;
@@ -60,24 +67,30 @@ public class UserPageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_page_layout);
 
+        /* gets GUID from intent */
         guid = this.getIntent().getStringExtra("USER_GUID");
+        Log.i(TAG, "USER_GUID:"+guid);
 
+        /* initialize GUI objects */
+        initGui();
 
-        initGUI();
-
-
-        /* transform GUID into JSONObject*/
-        JSONObject jsonObject = new JSONObject();
+        /* sets User information */
         try {
-            jsonObject.put("guid", guid);
-        } catch (JSONException e) {
-            e.printStackTrace();
+            Log.i(TAG, "Calling callGetUserInfo()");
+            callGetUserInfo();
+        } catch (JSONException je) {
+            Log.e(TAG, "An error occurred while preparing getuserinfo request body", je);
+            Toast.makeText(getApplicationContext(), "Can't get user information, try later.", Toast.LENGTH_SHORT).show();
         }
-
-        getUserInfo(getApplicationContext(), findViewById(android.R.id.content).getRootView(), getResources().getString(R.string.base_url) + "/userinfo", jsonObject);
     }
 
-    private void initGUI(){
+    /**
+     * Method that instantiate GUI objects
+     */
+    private void initGui(){
+
+        Log.i(TAG, "Starting GUI init");
+
         errorTextView = findViewById(R.id.errorTextView2);
         errorTextView.setText("");
         errorTextView.setVisibility(View.GONE);
@@ -94,9 +107,15 @@ public class UserPageActivity extends AppCompatActivity {
         username = findViewById(R.id.nickname);
 
         editName = findViewById(R.id.edit_name);
+
+        createdSchedules=findViewById(R.id.schede_create_numero);
+        downloaded=findViewById(R.id.schede_scaricate_numero);
+
+        /* makes editText appear when modifying name field */
         editName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.i(TAG, "User clicked on editName button");
                 nameView.setVisibility(View.INVISIBLE);
                 editName.setVisibility(View.INVISIBLE);
                 changeName.setText(name);
@@ -105,10 +124,12 @@ public class UserPageActivity extends AppCompatActivity {
             }
         });
 
+        /* makes editText appear when modifying nickname field */
         editNickname = findViewById(R.id.edit_nickname);
         editNickname.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.i(TAG, "User clicked on editName nickname");
                 username.setVisibility(View.INVISIBLE);
                 editNickname.setVisibility(View.INVISIBLE);
                 changeNickname.setText(nickname);
@@ -118,9 +139,11 @@ public class UserPageActivity extends AppCompatActivity {
         });
 
         userImage = findViewById(R.id.user_image);
+        /* starts intent to get image when clicking on usr profile image */
         userImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.i(TAG, "User clicked on image. Starting intent to get new profile image");
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -128,9 +151,11 @@ public class UserPageActivity extends AppCompatActivity {
             }
         });
 
+        /* makes api call to save new user information when clicking on save button */
         saveName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 changeName.setVisibility(View.INVISIBLE);
                 saveName.setVisibility(View.INVISIBLE);
                 name=changeName.getText().toString();
@@ -138,25 +163,22 @@ public class UserPageActivity extends AppCompatActivity {
                 nameView.setVisibility(View.VISIBLE);
                 editName.setVisibility(View.VISIBLE);
 
-                /* update user profile */
-                JSONObject jsonObject= new JSONObject();
+                Log.i(TAG, "User clicked on saveName button, calling updateUser");
                 try {
-                    jsonObject.put("guid",guid);
-                    jsonObject.put("name",name);
-                    jsonObject.put("email",email);
-                    jsonObject.put("nickname",nickname);
-                    jsonObject.put("image",encodedImage);
-                }catch(JSONException e){
-                    e.printStackTrace();
+                    /* saves changes */
+                    callUpdateUser();
+                } catch (JSONException je) {
+                    Log.e(TAG, "An error occurred while preparing updateuser request body", je);
+                    Toast.makeText(getApplicationContext(), "Can't save name, try later.", Toast.LENGTH_SHORT).show();
                 }
-
-                updateUser(getApplicationContext(), getResources().getString(R.string.base_url) + "/updateuser", jsonObject);
             }
         });
 
+        /* makes api call to save new user information when clicking on save button */
         saveNickname.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.i(TAG, "User clicked on saveNickname button");
                 changeNickname.setVisibility(View.INVISIBLE);
                 saveNickname.setVisibility(View.INVISIBLE);
                 nickname=changeNickname.getText().toString();
@@ -165,6 +187,7 @@ public class UserPageActivity extends AppCompatActivity {
                 editNickname.setVisibility(View.VISIBLE);
 
                 boolean nicknameValid = true;
+                /* checking wheter nickname is valid or not */
                 String nick = nickname.trim();
                 for(int i = 0; i < nick.length(); i++){
                     if((nick.charAt(i) >= 58 && nick.charAt(i) <= 94) || (nick.charAt(i) >= 33 && nick.charAt(i) <= 47) || nick.charAt(i) >= 123){
@@ -173,69 +196,86 @@ public class UserPageActivity extends AppCompatActivity {
                 }
 
                 if(nicknameValid){
-                    /* update user profile */
-                    JSONObject jsonObject= new JSONObject();
+                    Log.i(TAG, "User nickname: "+nickname+" is valid, calling updateUser");
                     try {
-                        jsonObject.put("guid",guid);
-                        jsonObject.put("name",name);
-                        jsonObject.put("email",email);
-                        jsonObject.put("nickname",nickname);
-                        jsonObject.put("image",encodedImage);
-                    }catch(JSONException e){
-                        e.printStackTrace();
+                        /* saves changes */
+                        callUpdateUser();
+                    } catch (JSONException je) {
+                        Log.e(TAG, "An error occurred while preparing updateuser request body", je);
+                        Toast.makeText(getApplicationContext(), "Can't save nickname, try later.", Toast.LENGTH_SHORT).show();
                     }
-
-                    updateUser(getApplicationContext(), getResources().getString(R.string.base_url) + "/updateuser", jsonObject);
                 }
                 else{
+                    Log.e(TAG, "User nickname: "+nickname+" is not valid");
                     Toast.makeText(getApplicationContext(), "Username can't contain special characters and needs to be lower", Toast.LENGTH_SHORT).show();
                 }
 
             }
         });
 
-        createdSchedules=findViewById(R.id.schede_create_numero);
-        downloaded=findViewById(R.id.schede_scaricate_numero);
     }
 
+
+    /**
+     * Method used to get user chosen image
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == PICK_IMAGE) {
             if (data == null) {
+                Log.i(TAG, "User didn't chose a valid image, not calling updateUser");
                 Toast.makeText(getApplicationContext(), "Can't change image, try later.", Toast.LENGTH_SHORT).show();
                 return;
             }
             try {
                 InputStream is = getContentResolver().openInputStream(data.getData());
                 byte[] bytes = IOUtils.toByteArray(is);
+                /* base64 encodes user image */
                 encodedImage = Base64.encodeToString(bytes,Base64.DEFAULT);
 
                 /* set image */
                 Bitmap decodedByte = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                 userImage.setImageBitmap(decodedByte);
 
-                /* update user profile */
-                JSONObject jsonObject= new JSONObject();
-                try {
-                    jsonObject.put("guid",guid);
-                    jsonObject.put("name",name);
-                    jsonObject.put("email",email);
-                    jsonObject.put("nickname",nickname);
-                    jsonObject.put("image",encodedImage);
+                Log.i(TAG, "User chose new profile image, calling updateUser");
 
-                }catch(JSONException e){
-                    e.printStackTrace();
-                }
-
-
-                updateUser(getApplicationContext(), getResources().getString(R.string.base_url) + "/updateuser", jsonObject);
+                /* saves changes */
+                callUpdateUser();
             } catch (IOException e) {
+                Log.e(TAG, "An error occurred while reading image", e);
+                Toast.makeText(getApplicationContext(), "Can't change image, try later.", Toast.LENGTH_SHORT).show();
+            } catch (JSONException je){
+                Log.e(TAG, "An error occurred while preparing updateuser request body", je);
                 Toast.makeText(getApplicationContext(), "Can't change image, try later.", Toast.LENGTH_SHORT).show();
             }
         }
     }
+
+    /**
+     * Method that prepares request body and calls updateuser endpoint
+     * @throws JSONException
+     */
+    private void callUpdateUser() throws JSONException {
+
+        /* update user profile */
+        JSONObject jsonObject= new JSONObject();
+
+        jsonObject.put("guid",guid);
+        jsonObject.put("name",name);
+        jsonObject.put("email",email);
+        jsonObject.put("nickname",nickname);
+        jsonObject.put("image",encodedImage);
+
+
+        updateUser(getApplicationContext(), getResources().getString(R.string.base_url) + "/updateuser", jsonObject);
+    }
+
 
     private void updateUser(Context context, String url, JSONObject jsonObject) {
         RequestQueue queue = Volley.newRequestQueue(context);
@@ -245,6 +285,7 @@ public class UserPageActivity extends AppCompatActivity {
             public void onResponse(String response) {
                 //connectionAvailable = true;
                 Toast.makeText(getApplicationContext(), "Succesfuly updated!", Toast.LENGTH_SHORT).show();
+                Log.i(TAG, "Successfully called updateUser");
             }
         };
 
@@ -253,7 +294,7 @@ public class UserPageActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 //connectionAvailable = false;
                 Toast.makeText(getApplicationContext(), "Can't save information, try later.", Toast.LENGTH_SHORT).show();
-                Log.d("APP_DEBUG", "Fail: " + error.toString());
+                Log.e(TAG, "Fail in calling updateUser: " + error.toString());
                 errorTextView.setVisibility(View.VISIBLE);
                 if (error.toString().equals("com.android.volley.TimeoutError")) {
                     errorTextView.setText("Can't connect to the server");
@@ -270,6 +311,20 @@ public class UserPageActivity extends AppCompatActivity {
         queue.add(stringRequest);
     }
 
+
+    /**
+     * Method that prepares request body and calls getuserinfo endpoint
+     * @throws JSONException
+     */
+    private void callGetUserInfo() throws JSONException {
+        /* transform GUID into JSONObject*/
+        JSONObject jsonObject = new JSONObject();
+
+        jsonObject.put("guid", guid);
+
+        /* call to collect user information to display */
+        getUserInfo(getApplicationContext(), findViewById(android.R.id.content).getRootView(), getResources().getString(R.string.base_url) + "/userinfo", jsonObject);
+    }
 
     private void getUserInfo(Context context, View root, String url, JSONObject jsonObject) {
         RequestQueue queue = Volley.newRequestQueue(context);
@@ -301,14 +356,22 @@ public class UserPageActivity extends AppCompatActivity {
                                 break;
                             case "created":
                                 created = result.get(key).toString();
+                                if (created.equals("null")){
+                                    created="0";
+                                }
                                 break;
                             case "download":
                                 download = result.get(key).toString();
+                                if (download.equals("null")){
+                                    download="0";
+                                }
                                 break;
                         }
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                } catch (JSONException je) {
+                    Log.e(TAG, "An error occurred while calling getuserinfo", je);
+                    Toast.makeText(getApplicationContext(), "Can't get user information, try later.", Toast.LENGTH_SHORT).show();
+                    return;
                 }
 
 
@@ -326,6 +389,8 @@ public class UserPageActivity extends AppCompatActivity {
                     Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
                     userImage.setImageBitmap(decodedByte);
                 }
+
+                Log.i(TAG, "Successfully got userInfo");
             }
         };
 
@@ -333,7 +398,7 @@ public class UserPageActivity extends AppCompatActivity {
         Response.ErrorListener onErrorListener = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("APP_DEBUG", "Fail: " + error.toString());
+                Log.e(TAG, "Fail in calling getuserinfo: " + error.toString());
                 errorTextView.setVisibility(View.VISIBLE);
                 if (error.toString().equals("com.android.volley.TimeoutError")) {
                     errorTextView.setText("Can't connect to the server");

@@ -30,16 +30,24 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * This activity is called by SearchFragment.
+ * It displays a schedule to the user and eventually lets him download it to use it from his homepage.
+ *
+ * @author Gabriele Rastelli
+ * @author Mattia Gualtieri
+ */
 public class DownloadScheduleActivity extends AppCompatActivity {
 
-    String guid, scheduleId, scheduleTitle, scheduleDescription;
-    com.example.mytrainingschedules.activities.Schedule schedule;
-    TextView title, creator;
-    ProgressBar progressBar;
+    private String TAG="DownloadScheduleActivity";
+    private String guid, scheduleId, scheduleTitle, scheduleDescription;
+    private com.example.mytrainingschedules.activities.Schedule schedule;
+    private TextView title, creator, errorTextView;
+    private ProgressBar progressBar;
     private RecyclerView listOfExercises;
     private RecyclerView.Adapter recyclerViewAdapter;
     private RecyclerView.LayoutManager layoutManager;
-    Button download;
+    private Button download;
     private Animation scaleDown, scaleUp;
 
 
@@ -48,54 +56,34 @@ public class DownloadScheduleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.download_schedule_layout);
 
-        initGUI();
+        initGui();
 
-        JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("guid", guid);
-            jsonObject.put("schedule", scheduleId);
-        } catch (JSONException e) {
-            e.printStackTrace();
+            Log.i(TAG, "Calling callScheduleInfo()");
+            callScheduleInfo();
+        } catch (JSONException je) {
+            Log.e(TAG, "An error occurred while preparing scheduleinfo request body", je);
+            Toast.makeText(this, "Can't get schedules, try later.", Toast.LENGTH_SHORT).show();
         }
-
-        /* get schedule info */
-        getSchedule(getApplicationContext(), getResources().getString(R.string.base_url) + "/scheduleinfo", jsonObject);
-
 
     }
 
-    private void initGUI(){
+    /**
+     * Method that instantiate GUI objects
+     */
+    private void initGui(){
         title = findViewById(R.id.activityTitle);
         title.setText("");
 
         scaleDown = AnimationUtils.loadAnimation(this, R.anim.scale_down);
         scaleUp = AnimationUtils.loadAnimation(this, R.anim.scale_up);
 
-        download = findViewById(R.id.download);
-
-        download.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent motionEvent) {
-                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                    download.startAnimation(scaleDown);
-                } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                    download.startAnimation(scaleUp);
-                    JSONObject jsonObject= new JSONObject();
-                    try {
-                        jsonObject.put("guid",guid);
-                        jsonObject.put("schedule",scheduleId);
-                        downloadSchedule(getApplicationContext(), getResources().getString(R.string.base_url) + "/downloadschedule", jsonObject);
-                        progressBar.setVisibility(View.VISIBLE);
-                    } catch (JSONException e) {
-                        Toast.makeText(getApplicationContext(), "Unable to save schedule", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                return true;
-            }
-        });
-
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.GONE);
+
+        errorTextView = findViewById(R.id.errorTextViewDownload);
+        errorTextView.setText("");
+        errorTextView.setVisibility(View.GONE);
 
         creator=findViewById(R.id.creator);
         listOfExercises = findViewById(R.id.setsRecyclerView);
@@ -109,6 +97,41 @@ public class DownloadScheduleActivity extends AppCompatActivity {
         scheduleTitle = getIntent().getStringExtra("SCHEDULE_TITLE");
         scheduleDescription = getIntent().getStringExtra("SCHEDULE_DESCRIPTION");
 
+        download = findViewById(R.id.download);
+        /* the listener is used both for animation and for calling the downloadschedule endpoint */
+        download.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    download.startAnimation(scaleDown);
+                } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                    download.startAnimation(scaleUp);
+
+                    try {
+                        Log.i(TAG, "Calling callDownloadSchedule()");
+                        callDownloadSchedule();
+                    } catch (JSONException je) {
+                        Log.e(TAG, "An error occurred while calling callDownloadSchedule", je);
+                        Toast.makeText(getApplicationContext(), "Unable to save schedule", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                return true;
+            }
+        });
+    }
+
+    /**
+     * Method that prepares request body and calls scheduleinfo endpoint
+     * @throws JSONException
+     */
+    private void callScheduleInfo() throws JSONException {
+        JSONObject jsonObject = new JSONObject();
+
+        jsonObject.put("guid", guid);
+        jsonObject.put("schedule", scheduleId);
+
+        /* get schedule info */
+        getSchedule(getApplicationContext(), getResources().getString(R.string.base_url) + "/scheduleinfo", jsonObject);
     }
 
     private void getSchedule(Context context, String url, JSONObject jsonObject) {
@@ -133,14 +156,14 @@ public class DownloadScheduleActivity extends AppCompatActivity {
                     dataJson = new JSONObject(dataJsonString);
                     exercises = dataJson.getJSONArray("exercises");
                     schedule = new Schedule(scheduleTitle, scheduleDescription, exercises);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Log.d("APP_DEBUG", e.toString());
-                }
 
-                title.setText(schedule.getTitle());
-                recyclerViewAdapter = new CustomRecyclerViewAdapter(schedule.getExercises());
-                listOfExercises.setAdapter(recyclerViewAdapter);
+                    title.setText(schedule.getTitle());
+                    recyclerViewAdapter = new CustomRecyclerViewAdapter(schedule.getExercises());
+                    listOfExercises.setAdapter(recyclerViewAdapter);
+                } catch (JSONException e) {
+                    Log.d(TAG,"An error occurred while parsing schedule returned from server", e);
+                }
+                Log.i(TAG, "Successfully got scheduleInfo");
             }
         };
 
@@ -149,15 +172,15 @@ public class DownloadScheduleActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 progressBar.setVisibility(View.GONE);
-                Log.d("APP_DEBUG", "Fail: " + error.toString());
-                /*errorTextView.setVisibility(View.VISIBLE);
+                Log.e(TAG, "Fail in calling scheduleinfo endpoint: " + error.toString());
+                errorTextView.setVisibility(View.VISIBLE);
                 if (error.toString().equals("com.android.volley.TimeoutError")) {
                     errorTextView.setText("Can't connect to the server");
                 } else if (error.toString().equals("com.android.volley.AuthFailureError")) {
                     errorTextView.setText("Invalid credentials");
                 } else {
                     errorTextView.setText("No Internet connection");
-                } */
+                }
             }
         };
 
@@ -166,14 +189,31 @@ public class DownloadScheduleActivity extends AppCompatActivity {
         queue.add(stringRequest);
     }
 
+    /**
+     * Method that prepares request body and calls downloadschedule endpoint
+     * @throws JSONException
+     */
+    private void callDownloadSchedule() throws JSONException {
+        JSONObject jsonObject= new JSONObject();
+
+        jsonObject.put("guid",guid);
+        jsonObject.put("schedule",scheduleId);
+
+        /* we use a progressbar to let the user know that it's actually doing something. it gives a feedback */
+        progressBar.setVisibility(View.VISIBLE);
+        downloadSchedule(this, getResources().getString(R.string.base_url) + "/downloadschedule", jsonObject);
+    }
+
     private void downloadSchedule(Context context, String url, JSONObject jsonObject) {
         RequestQueue queue = Volley.newRequestQueue(context);
 
         Response.Listener<String> onSuccessListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+
                 progressBar.setVisibility(View.INVISIBLE);
                 Toast.makeText(getApplicationContext(), "Schedule saved, you can now find it in your schedules!", Toast.LENGTH_SHORT).show();
+                Log.i(TAG, "Successfully downloaded schedule");
             }
         };
 
@@ -181,8 +221,7 @@ public class DownloadScheduleActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 progressBar.setVisibility(View.INVISIBLE);
-                /*connectionAvailable = false;
-                Log.d("APP_DEBUG", "Fail: " + error.toString());
+                Log.e(TAG, "Fail in calling download schedule endpoint: " + error.toString());
                 errorTextView.setVisibility(View.VISIBLE);
                 if (error.toString().equals("com.android.volley.TimeoutError")) {
                     errorTextView.setText("Can't connect to the server");
@@ -190,7 +229,7 @@ public class DownloadScheduleActivity extends AppCompatActivity {
                     errorTextView.setText("Invalid credentials");
                 } else {
                     errorTextView.setText("No Internet connection");
-                }*/
+                }
                 Toast.makeText(getApplicationContext(), "Cannot save schedule, try later.", Toast.LENGTH_SHORT).show();
             }
         };

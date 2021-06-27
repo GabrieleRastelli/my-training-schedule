@@ -5,6 +5,12 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 
+/**
+ * This class is used to store basic schedule information returned from allschedules endpoint
+ *
+ * @author Gabriele Rastelli
+ * @author Mattia Gualtieri
+ */
 public class Schedule implements Serializable {
 
     private long scheduleId;

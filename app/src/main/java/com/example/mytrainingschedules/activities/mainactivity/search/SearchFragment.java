@@ -14,6 +14,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -37,24 +38,60 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This fragment is the one who handles searching of schedules
+ *
+ * @author Gabriele Rastelli
+ * @author Mattia Gualtieri
+ */
 public class SearchFragment extends Fragment implements RecyclerViewAdapter.OnItemClickListener {
 
-    List<Schedule> schede=new ArrayList<Schedule>();
-    Context context;
-    FloatingActionButton floatingActionButton;
-    RecyclerView recyclerView;
-    TextView errorTextView;
+    private String TAG="SearchFragment";
+    private List<Schedule> schede=new ArrayList<Schedule>();
+    private Context context;
+    private FloatingActionButton floatingActionButton;
+    private RecyclerView recyclerView;
+    private TextView errorTextView;
     private String guid;
     private boolean connectionAvailable;
     private JSONArray result = null;
-    private EditText searchbar;
+    private EditText searchBar;
     private RecyclerViewAdapter adapter;
-
     private ArrayList<Schedule> filteredList;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.settings_fragment, container, false);
         context=getActivity();
+        connectionAvailable = false;
+
+        initGui(root);
+
+        /* list containing filtered schedules */
+        filteredList=new ArrayList<>();
+
+        /* gets GUID from intent. */
+        guid = getActivity().getIntent().getStringExtra("USER_GUID");
+        Log.i(TAG, "USER_GUID:"+guid);
+
+        try {
+            Log.i(TAG, "Calling callGetAllScheudules()");
+            callGetAllScheudules(root);
+        } catch (JSONException je) {
+            Log.e(TAG, "An error occurred while preparing getallschedules request body", je);
+            Toast.makeText(context, "Can't get schedules, try later.", Toast.LENGTH_SHORT).show();
+        }
+
+        return root;
+    }
+
+
+    /**
+     * Method that instantiate GUI objects
+     * @param root
+     */
+    private void initGui(View root){
+
+        Log.i(TAG, "Starting GUI init");
 
         floatingActionButton = getActivity().findViewById(R.id.fab);
         floatingActionButton.setVisibility(View.GONE);
@@ -62,76 +99,63 @@ public class SearchFragment extends Fragment implements RecyclerViewAdapter.OnIt
         errorTextView = root.findViewById(R.id.errorTextView);
         errorTextView.setText("");
         errorTextView.setVisibility(View.GONE);
-        connectionAvailable = false;
-
-        filteredList=new ArrayList<>();
-
-        /* Parse GUID into JSONObject. */
-        guid = getActivity().getIntent().getStringExtra("USER_GUID");
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("guid", guid);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
         recyclerView=root.findViewById(R.id.recycler_view);
 
-        EditText searchbar=root.findViewById(R.id.searchbar);
-        searchbar.addTextChangedListener(new TextWatcher() {
+        /* This is the searchbar that permits to filter schedules */
+        searchBar=root.findViewById(R.id.searchbar);
+        searchBar.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
 
             @Override
             public void afterTextChanged(Editable s) {
                 filter(s.toString());
             }
         });
+    }
 
-        /* to set animation programmatically
-        LayoutAnimationController animationController = AnimationUtils.loadLayoutAnimation(context,R.anim.layout_animation_fall_down);
-        recyclerView.setLayoutAnimation(animationController);*/
+    /**
+     * Method that prepares request body and calls allschedules endpoint
+     * @param root
+     * @throws JSONException
+     */
+    private void callGetAllScheudules(View root) throws JSONException {
+        JSONObject jsonObject = new JSONObject();
+
+        jsonObject.put("guid", guid);
 
         /* Get all schedules. */
         getAllSchedules(getContext(), root, getResources().getString(R.string.base_url) + "/allschedules", jsonObject);
-
-        /*RecyclerViewAdapter adapter=new RecyclerViewAdapter();
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        recyclerView.setAdapter(adapter);*/
-
-
-
-        return root;
     }
 
+    /**
+     * Method that filters schedules basing on the given String restriction
+     * @param restriction
+     */
     private void filter(String restriction){
         filteredList=new ArrayList<>();
 
         for(Schedule schedule : schede){
+            /* filtering is done on both schedule title and creator */
             if(schedule.getTitle().toLowerCase().contains(restriction.toLowerCase()) || schedule.getCreator().toLowerCase().contains(restriction.toLowerCase())){
                 filteredList.add(schedule);
             }
         }
         adapter.filterList(filteredList);
-        //recyclerView.scheduleLayoutAnimation(); /* without this method animation is not displayed */
+        //recyclerView.scheduleLayoutAnimation(); /* without this method animation is not displayed when filtering list*/
     }
 
-    /* to re-run animation */
-    private void runLayoutAnimation(RecyclerView recyclerView){
-        LayoutAnimationController layoutAnimationController=AnimationUtils.loadLayoutAnimation(context,R.anim.item_animation_fall_down);
-
-        recyclerView.setLayoutAnimation(layoutAnimationController);
-        recyclerView.getAdapter().notifyDataSetChanged();
-        recyclerView.scheduleLayoutAnimation();
-    }
-
+    /**
+     * Method that retrieves all schedules in DB
+     * @param context
+     * @param root
+     * @param url
+     * @param jsonObject
+     */
     private void getAllSchedules(Context context, View root, String url, JSONObject jsonObject) {
         RequestQueue queue = Volley.newRequestQueue(context);
 
@@ -163,9 +187,12 @@ public class SearchFragment extends Fragment implements RecyclerViewAdapter.OnIt
                     recyclerView.setAdapter(adapter);
                     recyclerView.scheduleLayoutAnimation();
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                } catch (JSONException je) {
+                    Log.e(TAG, "An error occurred while calling allschedules", je);
+                    Toast.makeText(context, "Can't get schedules information, try later.", Toast.LENGTH_SHORT).show();
+                    return;
                 }
+                Log.i(TAG, "Successfully called allschedules endpoint");
             }
         };
 
@@ -174,7 +201,7 @@ public class SearchFragment extends Fragment implements RecyclerViewAdapter.OnIt
             @Override
             public void onErrorResponse(VolleyError error) {
                 connectionAvailable = false;
-                Log.d("APP_DEBUG", "Fail: " + error.toString());
+                Log.e(TAG, "Fail in calling allschedules endpoint: " + error.toString());
                 errorTextView.setVisibility(View.VISIBLE);
                 if (error.toString().equals("com.android.volley.TimeoutError")) {
                     errorTextView.setText("Can't connect to the server");
@@ -191,8 +218,13 @@ public class SearchFragment extends Fragment implements RecyclerViewAdapter.OnIt
         queue.add(stringRequest);
     }
 
+    /**
+     * This method is triggered when one schedule is clicked. Starts DownloadScheduleActivity
+     * @param position
+     */
     @Override
     public void onItemClick(int position) {
+        Log.i(TAG, "User clicked on filtered schedule no. "+position+" starting DownloadScheduleActivity");
         Intent intent = new Intent(getContext(), DownloadScheduleActivity.class);
         intent.putExtra("USER_GUID", guid);
         intent.putExtra("SCHEDULE_ID", String.valueOf(filteredList.get(position).getScheduleId()));

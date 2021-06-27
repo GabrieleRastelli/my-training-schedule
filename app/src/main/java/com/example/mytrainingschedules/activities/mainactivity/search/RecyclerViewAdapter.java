@@ -16,16 +16,27 @@ import com.example.mytrainingschedules.R;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This adapter is the one used in search schedules part
+ *
+ * @author Gabriele Rastelli
+ * @author Mattia Gualtieri
+ */
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
     private Context context;
     private List<Schedule> data;
     private LayoutInflater inflater;
     private OnItemClickListener onItemClickListener;
 
+    /**
+     * This method is called from SearchFragment when user types in something in editText, sets the dataset to display to the one received
+     * @param filteredList
+     */
     public void filterList (ArrayList<Schedule> filteredList){
         data=filteredList;
         notifyDataSetChanged();
     }
+
     public RecyclerViewAdapter(Context context, List<Schedule> data, OnItemClickListener onItemClickListener) {
         this.context = context;
         this.onItemClickListener=onItemClickListener;
