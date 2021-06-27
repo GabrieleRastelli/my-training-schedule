@@ -161,7 +161,7 @@ public class DownloadScheduleActivity extends AppCompatActivity {
                     recyclerViewAdapter = new CustomRecyclerViewAdapter(schedule.getExercises());
                     listOfExercises.setAdapter(recyclerViewAdapter);
                 } catch (JSONException e) {
-                    Log.d(TAG,"An error occurred while parsing schedule returned from server", e);
+                    Log.e(TAG,"An error occurred while parsing schedule returned from server", e);
                 }
                 Log.i(TAG, "Successfully got scheduleInfo");
             }
@@ -172,7 +172,7 @@ public class DownloadScheduleActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 progressBar.setVisibility(View.GONE);
-                Log.e(TAG, "Fail in calling scheduleinfo endpoint: " + error.toString());
+                Log.e(TAG, "Fail in calling scheduleinfo endpoint: ", error);
                 errorTextView.setVisibility(View.VISIBLE);
                 if (error.toString().equals("com.android.volley.TimeoutError")) {
                     errorTextView.setText("Can't connect to the server");
@@ -221,7 +221,7 @@ public class DownloadScheduleActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 progressBar.setVisibility(View.INVISIBLE);
-                Log.e(TAG, "Fail in calling download schedule endpoint: " + error.toString());
+                Log.e(TAG, "Fail in calling download schedule endpoint: ", error);
                 errorTextView.setVisibility(View.VISIBLE);
                 if (error.toString().equals("com.android.volley.TimeoutError")) {
                     errorTextView.setText("Can't connect to the server");

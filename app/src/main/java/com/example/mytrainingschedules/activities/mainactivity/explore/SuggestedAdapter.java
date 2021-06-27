@@ -18,6 +18,12 @@ import com.example.mytrainingschedules.activities.mainactivity.search.Schedule;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This adapter is used both for suggested and popular fragments.
+ *
+ * @author Gabriele Rastelli
+ * @author Mattia Gualtieri
+ */
 public class SuggestedAdapter extends RecyclerView.Adapter<SuggestedAdapter.ViewHolder> {
     private Context context;
     private List<Schedule> data;

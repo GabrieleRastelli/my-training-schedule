@@ -201,7 +201,7 @@ public class SearchFragment extends Fragment implements RecyclerViewAdapter.OnIt
             @Override
             public void onErrorResponse(VolleyError error) {
                 connectionAvailable = false;
-                Log.e(TAG, "Fail in calling allschedules endpoint: " + error.toString());
+                Log.e(TAG, "Fail in calling allschedules endpoint: ", error);
                 errorTextView.setVisibility(View.VISIBLE);
                 if (error.toString().equals("com.android.volley.TimeoutError")) {
                     errorTextView.setText("Can't connect to the server");

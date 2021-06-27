@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -31,8 +32,15 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This fragment is the one who handles the "SUGGESTED" part of explore schedules
+ *
+ * @author Gabriele Rastelli
+ * @author Mattia Gualtieri
+ */
 public class SuggestedFragment extends Fragment implements SuggestedAdapter.OnItemClickListener{
 
+    private String TAG="SuggestedFragment";
     private RecyclerView recyclerView;
     private String guid;
     private boolean connectionAvailable=true;
@@ -42,32 +50,38 @@ public class SuggestedFragment extends Fragment implements SuggestedAdapter.OnIt
     private SuggestedAdapter adapter;
     private List <String> categoriesToDisplay;
 
+    /**
+     * Constructor
+     * @param categoriesToDisplay
+     */
     public SuggestedFragment(List<String> categoriesToDisplay){
         this.categoriesToDisplay=new ArrayList<>();
         this.categoriesToDisplay=categoriesToDisplay;
-
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_suggested, container, false);
 
-
         recyclerView=root.findViewById(R.id.schedule_suggested_recycler);
 
+        /* gets guid from intent */
         guid = getActivity().getIntent().getStringExtra("USER_GUID");
-        JSONObject jsonObject = new JSONObject();
+
         try {
-            jsonObject.put("guid", guid);
-        } catch (JSONException e) {
-            e.printStackTrace();
+            Log.i(TAG, "Calling callSuggestedSchedules()");
+            callSuggestedSchedules(root);
+        } catch (JSONException je) {
+            Log.e(TAG, "An error occurred while preparing suggestedinfo request body", je);
+            Toast.makeText(getActivity(), "Can't get suggested schedules, try later.", Toast.LENGTH_SHORT).show();
         }
-
-        getSuggestedSchedules(getContext(), root, getResources().getString(R.string.base_url) + "/suggestedinfo", jsonObject);
-
 
         return root;
     }
 
+    /**
+     * This method is the that filters schedules to display basing on the categories received in constructor.
+     * Every time user selects a category fragment is recreated.
+     */
     private void filter(){
         filteredList=new ArrayList<>();
 
@@ -78,6 +92,19 @@ public class SuggestedFragment extends Fragment implements SuggestedAdapter.OnIt
         }
         adapter.filterList(filteredList);
         //recyclerView.scheduleLayoutAnimation(); /* without this method animation is not displayed */
+    }
+
+    /**
+     * This method prepares body to call suggestedinfo endpoint
+     * @param root
+     * @throws JSONException
+     */
+    private void callSuggestedSchedules(View root) throws JSONException {
+        JSONObject jsonObject = new JSONObject();
+
+        jsonObject.put("guid", guid);
+
+        getSuggestedSchedules(getContext(), root, getResources().getString(R.string.base_url) + "/suggestedinfo", jsonObject);
     }
 
     private void getSuggestedSchedules(Context context, View root, String url, JSONObject jsonObject) {
@@ -102,10 +129,14 @@ public class SuggestedFragment extends Fragment implements SuggestedAdapter.OnIt
                     adapter =new SuggestedAdapter(context, schede, SuggestedFragment.this);
                     recyclerView.setAdapter(adapter);
                     recyclerView.scheduleLayoutAnimation();
+                    /* filters schedules */
                     filter();
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    Log.e(TAG,"An error occurred while parsing suggested schedule returned from server", e);
+                    Toast.makeText(getActivity(), "Cannot get suggested schedules, try later.", Toast.LENGTH_SHORT).show();
+                    return;
                 }
+                Log.i(TAG, "Successfully got suggested schedules");
             }
         };
 
@@ -113,7 +144,8 @@ public class SuggestedFragment extends Fragment implements SuggestedAdapter.OnIt
             @Override
             public void onErrorResponse(VolleyError error) {
                 connectionAvailable = false;
-                Log.d("APP_DEBUG", "Fail: " + error.toString());
+                Log.e(TAG, "Fail in calling suggestedinfo endpoint: ", error);
+                Toast.makeText(getActivity(), "Cannot get suggested schedules, try later.", Toast.LENGTH_SHORT).show();
             }
         };
 
@@ -122,6 +154,10 @@ public class SuggestedFragment extends Fragment implements SuggestedAdapter.OnIt
         queue.add(stringRequest);
     }
 
+    /**
+     * This method is triggered when one schedule is clicked. Starts DownloadScheduleActivity
+     * @param position
+     */
     @Override
     public void onItemClick(int position) {
         Intent intent = new Intent(getContext(), DownloadScheduleActivity.class);

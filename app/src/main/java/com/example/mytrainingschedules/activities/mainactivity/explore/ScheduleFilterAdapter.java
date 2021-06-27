@@ -16,6 +16,12 @@ import org.json.JSONArray;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This adapter is used for the filtering buttons.
+ *
+ * @author Gabriele Rastelli
+ * @author Mattia Gualtieri
+ */
 public class ScheduleFilterAdapter extends BaseAdapter {
 
     private Context context;

@@ -294,7 +294,7 @@ public class UserPageActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 //connectionAvailable = false;
                 Toast.makeText(getApplicationContext(), "Can't save information, try later.", Toast.LENGTH_SHORT).show();
-                Log.e(TAG, "Fail in calling updateUser: " + error.toString());
+                Log.e(TAG, "Fail in calling updateUser: " ,error);
                 errorTextView.setVisibility(View.VISIBLE);
                 if (error.toString().equals("com.android.volley.TimeoutError")) {
                     errorTextView.setText("Can't connect to the server");
@@ -398,7 +398,7 @@ public class UserPageActivity extends AppCompatActivity {
         Response.ErrorListener onErrorListener = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, "Fail in calling getuserinfo: " + error.toString());
+                Log.e(TAG, "Fail in calling getuserinfo: " ,error);
                 errorTextView.setVisibility(View.VISIBLE);
                 if (error.toString().equals("com.android.volley.TimeoutError")) {
                     errorTextView.setText("Can't connect to the server");

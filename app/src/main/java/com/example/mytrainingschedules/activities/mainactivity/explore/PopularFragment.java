@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -31,8 +32,15 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This fragment is the one who handles the "POPULAR" part of explore schedules
+ *
+ * @author Gabriele Rastelli
+ * @author Mattia Gualtieri
+ */
 public class PopularFragment extends Fragment implements SuggestedAdapter.OnItemClickListener{
 
+    private String TAG="PopularFragment";
     private RecyclerView recyclerView;
     private String guid;
     private boolean connectionAvailable=true;
@@ -42,33 +50,39 @@ public class PopularFragment extends Fragment implements SuggestedAdapter.OnItem
     private SuggestedAdapter adapter;
     private List <String> categoriesToDisplay;
 
+    /**
+     * Constructor
+     * @param categoriesToDisplay
+     */
     public PopularFragment(List<String> categoriesToDisplay){
         this.categoriesToDisplay=new ArrayList<>();
         this.categoriesToDisplay=categoriesToDisplay;
-
     }
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_popular, container, false);
 
-
         recyclerView=root.findViewById(R.id.schedule_popular_recycler);
 
+        /* gets guid from intent */
         guid = getActivity().getIntent().getStringExtra("USER_GUID");
-        JSONObject jsonObject = new JSONObject();
+
         try {
-            jsonObject.put("guid", guid);
-        } catch (JSONException e) {
-            e.printStackTrace();
+            Log.i(TAG, "Calling callPopularSchedules()");
+            callPopularSchedules(root);
+        } catch (JSONException je) {
+            Log.e(TAG, "An error occurred while preparing popularschedules request body", je);
+            Toast.makeText(getActivity(), "Can't get popular schedules, try later.", Toast.LENGTH_SHORT).show();
         }
-
-        getPopularSchedules(getContext(), root, getResources().getString(R.string.base_url) + "/popularschedules", jsonObject);
-
 
         return root;
     }
 
+    /**
+     * This method is the that filters schedules to display basing on the categories received in constructor.
+     * Every time user selects a category fragment is recreated.
+     */
     private void filter(){
         filteredList=new ArrayList<>();
 
@@ -79,6 +93,19 @@ public class PopularFragment extends Fragment implements SuggestedAdapter.OnItem
         }
         adapter.filterList(filteredList);
         //recyclerView.scheduleLayoutAnimation(); /* without this method animation is not displayed */
+    }
+
+    /**
+     * This method prepares body to call popularschedules endpoint
+     * @param root
+     * @throws JSONException
+     */
+    private void callPopularSchedules(View root) throws JSONException {
+        JSONObject jsonObject = new JSONObject();
+
+        jsonObject.put("guid", guid);
+
+        getPopularSchedules(getContext(), root, getResources().getString(R.string.base_url) + "/popularschedules", jsonObject);
     }
 
     private void getPopularSchedules(Context context, View root, String url, JSONObject jsonObject) {
@@ -104,9 +131,12 @@ public class PopularFragment extends Fragment implements SuggestedAdapter.OnItem
                     adapter =new SuggestedAdapter(context, schede, PopularFragment.this);
                     recyclerView.setAdapter(adapter);
                     recyclerView.scheduleLayoutAnimation();
+                    /* filters schedules */
                     filter();
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    Log.e(TAG,"An error occurred while parsing popular schedule returned from server", e);
+                    Toast.makeText(getActivity(), "Cannot get popular schedules, try later.", Toast.LENGTH_SHORT).show();
+                    return;
                 }
             }
         };
@@ -115,7 +145,7 @@ public class PopularFragment extends Fragment implements SuggestedAdapter.OnItem
             @Override
             public void onErrorResponse(VolleyError error) {
                 connectionAvailable = false;
-                Log.d("APP_DEBUG", "Fail: " + error.toString());
+                Log.e(TAG, "Fail in calling popularschedules endpoint: ", error);
             }
         };
 
@@ -124,6 +154,10 @@ public class PopularFragment extends Fragment implements SuggestedAdapter.OnItem
         queue.add(stringRequest);
     }
 
+    /**
+     * This method is triggered when one schedule is clicked. Starts DownloadScheduleActivity
+     * @param position
+     */
     @Override
     public void onItemClick(int position) {
         Intent intent = new Intent(getContext(), DownloadScheduleActivity.class);
