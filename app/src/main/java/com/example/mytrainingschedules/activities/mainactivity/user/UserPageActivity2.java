@@ -99,10 +99,13 @@ public class UserPageActivity2 extends AppCompatActivity {
         editName = findViewById(R.id.edit_name);
         emailEditText = findViewById(R.id.email);
         emailEditText.setText("");
+        emailEditText.setBackgroundResource(R.color.transparent);
         nameEditText = findViewById(R.id.name);
         nameEditText.setText("");
+        nameEditText.setBackgroundResource(R.color.transparent);
         nicknameEditText = findViewById(R.id.nickname);
         nicknameEditText.setText("");
+        nicknameEditText.setBackgroundResource(R.color.transparent);
         scaleDown = AnimationUtils.loadAnimation(this, R.anim.scale_down);
         scaleUp = AnimationUtils.loadAnimation(this, R.anim.scale_up);
         createdSchedules = findViewById(R.id.schede_create_numero);
@@ -126,11 +129,13 @@ public class UserPageActivity2 extends AppCompatActivity {
                     }
                     nameEditText.setEnabled(false);
                     editName.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.edit_icon_black));
+                    nameEditText.setBackgroundResource(R.color.transparent);
                     saveName = false;
                 }
                 else{
                     nameEditText.setEnabled(true);
                     editName.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.check_green));
+                    nameEditText.setBackgroundResource(R.drawable.searchbar_style);
                     saveName = true;
                 }
             }
@@ -166,11 +171,13 @@ public class UserPageActivity2 extends AppCompatActivity {
                     }
                     nicknameEditText.setEnabled(false);
                     editNickname.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.edit_icon_black));
+                    nicknameEditText.setBackgroundResource(R.color.transparent);
                     saveNickname = false;
                 }
                 else{
                     nicknameEditText.setEnabled(true);
                     editNickname.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.check_green));
+                    nicknameEditText.setBackgroundResource(R.drawable.searchbar_style);
                     saveNickname = true;
                 }
             }

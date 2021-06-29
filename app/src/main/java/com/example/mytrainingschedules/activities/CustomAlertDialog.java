@@ -4,11 +4,11 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 
-public class CustomAlertDialog implements Runnable{
+public class CustomAlertDialog implements Runnable {
 
     private Context context;
     private String title, message;
-    DialogInterface.OnClickListener listenerPositive, listenerNegative;
+    private DialogInterface.OnClickListener listenerPositive, listenerNegative;
 
     public CustomAlertDialog(Context context, String title, String message) {
         this.context = context;

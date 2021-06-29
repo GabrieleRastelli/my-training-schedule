@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The Schedule class is composed by a list of Exercise, and other attributes.
@@ -16,7 +17,7 @@ public class Schedule implements Serializable {
     private String title;
     private String description;
     private boolean requireEquipment;
-    ArrayList<Exercise> exercises;
+    private ArrayList<Exercise> exercises;
 
     /**
      * Empty constructor of the class

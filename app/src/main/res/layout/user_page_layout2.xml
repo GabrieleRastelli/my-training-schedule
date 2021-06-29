@@ -275,7 +275,7 @@ android:layout_width="match_parent">
 
             <EditText
                 android:id="@+id/email"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
@@ -284,9 +284,9 @@ android:layout_width="match_parent">
                 android:enabled="false"
                 android:fontFamily="@font/seguisb"
                 android:hint=""
-                android:textColor="@drawable/edit_text_color"
                 android:inputType="textPersonName"
                 android:text="emailemail@email.com"
+                android:textColor="@drawable/edit_text_color"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
