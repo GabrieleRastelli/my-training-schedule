@@ -23,13 +23,15 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * EditExerciseActivity: used to edit an exercise (sets and rest)
+ * Called by: EditScheduleActivity
+ * Layout: edit_exercise_layout
+ *
+ * @author Gabriele Rastelli
+ * @author Mattia Gualtieri
+ */
 public class EditExerciseActivity extends AppCompatActivity implements RecyclerViewClickListener {
-
-    /*
-     * EditExerciseActivity: used to edit an exercise (sets and rest)
-     * Called by: EditScheduleActivity
-     * Layout: edit_exercise_layout
-     */
 
     private RecyclerView setsRecyclerView;
     private EditExerciseRecyclerViewAdapter recyclerViewAdapter;

@@ -16,11 +16,13 @@ import com.example.mytrainingschedules.activities.Exercise;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * RecyclerViewAdapter used for: AddExerciseActivity
+ *
+ * @author Gabriele Rastelli
+ * @author Mattia Gualtieri
+ */
 public class AddExerciseRecyclerViewAdapter extends RecyclerView.Adapter<AddExerciseRecyclerViewAdapter.CustomViewHolder> implements Filterable {
-
-    /*
-    * RecyclerViewAdapter used for: AddExerciseActivity
-    */
 
     private ArrayList<Exercise> exerciseList;
     private ArrayList<Exercise> exerciseListFull;

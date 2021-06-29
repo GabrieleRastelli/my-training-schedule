@@ -17,13 +17,15 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
+/**
+ * CreateExerciseActivity: used to create a new exercise
+ * Called by: AddExerciseActivity
+ * Layout: create_exercise_layout
+ *
+ * @author Gabriele Rastelli
+ * @author Mattia Gualtieri
+ */
 public class CreateExerciseActivity extends AppCompatActivity {
-
-    /*
-     * CreateExerciseActivity: used to create a new exercise
-     * Called by: AddExerciseActivity
-     * Layout: create_exercise_layout
-     */
 
     private FloatingActionButton done;
     private EditText nameEditText;

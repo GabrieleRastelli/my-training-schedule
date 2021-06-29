@@ -14,11 +14,13 @@ import com.example.mytrainingschedules.activities.Set;
 
 import java.util.ArrayList;
 
+/**
+ * RecyclerViewAdapter used for: EditExerciseActivity
+ *
+ * @author Gabriele Rastelli
+ * @author Mattia Gualtieri
+ */
 public class EditExerciseRecyclerViewAdapter extends RecyclerView.Adapter<EditExerciseRecyclerViewAdapter.CustomViewHolder> {
-
-    /*
-     * RecyclerViewAdapter used for: EditExerciseActivity
-     */
 
     private ArrayList<Set> sets;
     private static RecyclerViewClickListener itemListener;

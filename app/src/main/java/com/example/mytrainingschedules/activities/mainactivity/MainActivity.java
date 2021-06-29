@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.main_layout);
         BottomNavigationView navView = findViewById(R.id.nav_view);
 
-
         /* shows notification bar */
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
@@ -31,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(R.id.navigation_home, R.id.navigation_settings, R.id.navigation_premium).build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-
 
         NavigationUI.setupWithNavController(navView, navController);
     }

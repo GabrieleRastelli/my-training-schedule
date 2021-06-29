@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 /**
  * The Exercise class is composed by a list of Set, and other attributes.
+ *
  * @author Mattia Gualtieri
  * @author Gabriele Rastelli
  */

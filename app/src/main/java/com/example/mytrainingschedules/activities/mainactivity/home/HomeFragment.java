@@ -42,13 +42,15 @@ import org.json.JSONObject;
 
 import java.util.Iterator;
 
+/**
+ * The HomeFragment is the home page of the app
+ * Called by: SplashActivity, LoginActivity, RegisterActivity
+ * Layout: home_fragment
+ *
+ * @author Gabriele Rastelli
+ * @author Mattia Gualtieri
+ */
 public class HomeFragment extends Fragment {
-
-    /*
-     * HomeFragment: home page of the app
-     * Called by: SplashActivity, LoginActivity, RegisterActivity
-     * Layout: home_fragment
-     */
 
     private String guid;
     private GridView gridView;

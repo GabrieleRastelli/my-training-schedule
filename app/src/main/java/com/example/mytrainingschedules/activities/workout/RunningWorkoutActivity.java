@@ -31,6 +31,14 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Random;
 
+/**
+ * Activity for the schedule in running
+ * Called by: ViewScheduleActivity
+ * Layout: workout_layout
+ *
+ * @author Gabriele Rastelli
+ * @author Mattia Gualtieri
+ */
 public class RunningWorkoutActivity extends AppCompatActivity {
 
     private Schedule schedule;

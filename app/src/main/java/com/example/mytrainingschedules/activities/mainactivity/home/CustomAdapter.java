@@ -16,11 +16,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * BaseAdapter used for: HomeFragment
+ *
+ * @author Gabriele Rastelli
+ * @author Mattia Gualtieri
+ */
 public class CustomAdapter extends BaseAdapter {
-
-    /*
-     * BaseAdapter used for: HomeFragment
-     */
 
     private Context context;
     private JSONArray data;

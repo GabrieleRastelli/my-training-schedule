@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * The Schedule class is composed by a list of Exercise, and other attributes.
+ *
  * @author Mattia Gualtieri
  * @author Gabriele Rastelli
  */

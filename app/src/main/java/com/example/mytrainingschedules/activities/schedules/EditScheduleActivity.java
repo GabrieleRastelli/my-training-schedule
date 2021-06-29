@@ -35,13 +35,15 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * EditScheduleActivity: used to edit a schedule
+ * Called by: ViewScheduleActivity
+ * Layout: edit_schedule_layout
+ *
+ * @author Gabriele Rastelli
+ * @author Mattia Gualtieri
+ */
 public class EditScheduleActivity extends AppCompatActivity implements RecyclerViewClickListener {
-
-    /*
-     * EditScheduleActivity: used to edit a schedule
-     * Called by: ViewScheduleActivity
-     * Layout: edit_schedule_layout
-     */
 
     private RecyclerView listOfExercises;
     private EditScheduleRecyclerViewAdapter recyclerViewAdapter;

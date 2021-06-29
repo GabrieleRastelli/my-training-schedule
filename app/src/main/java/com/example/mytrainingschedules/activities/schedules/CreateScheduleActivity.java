@@ -37,13 +37,15 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * CreateScheduleActivity: used to create a new schedule
+ * Called by: HomeFragment
+ * Layout: create_schedule_layout
+ *
+ * @author Gabriele Rastelli
+ * @author Mattia Gualtieri
+ */
 public class CreateScheduleActivity extends AppCompatActivity implements RecyclerViewClickListener {
-
-    /*
-     * CreateScheduleActivity: used to create a new schedule
-     * Called by: HomeFragment
-     * Layout: create_schedule_layout
-     */
 
     private RecyclerView listOfExercises;
     private EditScheduleRecyclerViewAdapter recyclerViewAdapter;

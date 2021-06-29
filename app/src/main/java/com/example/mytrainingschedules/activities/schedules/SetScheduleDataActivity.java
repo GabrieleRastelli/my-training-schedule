@@ -25,13 +25,15 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * SetScheduleDataActivity: used to give the schedule a title and a description
+ * Called by: CreateScheduleActivity
+ * Layout: set_schedule_data_layout
+ *
+ * @author Gabriele Rastelli
+ * @author Mattia Gualtieri
+ */
 public class SetScheduleDataActivity extends AppCompatActivity {
-
-    /*
-     * SetScheduleDataActivity: used to give the schedule a title and a description
-     * Called by: CreateScheduleActivity
-     * Layout: set_schedule_data_layout
-     */
 
     private Schedule schedule;
     private String guid;

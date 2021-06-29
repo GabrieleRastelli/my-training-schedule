@@ -14,6 +14,12 @@ import com.android.volley.VolleyError;
 
 import org.json.JSONObject;
 
+/**
+ * Class that implements a simple POST client, using Volley
+ *
+ * @author Gabriele Rastelli
+ * @author Mattia Gualtieri
+ */
 public class VolleyPostClient {
 
     private boolean connectionAvailable;

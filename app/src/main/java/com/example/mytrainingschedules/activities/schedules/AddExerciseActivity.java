@@ -35,13 +35,15 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ * AddExerciseActivity: used to add exercise to the schedule
+ * Called by: EditScheduleActivity, CreateScheduleActivity
+ * Layout: add_exercise_layout
+ *
+ * @author Gabriele Rastelli
+ * @author Mattia Gualtieri
+ */
 public class AddExerciseActivity extends AppCompatActivity implements RecyclerViewClickListener {
-
-    /*
-    * AddExerciseActivity: used to add exercise to the schedule
-    * Called by: EditScheduleActivity, CreateScheduleActivity
-    * Layout: add_exercise_layout
-    */
 
     private ArrayList<Exercise> exerciseList;
     private RecyclerView allExercises;

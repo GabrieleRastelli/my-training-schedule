@@ -4,6 +4,12 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 
+/**
+ * Class that implements an alert dialog
+ *
+ * @author Gabriele Rastelli
+ * @author Mattia Gualtieri
+ */
 public class CustomAlertDialog implements Runnable {
 
     private Context context;

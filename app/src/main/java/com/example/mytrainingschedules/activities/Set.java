@@ -3,6 +3,7 @@ import java.io.Serializable;
 
 /**
  * The Set class is used to represent reps and weight in an Exercise.
+ *
  * @author Mattia Gualtieri
  * @author Gabriele Rastelli
  */

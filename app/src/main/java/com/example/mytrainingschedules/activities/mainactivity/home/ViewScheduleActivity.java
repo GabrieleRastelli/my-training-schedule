@@ -33,13 +33,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * ViewScheduleActivity is the activity where the user can view the content of a schedule
+ * Called by: HomeFragment
+ * Layout: view_schedule_layout
+ *
+ * @author Gabriele Rastelli
+ * @author Mattia Gualtieri
+ */
 public class ViewScheduleActivity extends AppCompatActivity {
-
-    /*
-     * ViewScheduleActivity: view exercises of a schedule
-     * Called by: HomeFragment
-     * Layout: view_schedule_layout
-     */
 
     private String guid, scheduleTitle, scheduleDescription;
     private int scheduleId;
