@@ -80,7 +80,7 @@ public class CreateScheduleActivity extends AppCompatActivity implements Recycle
         listOfExercises.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         listOfExercises.setLayoutManager(layoutManager);
-        recyclerViewAdapter = new EditScheduleRecyclerViewAdapter(exercises, this);
+        recyclerViewAdapter = new EditScheduleRecyclerViewAdapter(exercises, this, this);
         listOfExercises.setAdapter(recyclerViewAdapter);
 
         recyclerViewAdapter.notifyDataSetChanged();
@@ -122,7 +122,7 @@ public class CreateScheduleActivity extends AppCompatActivity implements Recycle
             @Override
             public void onClick(View view) {
                 if(exercises.size() == 0){
-                    Toast.makeText(getApplicationContext(), "Add at least one exercise", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.one_ex_at_least), Toast.LENGTH_SHORT).show();
                 }
                 else{
                     boolean setnull = false;
@@ -132,7 +132,7 @@ public class CreateScheduleActivity extends AppCompatActivity implements Recycle
                         }
                     }
                     if(setnull){
-                        Toast.makeText(getApplicationContext(), "There is an exercise with 0 sets!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), getString(R.string.ex_0_sets), Toast.LENGTH_SHORT).show();
                     }
                     else{
                         Intent intent = new Intent(getApplicationContext(), SetScheduleDataActivity.class);
@@ -166,7 +166,7 @@ public class CreateScheduleActivity extends AppCompatActivity implements Recycle
             CreateScheduleActivity.this.finish();
         }
         else{
-            CustomAlertDialog alertDialog = new CustomAlertDialog(CreateScheduleActivity.this, "Exit", "Attention: all progress will be lost");
+            CustomAlertDialog alertDialog = new CustomAlertDialog(CreateScheduleActivity.this, getString(R.string.exit), getString(R.string.exit_confirm));
             alertDialog.setListenerPositive(new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {

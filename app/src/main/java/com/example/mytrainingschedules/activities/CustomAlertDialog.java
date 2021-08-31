@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 
+import com.example.mytrainingschedules.R;
+
 /**
  * Class that implements an alert dialog
  *
@@ -54,8 +56,8 @@ public class CustomAlertDialog implements Runnable {
                 .setTitle(title)
                 .setMessage(message)
                 .setCancelable(true)
-                .setPositiveButton("YES", listenerPositive)
-                .setNegativeButton("NO", listenerNegative)
+                .setPositiveButton(context.getResources().getString(R.string.yes), listenerPositive)
+                .setNegativeButton(context.getResources().getString(R.string.no), listenerNegative)
                 .show();
     }
 }

@@ -52,7 +52,7 @@ public class CreateExerciseActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String name = nameEditText.getText().toString();
                 if(name.equals("") || name == null){
-                    Toast.makeText(getApplicationContext(), "Please insert exercise name!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.insert_ex_name), Toast.LENGTH_SHORT).show();
                 }
                 else{
                     String category = categorySpinner.getSelectedItem().toString().toUpperCase();

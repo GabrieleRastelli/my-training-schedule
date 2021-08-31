@@ -25,7 +25,7 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
 
     public static class CustomViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView exerciseTitle, exerciseCategory, reps, sets, weight, rest;
+        public TextView exerciseTitle, exerciseCategory, reps, sets, weight, rest, moveItem;
 
         public CustomViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -35,6 +35,7 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
             sets = itemView.findViewById(R.id.index);
             weight = itemView.findViewById(R.id.weightTextView);
             rest = itemView.findViewById(R.id.rest);
+            moveItem = itemView.findViewById(R.id.move_item);
         }
 
     }
@@ -99,6 +100,7 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
                 holder.exerciseCategory.setBackground(holder.itemView.getContext().getResources().getDrawable(R.drawable.default_tag));
                 break;
         }
+        holder.moveItem.setVisibility(View.INVISIBLE);
     }
 
     @Override

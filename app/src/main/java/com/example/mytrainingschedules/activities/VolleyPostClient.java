@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.example.mytrainingschedules.R;
 
 import org.json.JSONObject;
 
@@ -74,18 +75,18 @@ public class VolleyPostClient {
                 if (errorTextView != null){
                     errorTextView.setVisibility(View.VISIBLE);
                     if (error.toString().equals(TIMEOUT_ERROR)) {
-                        errorTextView.setText("Can't connect to the server");
+                        errorTextView.setText(context.getResources().getString(R.string.error_));
                     } else if (error.toString().equals(AUTH_FAILURE_ERROR)) {
-                        errorTextView.setText("Invalid credentials");
+                        errorTextView.setText(context.getResources().getString(R.string.user_already_registered));
                     } else {
-                        errorTextView.setText("No Internet connection");
+                        errorTextView.setText(context.getResources().getString(R.string.no_internet_connection));
                         if (errorImageView != null){
                             errorImageView.setVisibility(View.VISIBLE);
                         }
                     }
                 }
                 else {
-                    Toast.makeText(context, "Can't connect to the server", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, context.getResources().getString(R.string.cant_connect_server), Toast.LENGTH_SHORT).show();
                 }
             }
         };

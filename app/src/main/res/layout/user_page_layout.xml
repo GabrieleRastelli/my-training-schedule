@@ -203,7 +203,7 @@
                     android:layout_below="@+id/schede_create_numero"
                     android:layout_centerInParent="true"
                     android:fontFamily="@font/seguisb"
-                    android:text="Schedule created"
+                    android:text="@string/schedule_created"
                     android:textSize="14dp" />
             </RelativeLayout>
 
@@ -249,7 +249,7 @@
                     android:layout_below="@+id/schede_scaricate_numero"
                     android:layout_centerInParent="true"
                     android:fontFamily="@font/seguisb"
-                    android:text="Download from users"
+                    android:text="@string/download_from_users"
                     android:textSize="14dp" />
             </RelativeLayout>
 
@@ -264,7 +264,7 @@
         android:layout_marginLeft="32dp"
         android:layout_marginTop="488dp"
         android:fontFamily="@font/seguisb"
-        android:text="Email"
+        android:text="@string/email"
         android:textColor="@color/grey"
         android:textSize="26dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -278,7 +278,7 @@
         android:layout_marginLeft="32dp"
         android:layout_marginTop="364dp"
         android:fontFamily="@font/seguisb"
-        android:text="Name"
+        android:text="@string/name"
         android:textColor="@color/grey"
         android:textSize="26dp"
         app:layout_constraintStart_toStartOf="parent"

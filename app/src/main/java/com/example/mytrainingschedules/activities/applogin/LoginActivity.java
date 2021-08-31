@@ -78,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                         postLogin(getApplicationContext(), url, jsonObject);
 
                     } else{
-                        Toast.makeText(getApplicationContext(), "Compile all fields to proceed with login!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), getString(R.string.missing_fields), Toast.LENGTH_SHORT).show();
                     }
                 }
                 return true;
@@ -139,13 +139,13 @@ public class LoginActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.GONE);
                 Log.d("APP_DEBUG", "Fail: " + error.toString());
                 if(error.toString().equals("com.android.volley.TimeoutError")) {
-                    errorTextView.setText("Can't connect to the server");
+                    errorTextView.setText(getString(R.string.cant_connect_server));
                 }
                 else if(error.toString().equals("com.android.volley.AuthFailureError")){
-                    errorTextView.setText("Invalid credentials");
+                    errorTextView.setText(getString(R.string.invalid_credentials));
                 }
                 else{
-                    errorTextView.setText("No Internet connection");
+                    errorTextView.setText(getString(R.string.no_internet_connection));
                 }
             }
         };

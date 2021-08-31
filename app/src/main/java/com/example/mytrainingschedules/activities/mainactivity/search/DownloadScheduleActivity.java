@@ -63,7 +63,7 @@ public class DownloadScheduleActivity extends AppCompatActivity {
             callScheduleInfo();
         } catch (JSONException je) {
             Log.e(TAG, "An error occurred while preparing scheduleinfo request body", je);
-            Toast.makeText(this, "Can't get schedules, try later.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.error_download_schedule), Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -112,7 +112,7 @@ public class DownloadScheduleActivity extends AppCompatActivity {
                         callDownloadSchedule();
                     } catch (JSONException je) {
                         Log.e(TAG, "An error occurred while calling callDownloadSchedule", je);
-                        Toast.makeText(getApplicationContext(), "Unable to save schedule", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), getString(R.string.error_save_schedule), Toast.LENGTH_SHORT).show();
                     }
                 }
                 return true;
@@ -150,7 +150,7 @@ public class DownloadScheduleActivity extends AppCompatActivity {
                 try {
                     jsonResponse = new JSONObject(response);
                     result = jsonResponse.getJSONObject("result");
-                    String createdBy="Created by: "+result.getString("creator");
+                    String createdBy=getString(R.string.created_by)+result.getString("creator");
                     creator.setText(createdBy);
                     String dataJsonString=result.getString("dataJson");
                     dataJson = new JSONObject(dataJsonString);
@@ -175,11 +175,11 @@ public class DownloadScheduleActivity extends AppCompatActivity {
                 Log.e(TAG, "Fail in calling scheduleinfo endpoint: ", error);
                 errorTextView.setVisibility(View.VISIBLE);
                 if (error.toString().equals("com.android.volley.TimeoutError")) {
-                    errorTextView.setText("Can't connect to the server");
+                    errorTextView.setText(getString(R.string.cant_connect_server));
                 } else if (error.toString().equals("com.android.volley.AuthFailureError")) {
-                    errorTextView.setText("Invalid credentials");
+                    errorTextView.setText(getString(R.string.invalid_credentials));
                 } else {
-                    errorTextView.setText("No Internet connection");
+                    errorTextView.setText(getString(R.string.no_internet_connection));
                 }
             }
         };
@@ -212,7 +212,7 @@ public class DownloadScheduleActivity extends AppCompatActivity {
             public void onResponse(String response) {
 
                 progressBar.setVisibility(View.INVISIBLE);
-                Toast.makeText(getApplicationContext(), "Schedule saved, you can now find it in your schedules!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.schedule_saved), Toast.LENGTH_SHORT).show();
                 Log.i(TAG, "Successfully downloaded schedule");
             }
         };
@@ -224,13 +224,13 @@ public class DownloadScheduleActivity extends AppCompatActivity {
                 Log.e(TAG, "Fail in calling download schedule endpoint: ", error);
                 errorTextView.setVisibility(View.VISIBLE);
                 if (error.toString().equals("com.android.volley.TimeoutError")) {
-                    errorTextView.setText("Can't connect to the server");
+                    errorTextView.setText(getString(R.string.cant_connect_server));
                 } else if (error.toString().equals("com.android.volley.AuthFailureError")) {
-                    errorTextView.setText("Invalid credentials");
+                    errorTextView.setText(getString(R.string.invalid_credentials));
                 } else {
-                    errorTextView.setText("No Internet connection");
+                    errorTextView.setText(getString(R.string.no_internet_connection));
                 }
-                Toast.makeText(getApplicationContext(), "Cannot save schedule, try later.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.error_save_schedule), Toast.LENGTH_SHORT).show();
             }
         };
 

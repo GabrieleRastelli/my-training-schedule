@@ -130,7 +130,7 @@ public class ViewScheduleActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                CustomAlertDialog alertDialog = new CustomAlertDialog(ViewScheduleActivity.this, "Delete schedule", "Are you sure you want to delete this schedule?");
+                CustomAlertDialog alertDialog = new CustomAlertDialog(ViewScheduleActivity.this, getString(R.string.delete_schedule), getString(R.string.delete_schedule_confirm));
                 alertDialog.setListenerPositive(new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -167,7 +167,7 @@ public class ViewScheduleActivity extends AppCompatActivity {
                 try {
                     jsonResponse = new JSONObject(response);
                     result = jsonResponse.getJSONObject("result");
-                    String createdBy="Created by: "+result.getString("creator");
+                    String createdBy=getString(R.string.created_by)+result.getString("creator");
                     creator.setText(createdBy);
                     String dataJsonString=result.getString("dataJson");
                     Log.d("APP_DEBUG", dataJsonString);
@@ -202,7 +202,7 @@ public class ViewScheduleActivity extends AppCompatActivity {
                 try {
                     jsonResponse = new JSONObject(response);
 
-                    Toast.makeText(context, "Schedule deleted successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, getString(R.string.success_delete), Toast.LENGTH_SHORT).show();
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Log.d("APP_DEBUG", e.toString());

@@ -145,7 +145,7 @@ public class EditExerciseActivity extends AppCompatActivity implements RecyclerV
             @Override
             public void onClick(View view) {
                 if(sets.size() == 0){
-                    Toast.makeText(getApplicationContext(), "Add at least one set", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.one_set_at_least), Toast.LENGTH_SHORT).show();
                 }
                 else{
                     boolean repsnull = false;
@@ -155,7 +155,7 @@ public class EditExerciseActivity extends AppCompatActivity implements RecyclerV
                         }
                     }
                     if(repsnull){
-                        Toast.makeText(getApplicationContext(), "There is a set with 0 reps!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), getString(R.string.ex_0_sets), Toast.LENGTH_SHORT).show();
                     }
                     else{
                         exercise.setSets(sets);

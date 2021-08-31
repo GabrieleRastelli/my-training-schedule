@@ -72,7 +72,7 @@ public class SuggestedFragment extends Fragment implements SuggestedAdapter.OnIt
             callSuggestedSchedules(root);
         } catch (JSONException je) {
             Log.e(TAG, "An error occurred while preparing suggestedinfo request body", je);
-            Toast.makeText(getActivity(), "Can't get suggested schedules, try later.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), getString(R.string.error_suggested_schedule), Toast.LENGTH_SHORT).show();
         }
 
         return root;
@@ -133,7 +133,7 @@ public class SuggestedFragment extends Fragment implements SuggestedAdapter.OnIt
                     filter();
                 } catch (JSONException e) {
                     Log.e(TAG,"An error occurred while parsing suggested schedule returned from server", e);
-                    Toast.makeText(getActivity(), "Cannot get suggested schedules, try later.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getString(R.string.error_suggested_schedule), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Log.i(TAG, "Successfully got suggested schedules");
@@ -145,7 +145,7 @@ public class SuggestedFragment extends Fragment implements SuggestedAdapter.OnIt
             public void onErrorResponse(VolleyError error) {
                 connectionAvailable = false;
                 Log.e(TAG, "Fail in calling suggestedinfo endpoint: ", error);
-                Toast.makeText(getActivity(), "Cannot get suggested schedules, try later.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getString(R.string.error_suggested_schedule), Toast.LENGTH_SHORT).show();
             }
         };
 

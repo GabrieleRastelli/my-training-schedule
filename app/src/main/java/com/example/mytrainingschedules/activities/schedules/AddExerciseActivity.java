@@ -115,7 +115,7 @@ public class AddExerciseActivity extends AppCompatActivity implements RecyclerVi
             @Override
             public void onClick(View view) {
                 if(selectedExerciseTitle == null || selectedExerciseCategory == null){
-                    Toast.makeText(getApplicationContext(), "Please select an exercise, or create one", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.select_exercise), Toast.LENGTH_LONG).show();
                 }
                 else{
                     Exercise exercise = new Exercise(selectedExerciseTitle, new ArrayList<Set>(), 0, 0, selectedExerciseCategory);

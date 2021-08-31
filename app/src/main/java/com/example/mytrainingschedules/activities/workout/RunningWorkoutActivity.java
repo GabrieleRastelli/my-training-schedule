@@ -93,7 +93,7 @@ public class RunningWorkoutActivity extends AppCompatActivity {
 
         new CountDownTimer(5000, 1000) {
             public void onTick(long millisUntilFinished) {
-                initTimer.setText("Workout starting in...\n" + millisUntilFinished / 1000);
+                initTimer.setText(context.getResources().getString(R.string.workout_starting) + millisUntilFinished / 1000);
             }
             public void onFinish() {
                 initTimer.setVisibility(View.GONE);
@@ -187,17 +187,17 @@ public class RunningWorkoutActivity extends AppCompatActivity {
                 long mins=((elapsed/1000)/60);
                 long sec=(elapsed/1000);
                 StringBuilder sb = new StringBuilder();
-                sb.append("It took only ");
+                sb.append(getString(R.string.it_took_only));
                 if(hour!=0){
                     sb.append(hour);
-                    sb.append(" Hours, ");
+                    sb.append(getString(R.string.hours));
                 }
                 if (mins!=0 || hour!=0){
                     sb.append(mins);
-                    sb.append(" Minutes and ");
+                    sb.append(getString(R.string.minutes));
                 }
                 sb.append(sec);
-                sb.append(" Seconds!");
+                sb.append(getString(R.string.seconds));
                 time.setText(sb.toString());
                 time.startAnimation(set);
                 time.setVisibility(View.VISIBLE);
@@ -207,7 +207,7 @@ public class RunningWorkoutActivity extends AppCompatActivity {
                 if(numberOfTimeRested==0) {
                     numberOfTimeRested = 1;
                 }
-                middleRest.setText("Your avarage rest is "+restElapsed/numberOfTimeRested+" seconds.");
+                middleRest.setText(getString(R.string.avarage_rest)+restElapsed/numberOfTimeRested+getString(R.string.seconds_));
                 middleRest.startAnimation(set);
                 middleRest.setVisibility(View.VISIBLE);
 
@@ -244,10 +244,10 @@ public class RunningWorkoutActivity extends AppCompatActivity {
             weight.setText(currentExercise.getSets().get(doneSets).getWeight() + " kg");
         }
         else{
-            weight.setText("Bodyweight exercise");
+            weight.setText(getString(R.string.bodyweight_ex));
         }
         sets.setVisibility(View.VISIBLE);
-        sets.setText("Sets: " + (currentExercise.getSetsNumber() - doneSets));
+        sets.setText(getString(R.string.sets_) + (currentExercise.getSetsNumber() - doneSets));
         addSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -293,12 +293,12 @@ public class RunningWorkoutActivity extends AppCompatActivity {
             rest.setVisibility(View.VISIBLE);
             new CountDownTimer((currentExercise.getRest_between_exercises() + 1) * 1000, 1000) {
                 public void onTick(long millisUntilFinished) {
-                    rest.setText("Exercise completed!\nRest: " + millisUntilFinished / 1000);
+                    rest.setText(getString(R.string.exercise_completed) + millisUntilFinished / 1000);
                     addSet.setEnabled(false);
                 }
                 public void onFinish() {
                     if((index + 1) != schedule.lenght()){
-                        rest.setText("Next exercise: " + schedule.getExercises().get(index + 1).getName());
+                        rest.setText(getString(R.string.next_ex) + schedule.getExercises().get(index + 1).getName());
                         timerRunning=false;
                     }
                 }
@@ -312,7 +312,7 @@ public class RunningWorkoutActivity extends AppCompatActivity {
             timerReps = new CountDownTimer((currentExercise.getRest() + 1) * 1000, 1000) {
                 public void onTick(long millisUntilFinished) {
                     addSet.setImageResource(R.drawable.tick);
-                    rest.setText("Rest: " + millisUntilFinished / 1000);
+                    rest.setText(getString(R.string.rest_) + millisUntilFinished / 1000);
                 }
                 public void onFinish() { /* oltre a questo c'è il metodo resetTimer */
                     timerRunning=false;
@@ -322,7 +322,7 @@ public class RunningWorkoutActivity extends AppCompatActivity {
                     if((restEnd-restStart)!=0){
                         numberOfTimeRested++;
                     }
-                    sets.setText("Sets: " + (currentExercise.getSetsNumber() - doneSetsTmp));
+                    sets.setText(getString(R.string.sets_) + (currentExercise.getSetsNumber() - doneSetsTmp));
                     startExercise(index, doneSetsTmp);
                 }
             }.start();
@@ -343,14 +343,14 @@ public class RunningWorkoutActivity extends AppCompatActivity {
         Exercise currentExercise = schedule.getExercises().get(index);
         doneSets++;
 
-        sets.setText("Sets: " + (currentExercise.getSetsNumber() - doneSets));
+        sets.setText(getString(R.string.sets_) + (currentExercise.getSetsNumber() - doneSets));
         startExercise(index, doneSets);
     }
 
     @Override
     public void onBackPressed() {
 
-        CustomAlertDialog alertDialog = new CustomAlertDialog(RunningWorkoutActivity.this, "Terminate workout", "All progress will be lost");
+        CustomAlertDialog alertDialog = new CustomAlertDialog(RunningWorkoutActivity.this, getString(R.string.terminate_wo), getString(R.string.exit_confirm));
         alertDialog.setListenerPositive(new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

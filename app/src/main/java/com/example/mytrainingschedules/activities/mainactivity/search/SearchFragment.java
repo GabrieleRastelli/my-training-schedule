@@ -78,7 +78,7 @@ public class SearchFragment extends Fragment implements RecyclerViewAdapter.OnIt
             callGetAllScheudules(root);
         } catch (JSONException je) {
             Log.e(TAG, "An error occurred while preparing getallschedules request body", je);
-            Toast.makeText(context, "Can't get schedules, try later.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, getString(R.string.error_get_schedules), Toast.LENGTH_SHORT).show();
         }
 
         return root;
@@ -171,7 +171,7 @@ public class SearchFragment extends Fragment implements RecyclerViewAdapter.OnIt
 
 
                     if(result.length() == 0){
-                        errorTextView.setText("No schedules found!");
+                        errorTextView.setText(getString(R.string.no_schedules));
                         errorTextView.setTextColor(Color.DKGRAY);
                         errorTextView.setVisibility(View.VISIBLE);
                     }
@@ -189,7 +189,7 @@ public class SearchFragment extends Fragment implements RecyclerViewAdapter.OnIt
 
                 } catch (JSONException je) {
                     Log.e(TAG, "An error occurred while calling allschedules", je);
-                    Toast.makeText(context, "Can't get schedules information, try later.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, getString(R.string.error_get_schedule_info), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Log.i(TAG, "Successfully called allschedules endpoint");
@@ -204,11 +204,11 @@ public class SearchFragment extends Fragment implements RecyclerViewAdapter.OnIt
                 Log.e(TAG, "Fail in calling allschedules endpoint: ", error);
                 errorTextView.setVisibility(View.VISIBLE);
                 if (error.toString().equals("com.android.volley.TimeoutError")) {
-                    errorTextView.setText("Can't connect to the server");
+                    errorTextView.setText(getString(R.string.cant_connect_server));
                 } else if (error.toString().equals("com.android.volley.AuthFailureError")) {
-                    errorTextView.setText("Invalid credentials");
+                    errorTextView.setText(getString(R.string.invalid_credentials));
                 } else {
-                    errorTextView.setText("No Internet connection");
+                    errorTextView.setText(getString(R.string.no_internet_connection));
                 }
             }
         };

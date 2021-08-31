@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import com.android.volley.Request;
@@ -68,7 +70,6 @@ public class HomeFragment extends Fragment {
      * getActivity() --> MainActivity
      * root          --> HomeFragment
      */
-
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.home_fragment, container, false);
 
@@ -83,7 +84,7 @@ public class HomeFragment extends Fragment {
         progressBar.setVisibility(View.GONE);
 
         numberOfSchedules = root.findViewById(R.id.number_of_schedules);
-        numberOfSchedules.setText("0 Schedules");
+        numberOfSchedules.setText(getString(R.string.home_schedule_number));
 
         /* Parse GUID into JSONObject. */
         guid = getActivity().getIntent().getStringExtra("USER_GUID");
@@ -107,7 +108,7 @@ public class HomeFragment extends Fragment {
                     startActivity(intent);
                 }
                 else{
-                    Toast.makeText(getActivity().getApplicationContext(), "Unable to add schedule", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity().getApplicationContext(), getString(R.string.unable_add_schedule), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -178,13 +179,13 @@ public class HomeFragment extends Fragment {
                 }
 
                 if(result.length() == 0){
-                    errorTextView.setText("No schedules found, click the \"+\" button to add your first schedule!");
+                    errorTextView.setText(getString(R.string.no_schedules_found));
                     errorTextView.setTextColor(Color.DKGRAY);
                     errorTextView.setVisibility(View.VISIBLE);
                     numberOfSchedules.setText("" + 0);
                 }
 
-                numberOfSchedules.setText(result.length()+" Schedules");
+                numberOfSchedules.setText(result.length()+getString(R.string.schedule));
                 adapter = new CustomAdapter(context, result);
                 gridView.setAdapter(adapter);
             }

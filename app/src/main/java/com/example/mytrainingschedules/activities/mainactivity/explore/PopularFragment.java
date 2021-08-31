@@ -73,7 +73,7 @@ public class PopularFragment extends Fragment implements SuggestedAdapter.OnItem
             callPopularSchedules(root);
         } catch (JSONException je) {
             Log.e(TAG, "An error occurred while preparing popularschedules request body", je);
-            Toast.makeText(getActivity(), "Can't get popular schedules, try later.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), getString(R.string.error_popular_schedules), Toast.LENGTH_SHORT).show();
         }
 
         return root;
@@ -135,7 +135,7 @@ public class PopularFragment extends Fragment implements SuggestedAdapter.OnItem
                     filter();
                 } catch (JSONException e) {
                     Log.e(TAG,"An error occurred while parsing popular schedule returned from server", e);
-                    Toast.makeText(getActivity(), "Cannot get popular schedules, try later.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getString(R.string.error_popular_schedules), Toast.LENGTH_SHORT).show();
                     return;
                 }
             }

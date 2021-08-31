@@ -33,9 +33,9 @@ public class IntroActivity extends AppCompatActivity {
         setContentView(R.layout.intro_layout);
 
         List<ScreenItem> mList = new ArrayList<>();
-        mList.add(new ScreenItem("Welcome!", "Welcome to My Training Schedules. With this app you can explore schedules from users all around the world and create your own one to become part of the community!", R.drawable.exercise));
-        mList.add(new ScreenItem("Use whatever you want!", "You can also find schedules that don't require the use of technical equipment. Become the master of bodyweight trainings!", R.drawable.weightlifting));
-        mList.add(new ScreenItem("Let's start!", "No more paper schedule is needed. All of your favorite ones are saved in cloud, you can bring them easily with you everywhere. Now join us and have fun with My Training Schedules!", R.drawable.gym));
+        mList.add(new ScreenItem(getString(R.string.welcome), getString(R.string.welcome_description), R.drawable.exercise));
+        mList.add(new ScreenItem(getString(R.string.use_whatever_you_want), getString(R.string.second_intro_description), R.drawable.weightlifting));
+        mList.add(new ScreenItem(getString(R.string.lets_start), getString(R.string.third_intro_description), R.drawable.gym));
 
         screenPager = findViewById(R.id.screen_viewpager);
         introViewPagerAdapter = new IntroViewPagerAdapter(this, mList);
@@ -50,7 +50,7 @@ public class IntroActivity extends AppCompatActivity {
         scaleUp = AnimationUtils.loadAnimation(this, R.anim.scale_up);
         buttonNext.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if(screenPager.getCurrentItem() < 2 && !textView.getText().equals("GO TO APP")){
+                if(screenPager.getCurrentItem() < 2 && !(textView.getText().equals("GO TO APP") || textView.getText().equals("VAI ALL'APP"))){
                     buttonNext.startAnimation(scaleDown);
                     buttonNext.startAnimation(scaleUp);
                     screenPager.setCurrentItem(screenPager.getCurrentItem() + 1);
@@ -69,5 +69,6 @@ public class IntroActivity extends AppCompatActivity {
                 }
             }
         });
+
     }
 }

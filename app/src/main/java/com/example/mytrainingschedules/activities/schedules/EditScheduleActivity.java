@@ -70,7 +70,7 @@ public class EditScheduleActivity extends AppCompatActivity implements RecyclerV
         listOfExercises.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         listOfExercises.setLayoutManager(layoutManager);
-        recyclerViewAdapter = new EditScheduleRecyclerViewAdapter(exercises, this);
+        recyclerViewAdapter = new EditScheduleRecyclerViewAdapter(exercises, this, this);
         listOfExercises.setAdapter(recyclerViewAdapter);
 
         recyclerViewAdapter.notifyDataSetChanged();
@@ -148,7 +148,7 @@ public class EditScheduleActivity extends AppCompatActivity implements RecyclerV
         Response.Listener<String> onSuccessListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Toast.makeText(context, "Schedule succesfully updated", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, getString(R.string.schedule_success_saved), Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(context, MainActivity.class);
                 intent.putExtra("USER_GUID", guid);
                 startActivity(intent);
@@ -163,7 +163,7 @@ public class EditScheduleActivity extends AppCompatActivity implements RecyclerV
 
     @Override
     public void onBackPressed() {
-        CustomAlertDialog alertDialog = new CustomAlertDialog(EditScheduleActivity.this, "Exit", "Attention: all progress will be lost");
+        CustomAlertDialog alertDialog = new CustomAlertDialog(EditScheduleActivity.this, getString(R.string.exit), getString(R.string.exit_confirm));
         alertDialog.setListenerPositive(new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

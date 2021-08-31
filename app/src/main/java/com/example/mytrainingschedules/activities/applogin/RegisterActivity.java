@@ -79,7 +79,7 @@ public class RegisterActivity extends AppCompatActivity {
                         if(!password.getText().toString().equals(confirmPassword.getText().toString())){
                             passwordError.setText("*");
                             confirmPasswordError.setText("*");
-                            Toast.makeText(getApplicationContext(), "Passwords are different", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), getString(R.string.password_different), Toast.LENGTH_SHORT).show();
                         } else{
                             boolean nicknameValid = true;
                             String nick = nickname.getText().toString().trim();
@@ -105,13 +105,13 @@ public class RegisterActivity extends AppCompatActivity {
                                 postRegister(getApplicationContext(), url, jsonObject);
                             }
                             else{
-                                Toast.makeText(getApplicationContext(), "Username can't contain special characters and needs to be lower", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), getString(R.string.username_wrong_special_char), Toast.LENGTH_SHORT).show();
                             }
 
                         }
 
                     } else{
-                        Toast.makeText(getApplicationContext(), "Compile all fields to proceed with registration!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
                     }
 
                 }
@@ -153,11 +153,11 @@ public class RegisterActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.GONE);
                 Log.d("APP_DEBUG", "Fail: " + error.toString());
                 if (error.toString().equals("com.android.volley.TimeoutError")) {
-                    errorTextView.setText("Can't connect to the server");
+                    errorTextView.setText(getString(R.string.cant_connect_server));
                 } else if (error.toString().equals("com.android.volley.ServerError")) {
-                    errorTextView.setText("User already registered");
+                    errorTextView.setText(getString(R.string.user_already_registered));
                 } else {
-                    errorTextView.setText("No Internet connection");
+                    errorTextView.setText(getString(R.string.no_internet_connection));
                 }
             }
         };

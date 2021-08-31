@@ -16,7 +16,7 @@
         android:fontFamily="@font/seguisb"
         android:gravity="center"
         android:maxLines="1"
-        android:text="Schedule title"
+        android:text="@string/schedule_title"
         android:textColor="@color/white"
         android:textSize="30sp"
         android:textStyle="bold"

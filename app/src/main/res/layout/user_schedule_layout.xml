@@ -36,7 +36,7 @@
                 android:ellipsize="end"
                 android:fontFamily="@font/seguisb"
                 android:maxLines="1"
-                android:text="Workout Title"
+                android:text="@string/workout_title"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"

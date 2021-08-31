@@ -27,7 +27,7 @@
             android:layout_marginLeft="28dp"
             android:layout_marginTop="28dp"
             android:fontFamily="@font/seguisb"
-            android:text="Create a schedule"
+            android:text="@string/create_a_schedule"
             android:textColor="@color/white"
             android:textSize="26dp"
             app:layout_constraintStart_toStartOf="parent"

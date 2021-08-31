@@ -1,5 +1,6 @@
 package com.example.mytrainingschedules.activities.schedules;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ public class EditScheduleRecyclerViewAdapter extends RecyclerView.Adapter<EditSc
 
     private ArrayList<Exercise> exerciseList;
     private static RecyclerViewClickListener itemListener;
+    private Context context;
 
     public static class CustomViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -46,9 +48,10 @@ public class EditScheduleRecyclerViewAdapter extends RecyclerView.Adapter<EditSc
 
     }
 
-    public EditScheduleRecyclerViewAdapter(ArrayList<Exercise> exerciseList, RecyclerViewClickListener itemListener){
+    public EditScheduleRecyclerViewAdapter(ArrayList<Exercise> exerciseList, RecyclerViewClickListener itemListener, Context ctx){
         this.exerciseList = exerciseList;
         EditScheduleRecyclerViewAdapter.itemListener = itemListener;
+        context=ctx;
     }
 
     /* compulsory override methods */
@@ -62,29 +65,30 @@ public class EditScheduleRecyclerViewAdapter extends RecyclerView.Adapter<EditSc
 
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
+
         Exercise currentExercise = exerciseList.get(position);
         holder.exerciseTitle.setText(currentExercise.getName());
         if(currentExercise.getMinReps() == currentExercise.getMaxReps()){
-            holder.reps.setText("Reps: " + currentExercise.getMinReps());
+            holder.reps.setText(context.getResources().getString(R.string.reps_) + currentExercise.getMinReps());
         }
         else{
-            holder.reps.setText("Reps: " + currentExercise.getMinReps() + " - " + currentExercise.getMaxReps());
+            holder.reps.setText(context.getResources().getString(R.string.reps_) + currentExercise.getMinReps() + " - " + currentExercise.getMaxReps());
         }
-        holder.sets.setText("Sets: " + currentExercise.getSetsNumber());
+        holder.sets.setText(context.getResources().getString(R.string.sets_) + currentExercise.getSetsNumber());
         if(currentExercise.requireEquipment()){
             if(currentExercise.getMinWeight() == currentExercise.getMaxWeight()){
-                holder.weight.setText("Weight: " + currentExercise.getMaxWeight() + " kg");
+                holder.weight.setText(context.getResources().getString(R.string.weight_) + currentExercise.getMaxWeight() + " kg");
             }
             else{
-                holder.weight.setText("Weight: " + currentExercise.getMinWeight() + " - " + currentExercise.getMaxWeight() + " kg");
+                holder.weight.setText(context.getResources().getString(R.string.weight_) + currentExercise.getMinWeight() + " - " + currentExercise.getMaxWeight() + " kg");
             }
         }
         else{
             if(currentExercise.getMinWeight() == 0 && currentExercise.getMaxWeight() == 0){
-                holder.weight.setText("Weight: bodyweight");
+                holder.weight.setText(context.getResources().getString(R.string.bodyweight));
             }
         }
-        holder.rest.setText("Rest: " + currentExercise.getRest() + "s");
+        holder.rest.setText(context.getResources().getString(R.string.rest_) + currentExercise.getRest() + "s");
         holder.exerciseCategory.setText(currentExercise.getCategory());
         switch(currentExercise.getCategory()){
             case "legs":

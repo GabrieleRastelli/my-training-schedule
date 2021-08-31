@@ -125,7 +125,7 @@ public class UserPageActivity2 extends AppCompatActivity {
                         callUpdateUser();
                     } catch (JSONException je) {
                         Log.e(TAG, "An error occurred while preparing updateuser request body", je);
-                        Toast.makeText(getApplicationContext(), "Can't save name, try later.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), getString(R.string.error_save_name), Toast.LENGTH_SHORT).show();
                     }
                     nameEditText.setEnabled(false);
                     editName.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.edit_icon_black));
@@ -162,12 +162,12 @@ public class UserPageActivity2 extends AppCompatActivity {
                             callUpdateUser();
                         } catch (JSONException je) {
                             Log.e(TAG, "An error occurred while preparing updateuser request body", je);
-                            Toast.makeText(getApplicationContext(), "Can't save nickname, try later.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), getString(R.string.error_save_nickname), Toast.LENGTH_SHORT).show();
                         }
                     }
                     else{
                         Log.e(TAG, "User nickname: "+nickname+" is not valid");
-                        Toast.makeText(getApplicationContext(), "Username can't contain special characters and needs to be lower", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), getString(R.string.error_wrong_nick_format), Toast.LENGTH_SHORT).show();
                     }
                     nicknameEditText.setEnabled(false);
                     editNickname.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.edit_icon_black));

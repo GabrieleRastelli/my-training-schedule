@@ -72,11 +72,11 @@
             android:id="@+id/weightTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="56dp"
-            android:layout_marginLeft="56dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
             android:layout_marginTop="16dp"
             android:fontFamily="@font/seguisb"
-            android:text="Weight"
+            android:text="@string/weight"
             android:textSize="14sp"
             app:layout_constraintStart_toEndOf="@+id/repsTextView"
             app:layout_constraintTop_toBottomOf="@+id/activityTitle" />
@@ -85,15 +85,27 @@
             android:id="@+id/rest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="56dp"
-            android:layout_marginLeft="56dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
             android:layout_marginTop="4dp"
             android:fontFamily="@font/seguisb"
             android:gravity="center_vertical"
-            android:text="Rest"
+            android:text="@string/rest"
             android:textSize="14sp"
             app:layout_constraintStart_toEndOf="@+id/index"
             app:layout_constraintTop_toBottomOf="@+id/weightTextView" />
+
+        <TextView
+            android:id="@+id/move_item"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="@drawable/ic_move_item"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.921"
+            app:layout_constraintStart_toEndOf="@+id/weightTextView"
+            app:layout_constraintTop_toBottomOf="@+id/exerciseCategory"
+            app:layout_constraintVertical_bias="0.2" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

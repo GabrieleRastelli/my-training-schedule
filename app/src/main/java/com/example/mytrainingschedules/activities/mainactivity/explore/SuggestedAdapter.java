@@ -145,7 +145,7 @@ public class SuggestedAdapter extends RecyclerView.Adapter<SuggestedAdapter.View
                     break;
                 case "false":
                 case "FALSE":
-                    holder.equipment.setBackground(this.context.getDrawable(R.drawable.emoji_emotions));
+                    holder.equipment.setBackgroundResource(R.color.transparent);
                     break;
                 default:
                     holder.equipment.setBackground(this.context.getDrawable(R.drawable.dumbell));
@@ -153,7 +153,7 @@ public class SuggestedAdapter extends RecyclerView.Adapter<SuggestedAdapter.View
             }
         }
         String creator=schedule.getCreator();
-        holder.creator.setText("Created by: "+creator);
+        holder.creator.setText(context.getResources().getString(R.string.created_by)+creator);
         Integer downloads=schedule.getDownloads();
         holder.downloads.setText(String.valueOf(downloads)+" downloads");
     }

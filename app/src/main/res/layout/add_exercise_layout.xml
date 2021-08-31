@@ -29,7 +29,7 @@
         android:layout_marginLeft="32dp"
         android:layout_marginTop="32dp"
         android:fontFamily="@font/seguisb"
-        android:text="Choose your exercise"
+        android:text="@string/choose_your_exercise"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -61,7 +61,7 @@
         android:drawableLeft="@drawable/ic_search_black_24dp"
         android:ems="10"
         android:fontFamily="@font/seguisb"
-        android:hint="Search..."
+        android:hint="@string/search"
         android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activityTitle" />

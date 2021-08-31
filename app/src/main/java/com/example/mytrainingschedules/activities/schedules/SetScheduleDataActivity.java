@@ -56,7 +56,7 @@ public class SetScheduleDataActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(titleEditText.getText().equals("") || titleEditText.getText() == null){
-                    Toast.makeText(getApplicationContext(), "Please insert schedule title!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.insert_schedule_title), Toast.LENGTH_SHORT).show();
                 }
                 else{
                     JSONObject jsonObject = new JSONObject();
@@ -83,7 +83,7 @@ public class SetScheduleDataActivity extends AppCompatActivity {
         Response.Listener<String> onSuccessListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Toast.makeText(context, "Schedule succesfully created", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, getString(R.string.schedule_success_created), Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(context, MainActivity.class);
                 intent.putExtra("USER_GUID", guid);
                 startActivity(intent);

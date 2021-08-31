@@ -2,6 +2,7 @@ package com.example.mytrainingschedules.activities.appintro;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
@@ -31,8 +33,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
 
 public class SplashActivity extends AppCompatActivity {
@@ -41,6 +46,7 @@ public class SplashActivity extends AppCompatActivity {
     private boolean firstAccess;
     private String guid;
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +55,7 @@ public class SplashActivity extends AppCompatActivity {
         /* Setting firstAccess = false. This will decide,
         * after the SplashActivity, which activity start. */
         firstAccess = false;
+
 
         /* Control if the file "guid" is present.
         * If file "guid" is present, read the content and go to the
@@ -97,4 +104,16 @@ public class SplashActivity extends AppCompatActivity {
         return file != null && file.exists();
     }
 
+    private void writeToFile(String filename, String data, Context context) {
+        try {
+            OutputStream outputStream = context.openFileOutput(filename, Context.MODE_PRIVATE);
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream);
+            outputStreamWriter.write(data);
+            outputStreamWriter.close();
+        }
+        catch (IOException e) {
+            /* failed to write the file */
+            e.printStackTrace();
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.mytrainingschedules.activities.mainactivity;
 
+import android.app.UiModeManager;
 import android.os.Bundle;
 
 import com.example.mytrainingschedules.R;
@@ -10,12 +11,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Fragment;
 import android.view.WindowManager;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 public class MainActivity extends AppCompatActivity {
+
+    private UiModeManager uiModeManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

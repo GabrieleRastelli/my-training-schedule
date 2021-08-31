@@ -80,7 +80,7 @@ public class UserPageActivity extends AppCompatActivity {
             callGetUserInfo();
         } catch (JSONException je) {
             Log.e(TAG, "An error occurred while preparing getuserinfo request body", je);
-            Toast.makeText(getApplicationContext(), "Can't get user information, try later.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), getString(R.string.error_user_info), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -169,7 +169,7 @@ public class UserPageActivity extends AppCompatActivity {
                     callUpdateUser();
                 } catch (JSONException je) {
                     Log.e(TAG, "An error occurred while preparing updateuser request body", je);
-                    Toast.makeText(getApplicationContext(), "Can't save name, try later.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.error_save_name), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -202,12 +202,12 @@ public class UserPageActivity extends AppCompatActivity {
                         callUpdateUser();
                     } catch (JSONException je) {
                         Log.e(TAG, "An error occurred while preparing updateuser request body", je);
-                        Toast.makeText(getApplicationContext(), "Can't save nickname, try later.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), getString(R.string.error_save_nickname), Toast.LENGTH_SHORT).show();
                     }
                 }
                 else{
                     Log.e(TAG, "User nickname: "+nickname+" is not valid");
-                    Toast.makeText(getApplicationContext(), "Username can't contain special characters and needs to be lower", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.error_wrong_nick_format), Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -230,7 +230,7 @@ public class UserPageActivity extends AppCompatActivity {
         if (requestCode == PICK_IMAGE) {
             if (data == null) {
                 Log.i(TAG, "User didn't chose a valid image, not calling updateUser");
-                Toast.makeText(getApplicationContext(), "Can't change image, try later.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.error_change_image), Toast.LENGTH_SHORT).show();
                 return;
             }
             try {
@@ -249,10 +249,10 @@ public class UserPageActivity extends AppCompatActivity {
                 callUpdateUser();
             } catch (IOException e) {
                 Log.e(TAG, "An error occurred while reading image", e);
-                Toast.makeText(getApplicationContext(), "Can't change image, try later.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.error_change_image), Toast.LENGTH_SHORT).show();
             } catch (JSONException je){
                 Log.e(TAG, "An error occurred while preparing updateuser request body", je);
-                Toast.makeText(getApplicationContext(), "Can't change image, try later.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.error_change_image), Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -284,7 +284,7 @@ public class UserPageActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 //connectionAvailable = true;
-                Toast.makeText(getApplicationContext(), "Succesfuly updated!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.success_update), Toast.LENGTH_SHORT).show();
                 Log.i(TAG, "Successfully called updateUser");
             }
         };
@@ -293,15 +293,15 @@ public class UserPageActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 //connectionAvailable = false;
-                Toast.makeText(getApplicationContext(), "Can't save information, try later.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.error_save_info), Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "Fail in calling updateUser: " ,error);
                 errorTextView.setVisibility(View.VISIBLE);
                 if (error.toString().equals("com.android.volley.TimeoutError")) {
-                    errorTextView.setText("Can't connect to the server");
+                    errorTextView.setText(getString(R.string.cant_connect_server));
                 } else if (error.toString().equals("com.android.volley.AuthFailureError")) {
-                    errorTextView.setText("Invalid credentials");
+                    errorTextView.setText(getString(R.string.invalid_credentials));
                 } else {
-                    errorTextView.setText("No Internet connection");
+                    errorTextView.setText(getString(R.string.no_internet_connection));
                 }
             }
         };

@@ -78,8 +78,8 @@ public class ExploreFragment extends Fragment implements AdapterView.OnItemClick
         mainAdapter=new MainAdapter(getChildFragmentManager());
 
 
-        mainAdapter.AddFragment(new SuggestedFragment(exerciseToDisplay), "Suggested");
-        mainAdapter.AddFragment(new PopularFragment(exerciseToDisplay), "Popular");
+        mainAdapter.AddFragment(new SuggestedFragment(exerciseToDisplay), getString(R.string.suggested_tab_title));
+        mainAdapter.AddFragment(new PopularFragment(exerciseToDisplay), getString(R.string.popular_tab_title));
 
         viewPager.setAdapter(mainAdapter);
 

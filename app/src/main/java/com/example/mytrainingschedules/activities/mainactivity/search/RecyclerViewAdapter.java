@@ -132,7 +132,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             }
         }
         String creator=schedule.getCreator();
-        holder.creator.setText("Created by: "+creator);
+        holder.creator.setText(context.getResources().getString(R.string.created_by)+creator);
         Integer downloads=schedule.getDownloads();
         holder.downloads.setText(String.valueOf(downloads)+" downloads");
     }

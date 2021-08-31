@@ -1,23 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">My Training Schedules</string>
     <string name="action_settings">Settings</string>
     <string name="base_url">http://65.21.49.16:8080</string>
     <string name="newExercise">Create new exercise</string>
-    <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-
-    <string-array name="categories">
-        <item>Chest</item>
-        <item>Legs</item>
-        <item>Shoulders</item>
-        <item>Back</item>
-        <item>Arms</item>
-        <item>Abs</item>
-    </string-array>
-
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment.</string>
     <string name="title_activity_main">MainActivity</string>
@@ -25,7 +15,6 @@
     <string name="title_settings">Settings</string>
     <string name="title_premium">Premium</string>
     <string name="title_activity_complete_schedule">CompleteScheduleActivity</string>
-
     <string name="choose_your_exercise">Choose your exercise</string>
     <string name="search">Search...</string>
     <string name="create_your_exercise">Choose your exercise</string>
@@ -49,7 +38,7 @@
     <string name="some_tips">Some tips!</string>
     <string name="go_to_app">GO TO APP</string>
     <string name="first_of_all_let_s_login">First of all let\'s login!</string>
-    <string name="don_t_you_have_an_account_n_well_you_can_register">"Don't you have an Account? Well you can register"</string>
+    <string name="don_t_you_have_an_account_n_well_you_can_register">Don\'t you have an Account? Well you can register</string>
     <string name="register">Register</string>
     <string name="explore_schedules">Explore schedules</string>
     <string name="select_exercise_s_type">Select exercise\'s type</string>
@@ -68,10 +57,10 @@
     <string name="schedule_title">Schedule title</string>
     <string name="sets_remains_x">Sets remains: X</string>
     <string name="email">Email</string>
+    <string name="welcome">Welcome!</string>
     <string name="welcome_description">Welcome to My Training Schedules. With this app you can explore schedules from users all around the world and create your own one to become part of the community!</string>
     <string name="second_intro_description">You can also find schedules that don\'t require the use of technical equipment. Become the master of bodyweight trainings!</string>
     <string name="third_intro_description">No more paper schedule is needed. All of your favorite ones are saved in cloud, you can bring them easily with you everywhere. Now join us and have fun with My Training Schedules!</string>
-    <string name="welcome">Welcome!</string>
     <string name="use_whatever_you_want">Use whatever you want!</string>
     <string name="lets_start">Let\'s start!</string>
     <string name="missing_fields">Compile all fields to proceed with login!</string>
@@ -92,8 +81,8 @@
     <string name="delete_schedule_confirm">Are you sure you want to delete this schedule?</string>
     <string name="created_by">"Created by: "</string>
     <string name="success_delete">Schedule deleted successfully</string>
-    <string name="error_download_schedule">Can\'t get schedules, try later.</string>
     <string name="error_save_schedule">Unable to save schedule</string>
+    <string name="error_download_schedule">Can\'t get schedules, try later.</string>
     <string name="schedule_saved">Schedule saved, you can now find it in your schedules!</string>
     <string name="error_get_schedules">Can\'t get schedules, try later.</string>
     <string name="no_schedules">No schedules found!</string>
@@ -103,12 +92,12 @@
     <string name="error_save_nickname">Can\'t save nickname, try later.</string>
     <string name="error_wrong_nick_format">Username can\'t contain special characters and needs to be lower</string>
     <string name="error_change_image">Can\'t change image, try later.</string>
-    <string name="success_update">Succesfuly updated!</string>
     <string name="error_save_info">Can\'t save information, try later.</string>
+    <string name="success_update">Succesfuly updated!</string>
     <string name="select_exercise">Please select an exercise, or create one</string>
     <string name="insert_ex_name">Please insert exercise name!</string>
     <string name="one_ex_at_least">Add at least one exercise</string>
-    <string name="ex_0_sets">There is an exercise with 0 sets!\nClick on the exercises to add sets and reps!</string>
+    <string name="ex_0_sets">There is an exercise with 0 sets!</string>
     <string name="exit_confirm">Attention: all progress will be lost</string>
     <string name="exit">Exit</string>
     <string name="one_set_at_least">Add at least one set</string>
@@ -119,15 +108,15 @@
     <string name="rest_">"Rest: "</string>
     <string name="insert_schedule_title">Please insert schedule title!</string>
     <string name="schedule_success_created">Schedule succesfully created</string>
-    <string name="workout_starting">Workout starting in...\n</string>
+    <string name="workout_starting">Workout starting in...</string>
     <string name="it_took_only">"It took only "</string>
     <string name="hours">" Hours, "</string>
-    <string name="minutes">" Minutes and "</string>
     <string name="seconds">" Seconds!"</string>
+    <string name="minutes">" Minutes and "</string>
     <string name="avarage_rest">"Your avarage rest is "</string>
     <string name="seconds_">" seconds."</string>
     <string name="bodyweight_ex">Bodyweight exercise</string>
-    <string name="exercise_completed">"Exercise completed! Rest: "</string>
+    <string name="exercise_completed">Exercise completed!</string>
     <string name="next_ex">"Next exercise: "</string>
     <string name="terminate_wo">Terminate workout</string>
     <string name="yes">YES</string>
@@ -141,5 +130,4 @@
     <string name="click_add_set_start_the_configuration">Click \"add set\"</string>
     <string name="workout_terminated_succesfully">Workout terminated succesfully</string>
     <string name="back_home">Back Home</string>
-
 </resources>
