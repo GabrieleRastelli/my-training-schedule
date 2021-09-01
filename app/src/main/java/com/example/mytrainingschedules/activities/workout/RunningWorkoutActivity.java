@@ -235,6 +235,9 @@ public class RunningWorkoutActivity extends AppCompatActivity {
     }
 
     private void startExercise(int index, int doneSets){
+
+        nextExercise.setEnabled(false);
+
         Exercise currentExercise = schedule.getExercises().get(index);
         rest.setVisibility(View.GONE);
         exerciseName.setText(currentExercise.getName());
@@ -267,6 +270,7 @@ public class RunningWorkoutActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View view) {
+
                 addSet.setEnabled(true);
                 if((index + 1) == schedule.lenght()){
                     trainingEnd=System.currentTimeMillis();
@@ -295,6 +299,8 @@ public class RunningWorkoutActivity extends AppCompatActivity {
                 public void onTick(long millisUntilFinished) {
                     rest.setText(getString(R.string.exercise_completed) + millisUntilFinished / 1000);
                     addSet.setEnabled(false);
+                    /* only start next exercise when previous is finished */
+                    nextExercise.setEnabled(true);
                 }
                 public void onFinish() {
                     if((index + 1) != schedule.lenght()){

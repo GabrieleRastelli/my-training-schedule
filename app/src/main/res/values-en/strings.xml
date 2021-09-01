@@ -116,7 +116,7 @@
     <string name="avarage_rest">"Your avarage rest is "</string>
     <string name="seconds_">" seconds."</string>
     <string name="bodyweight_ex">Bodyweight exercise</string>
-    <string name="exercise_completed">Exercise completed!</string>
+    <string name="exercise_completed">"Exercise completed! Rest: "</string>
     <string name="next_ex">"Next exercise: "</string>
     <string name="terminate_wo">Terminate workout</string>
     <string name="yes">YES</string>
