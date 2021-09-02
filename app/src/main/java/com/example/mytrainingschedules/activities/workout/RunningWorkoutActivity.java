@@ -1,9 +1,5 @@
 package com.example.mytrainingschedules.activities.workout;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,6 +17,10 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.mytrainingschedules.R;
 import com.example.mytrainingschedules.activities.CustomAlertDialog;
@@ -337,7 +337,10 @@ public class RunningWorkoutActivity extends AppCompatActivity {
 
     private void resetTimer(int index, int doneSets){
 
-        timerReps.cancel();
+        if(timerReps!=null){
+            timerReps.cancel();
+        }
+
 
         restEnd=System.currentTimeMillis();
         restElapsed+=(restEnd-restStart)/1000;
