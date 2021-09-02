@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -254,6 +255,7 @@ public class RunningWorkoutActivity extends AppCompatActivity {
         addSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d("timer-test","user clicked on timer and timerRunning: "+timerRunning);
                 if(!timerRunning){
                     restStart=System.currentTimeMillis();
                     timerRunning=true;
@@ -270,6 +272,9 @@ public class RunningWorkoutActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View view) {
+
+                timerRunning=false;
+                Log.d("timer-test","user clicked on next exercise, and timerRunning: false");
 
                 addSet.setEnabled(true);
                 if((index + 1) == schedule.lenght()){
