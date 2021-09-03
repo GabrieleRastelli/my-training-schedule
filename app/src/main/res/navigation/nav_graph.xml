@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.mytrainingschedules.LoginFragment"
+        android:name="com.pomegranatesoftware.mytrainingschedules.LoginFragment"
         android:label="Login Fragment">
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
@@ -16,11 +16,11 @@
 
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.example.mytrainingschedules.RegisterFragment"
+        android:name="com.pomegranatesoftware.mytrainingschedules.RegisterFragment"
         android:label="Register Fragment" />
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="com.example.mytrainingschedules.activities.schedules.FirstFragment"
+        android:name="com.pomegranatesoftware.mytrainingschedules.activities.schedules.FirstFragment"
         android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_first">
 
@@ -30,7 +30,7 @@
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
-        android:name="com.example.mytrainingschedules.activities.schedules.SecondFragment"
+        android:name="com.pomegranatesoftware.mytrainingschedules.activities.schedules.SecondFragment"
         android:label="@string/second_fragment_label"
         tools:layout="@layout/fragment_second">
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.mytrainingschedules">
+    package="com.pomegranatesoftware.mytrainingschedules">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -13,19 +13,19 @@
         android:theme="@style/Theme.MyTrainingSchedules"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".activities.schedules.CreateExerciseActivity"
+            android:name="com.pomegranatesoftware.mytrainingschedules.activities.schedules.CreateExerciseActivity"
             android:theme="@style/Theme.MyTrainingSchedules.NoActionBar"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.schedules.SetScheduleDataActivity"
+            android:name="com.pomegranatesoftware.mytrainingschedules.activities.schedules.SetScheduleDataActivity"
             android:theme="@style/Theme.MyTrainingSchedules.NoActionBar"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.schedules.CreateScheduleActivity"
+            android:name="com.pomegranatesoftware.mytrainingschedules.activities.schedules.CreateScheduleActivity"
             android:theme="@style/Theme.MyTrainingSchedules.NoActionBar"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.schedules.EditExerciseActivity"
+            android:name="com.pomegranatesoftware.mytrainingschedules.activities.schedules.EditExerciseActivity"
             android:theme="@style/Theme.MyTrainingSchedules.NoActionBar"
             android:screenOrientation="portrait" />
 
@@ -34,7 +34,7 @@
             android:required="false" />
 
         <activity
-            android:name=".activities.appintro.SplashActivity"
+            android:name="com.pomegranatesoftware.mytrainingschedules.activities.appintro.SplashActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.MyTrainingSchedules.NoActionBar"
             android:screenOrientation="portrait" >
@@ -45,58 +45,58 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.appintro.IntroActivity"
+            android:name="com.pomegranatesoftware.mytrainingschedules.activities.appintro.IntroActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.MyTrainingSchedules.NoActionBar"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.applogin.LoginActivity"
+            android:name="com.pomegranatesoftware.mytrainingschedules.activities.applogin.LoginActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.MyTrainingSchedules.NoActionBar"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.applogin.RegisterActivity"
+            android:name="com.pomegranatesoftware.mytrainingschedules.activities.applogin.RegisterActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.MyTrainingSchedules.NoActionBar"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.mainactivity.MainActivity"
+            android:name="com.pomegranatesoftware.mytrainingschedules.activities.mainactivity.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/Theme.MyTrainingSchedules.NoActionBar"
             android:windowSoftInputMode="adjustNothing"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.mainactivity.home.ViewScheduleActivity"
+            android:name="com.pomegranatesoftware.mytrainingschedules.activities.mainactivity.home.ViewScheduleActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.MyTrainingSchedules.NoActionBar"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.mainactivity.search.DownloadScheduleActivity"
+            android:name="com.pomegranatesoftware.mytrainingschedules.activities.mainactivity.search.DownloadScheduleActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.MyTrainingSchedules.NoActionBar"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.mainactivity.user.UserPageActivity"
+            android:name="com.pomegranatesoftware.mytrainingschedules.activities.mainactivity.user.UserPageActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.MyTrainingSchedules.NoActionBar"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.mainactivity.user.UserPageActivity2"
+            android:name="com.pomegranatesoftware.mytrainingschedules.activities.mainactivity.user.UserPageActivity2"
             android:label="@string/app_name"
             android:theme="@style/Theme.MyTrainingSchedules.NoActionBar"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.workout.RunningWorkoutActivity"
+            android:name="com.pomegranatesoftware.mytrainingschedules.activities.workout.RunningWorkoutActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.MyTrainingSchedules.NoActionBar"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.schedules.EditScheduleActivity"
+            android:name="com.pomegranatesoftware.mytrainingschedules.activities.schedules.EditScheduleActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.MyTrainingSchedules.NoActionBar"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.schedules.AddExerciseActivity"
+            android:name="com.pomegranatesoftware.mytrainingschedules.activities.schedules.AddExerciseActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.MyTrainingSchedules.NoActionBar"
             android:screenOrientation="portrait" />
