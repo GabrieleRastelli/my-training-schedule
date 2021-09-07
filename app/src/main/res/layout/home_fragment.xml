@@ -63,7 +63,7 @@
                 app:layout_constraintHorizontal_bias="0.899"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.488">
+                app:layout_constraintVertical_bias="0.644">
 
                 <ImageView
                     android:id="@+id/user_home_image"
