@@ -185,7 +185,7 @@ public class RunningWorkoutActivity extends AppCompatActivity {
                 elapsed-=5000; /* escludo i 5 secondi di wait */
 
                 long hour=((elapsed/1000)/60)/60;
-                long mins=((elapsed/1000)/60);
+                long mins=((elapsed/1000)/60)%60;
                 long sec=(elapsed/1000)%60;
                 StringBuilder sb = new StringBuilder();
                 sb.append(getString(R.string.it_took_only));

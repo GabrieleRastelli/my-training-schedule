@@ -99,7 +99,8 @@
             android:name="com.pomegranatesoftware.mytrainingschedules.activities.schedules.AddExerciseActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.MyTrainingSchedules.NoActionBar"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            />
     </application>
 
 </manifest>
